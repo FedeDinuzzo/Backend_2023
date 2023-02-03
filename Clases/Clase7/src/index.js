@@ -56,7 +56,7 @@ app.get('/user', (req, res) => {
 })
 
 // req.params consulta un elemento en especificio
-app.get('/users/:idUser', (req, res) => {
+app.get('/user/:idUser', (req, res) => {
   const idUser = req.params.idUser
   const user = users.find(user => user.id === parseInt(idUser))
   if (user) {
