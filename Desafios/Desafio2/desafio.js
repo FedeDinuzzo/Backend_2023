@@ -1,4 +1,4 @@
-import { promises as fs, existsSync, writeFileSync } from "fs"
+import { promises as fs, existsSync, writeFileSync, WriteStream, readFile, write } from "fs"
 
 class ProductManager {
   constructor(path) {
@@ -10,53 +10,81 @@ class ProductManager {
     !existsSync(this.path) && writeFileSync(this.path, "[]", "utf-8");
   };
 
-  async addProduct(newProduct) {
+  addProduct = async (newProduct) => {
     this.checkFile()
     try {
       let contenido = await fs.readFile(this.path, "utf-8")
       let aux = JSON.parse(contenido)
       aux.push(newProduct)
       await fs.writeFile(this.path, JSON.stringify(aux))
+      console.log("Product added succesfully")
     } catch (error) {
       error
     }
   }
 
-  async readProduct() {
+  getProducts = async () => {
     this.checkFile()
     try {
-      
-    } catch (error) {
-      error
-    }
-  }
-
-  async updateProduct({ title, description, price, thumbnail, code, code }) {
-    this.checkFile()
-    try {
-      let contenido = await fs.readFile(this.path, "utf-8")
-      let aux = JSON.parse(contenido)
-      if (aux.some(producto => producto.id === id)) {
-        let indice = aux.findIndex(Product.id === id)
-        aux[indice].title = title
-        aux[indice].description = description
-        aux[indice].price = price
-        aux[indice].thumbnail = thumbnail
-        aux[indice].code = code
-        aux[indice].stock = stock
-        fs.writeFile(this.path, JSON.stringify(aux))
+      const read = await fs.readFile(this.path , "utf-8")
+      const data = JSON.parse(read)
+      if (data.lenght !== 0) {
+        console.log("This are all the products: ")
+        return console.log(data)
       } else {
-        return "Producto no encontrado"
+        return console.log(`The path ${this.path} has no products`)
       }
     } catch (error) {
       error
     }
   }
 
-  async deleteProduct() {
+  getProductsById = async (id) => {
     this.checkFile()
     try {
-      
+      const read = await fs.readFile(this.path , "utf-8")
+      const data = JSON.parse(read)
+      const findProduct = data.find(prod => prod.id === id)
+      if (findProduct) {
+        console.log("The following product has been found: ")
+        return console.log(findProduct)
+      } else {
+        return console.log(`The product with the id: ${id} has not been found`)
+      }
+    } catch (error) {
+      error
+    }
+  }
+
+  updateProduct = async (id, entry, value) => {
+    this.checkFile()
+    try {
+      const read = await fs.readFile(this.path, "utf-8")
+      const data = JSON.parse(read)
+      const index = data.findIndex((product) => product.id === id)
+      if (!data[index][entry]) {
+        return console.log("Product not found")
+      } else {
+        data[index][entry] = value;
+        await fs.writeFile(this.path, JSON.stringify(data, null, 2));
+        console.log("Product has been updated to: ")
+        return console.log(data[index]);
+      }
+    } catch (error) {
+      error
+    }
+  }
+
+  deleteProduct = async (id) => {
+    this.checkFile()
+    try {
+      const read = await fs.readFile(this.path , "utf-8")
+      const data = JSON.parse(read)
+      const deletedProduct = JSON.stringify(data.find(prod => prod.id === id))
+      const newData = data.filter(prod => prod.id !== id)
+      await fs.writeFile(this.path, JSON.stringify(newData), "utf-8")
+      console.log("The following product has been deleted: ")
+      return console.log(deletedProduct)
     } catch (error) {
       error
     }
@@ -90,8 +118,17 @@ const manager = new ProductManager("./products.json")
 const product1 = new Product("Iphone", "Smartphone", 1200, "insertar thumbnail" , "SKU123", 1000)
 const product2 = new Product("Samsung", "Smartphone", 1100, "insertar thumbnail" , "SKU124", 950)
 
-manager.addProduct(product1)
-manager.addProduct(product2)
+const test = async () => {
+  await manager.getProducts()
+  await manager.addProduct(product1)
+  await manager.addProduct(product2)
+  await manager.getProducts()
+  await manager.getProductsById(1)
+  await manager.updateProduct(1, "title", "Xiaomi")
+  await manager.updateProduct(1, "stock", 1200)
+  await manager.getProducts()
+  await manager.deleteProduct(1)
+  await manager.getProducts()
+}
 
-manager.updateProduct()
-
+test()
