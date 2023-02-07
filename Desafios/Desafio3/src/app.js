@@ -18,11 +18,13 @@ app.get('/products', async (req, res) => {
   try {
     const products = await manager.getProducts()
     const { limit } = req.query
-    if (limit) {
-      const productsLimit = products.slice(0, parseInt(limit))
-      res.send(`This are the products you ordered: ${JSON.stringify(productsLimit)}`)
+    let productsLimit
+    if (!limit) {
+      productsLimit = products
+      res.send(`This are all the products: ${(JSON.stringify(products))}`)
     } else {
-      res.send(`This are all the products: ${JSON.stringify(products)}`)
+      productsLimit = products.slice(0, parseInt(limit))
+      res.send(`This are the products you ordered: ${JSON.stringify(productsLimit)}`)
     }
   } catch {
     console.log(`Something wen't wrong, cannot get products`)

@@ -113,7 +113,7 @@ class Product {
 }
 
 // Test
-// const manager = new ProductManager("./products.json")
+// const manager = new ProductManager("./src/products.json")
 
 // const product1 = new Product("Iphone", "Smartphone", 1200, "insertar thumbnail" , "SKU123", 1000)
 // const product2 = new Product("Samsung", "Smartphone", 1100, "insertar thumbnail" , "SKU124", 950)
