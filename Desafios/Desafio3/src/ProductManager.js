@@ -49,7 +49,7 @@ export default class ProductManager {
         console.log("The following product has been found: ")
         return findProduct
       } else {
-        return console.log(`The product with the id: ${JSON.stringify(id)} has not been found`)
+        return console.log(`The product with the id: ${id} has not been found`)
       }
     } catch (error) {
       error
