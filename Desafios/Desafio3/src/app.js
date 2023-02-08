@@ -21,13 +21,14 @@ app.get('/products', async (req, res) => {
     let productsLimit
     if (!limit) {
       productsLimit = products
-      res.send(`This are all the products: ${(JSON.stringify(products))}`)
+      // http://localhost:8080/products?limit=1
+      res.send(`This are all the products: ${JSON.stringify(products)}`)
     } else {
       productsLimit = products.slice(0, parseInt(limit))
       res.send(`This are the products you ordered: ${JSON.stringify(productsLimit)}`)
     }
   } catch {
-    console.log(`Something wen't wrong, cannot get products`)
+    res.send(`Something wen't wrong, cannot get products`)
   }
 })
 
@@ -36,8 +37,7 @@ app.get('/products/:pid', async (req, res) => {
   try {
     const product = await manager.getProductsById(parseInt(req.params.id))
     res.send(`The product with the id: ${product.id} is: ${JSON.stringify(product)}`)
-  } 
-  catch {
+  } catch {
     res.send("The product doesn't exist")
   }
 })

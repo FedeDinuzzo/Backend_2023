@@ -30,7 +30,7 @@ export default class ProductManager {
       const data = JSON.parse(read)
       if (data.lenght !== 0) {
         console.log("This are all the products: ")
-        return console.log(data)
+        return data
       } else {
         return console.log(`The path ${this.path} has no products`)
       }
@@ -47,9 +47,9 @@ export default class ProductManager {
       const findProduct = data.find(prod => prod.id === id)
       if (findProduct) {
         console.log("The following product has been found: ")
-        return console.log(findProduct)
+        return findProduct
       } else {
-        return console.log(`The product with the id: ${id} has not been found`)
+        return console.log(`The product with the id: ${JSON.stringify(id)} has not been found`)
       }
     } catch (error) {
       error
@@ -113,21 +113,23 @@ class Product {
 }
 
 // Test
-// const manager = new ProductManager("./src/products.json")
+// const manager = new ProductManager("./products.json")
 
 // const product1 = new Product("Iphone", "Smartphone", 1200, "insertar thumbnail" , "SKU123", 1000)
 // const product2 = new Product("Samsung", "Smartphone", 1100, "insertar thumbnail" , "SKU124", 950)
+// const product3 = new Product("Sony", "Smartphone", 1000, "insertar thumbnail" , "SKU125", 900)
 
 // const test = async () => {
 //   await manager.getProducts()
 //   await manager.addProduct(product1)
 //   await manager.addProduct(product2)
+//   await manager.addProduct(product3)
 //   await manager.getProducts()
-//   await manager.getProductsById(1)
-//   await manager.updateProduct(1, "title", "Xiaomi")
-//   await manager.updateProduct(1, "stock", 1200)
+//   await manager.getProductsById(2)
+//   await manager.updateProduct(3, "title", "Nexus")
+//   await manager.updateProduct(3, "stock", 1250)
 //   await manager.getProducts()
-//   await manager.deleteProduct(1)
+//   await manager.deleteProduct(2)
 //   await manager.getProducts()
 // }
 
