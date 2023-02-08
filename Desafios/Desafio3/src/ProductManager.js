@@ -29,7 +29,6 @@ export default class ProductManager {
       const read = await fs.readFile(this.path , "utf-8")
       const data = JSON.parse(read)
       if (data.lenght !== 0) {
-        console.log("This are all the products: ")
         return data
       } else {
         return console.log(`The path ${this.path} has no products`)
@@ -46,10 +45,9 @@ export default class ProductManager {
       const data = JSON.parse(read)
       const findProduct = data.find(prod => prod.id === id)
       if (findProduct) {
-        console.log("The following product has been found: ")
         return findProduct
       } else {
-        return console.log(`The product with the id: ${id} has not been found`)
+        return console.log('Product id not founded')
       }
     } catch (error) {
       error

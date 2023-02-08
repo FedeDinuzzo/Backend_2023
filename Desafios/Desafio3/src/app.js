@@ -35,8 +35,9 @@ app.get('/products', async (req, res) => {
 // Looks for the product by its id and returns it
 app.get('/products/:pid', async (req, res) => {
   try {
-    const product = await manager.getProductsById(parseInt(req.params.id))
-    res.send(product.id)
+    console.log(req.params.pid)
+    const product = await manager.getProductsById(parseInt(req.params.pid))
+    res.send(product)
   } catch {
     res.send("The product doesn't exist")
   }
