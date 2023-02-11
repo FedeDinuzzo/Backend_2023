@@ -3,7 +3,10 @@ import { __dirname, __filename } from './path.js'
 import routerProduct from './routes/productos.routes.js'
 import multer from 'multer'
 
-// Definir el desitno de las images
+console.log(__dirname)
+console.log(__filename)
+
+// Definir el destino de las images
 // Forma basica de usar multer
 // const upload = multer({dest:"src/public/img"}) 
 const storage = multer.diskStorage({
