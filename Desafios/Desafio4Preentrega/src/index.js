@@ -23,17 +23,16 @@ const PORT = 8080
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
-// Multer Image Route
-app.post('/upload', upload.single('product'), (req, res) => {
-  console.log(req.body)
-  console.log(req.file)
-  res.send("Image charged")
-})
-
 // Routes
 app.use('/static', express.static(__dirname + '/public'))
 app.use('/api/products', routerProduct)
 app.use('/api/carts', routerCart)
+
+// Multer Image Route
+app.post('/upload', upload.single('product'), (req, res) => {
+  console.log(req.file)
+  res.send("Image charged")
+})
 
 app.listen(PORT, () => {
   console.log(`Server on port ${PORT}`)
