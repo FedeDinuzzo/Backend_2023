@@ -29,7 +29,7 @@ app.use(express.json())
 // Creamos una ruta especial para multer
 app.post('/upload', upload.single('product'), (req, res) => {
   console.log(req.body)
-  console.log(req.file)
+  console.log(req.file) // Datos de la imagen
   res.send("Imagen Cargada")
 })
 
