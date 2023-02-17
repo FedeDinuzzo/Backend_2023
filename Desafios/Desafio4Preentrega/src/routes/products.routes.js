@@ -2,7 +2,7 @@ import { Router } from "express";
 import { ProductManager } from "../controllers/ProductManager.js";
 
 const routerProduct = Router() // Change app to routerProduct
-const manager = new ProductManager('src/models/products.txt')
+const manager = new ProductManager('src/models/products.json')
 
 // Reads the products file and returns it in an object
 // If you pass a limit by query params it returns that and if not returns all the products

@@ -72,12 +72,10 @@ export class ProductManager {
       const data = JSON.parse(read)
       if (data.lenght !== 0) {
         return data
-      } else {
-        await this.createProducts()
-        return ("Initial products created")
       }
-    } catch (error) {
-      error
+    } catch {
+      await this.createProducts()
+      return ("Initial products created")
     }
   }
 
