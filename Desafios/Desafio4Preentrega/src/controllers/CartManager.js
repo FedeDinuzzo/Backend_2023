@@ -7,7 +7,7 @@ class Cart {
   }
 }
 
-export default class CartManager {
+export class CartManager {
   constructor(path) {
     this.path = path
   }
@@ -95,33 +95,33 @@ export default class CartManager {
       error
     }
   }
-}
 
-deleteProductFromCart = async (idCart, idProduct) => {
-  this.checkFile()
-  try {
-    const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-    // Verify that the cart exists with this id
-    if (carts.some(cart => cart.id === parseInt(idCart))) {
-      // Get the index of the carts array
-      const cartIndex = carts.findIndex(cart => cart.id === parseInt(idCart))
-      const prodIndex = objectCart.products.findIndex(obj => obj.product === parseInt(idProduct))
-      if (prodIndex !== -1) {
-        // If exists delete the product from the cart
-        const prodsFiltered = objectCart.products.filter(obj => obj.product !== parseInt(idProduct))
-        // Update the cart with the array of carts
-        objectCart.products = prodsFiltered
-        carts[cartIndex] = objectCart
+  deleteProductFromCart = async (idCart, idProduct) => {
+    this.checkFile()
+    try {
+      const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'))
+      // Verify that the cart exists with this id
+      if (carts.some(cart => cart.id === parseInt(idCart))) {
+        // Get the index of the carts array
+        const cartIndex = carts.findIndex(cart => cart.id === parseInt(idCart))
+        const prodIndex = objectCart.products.findIndex(obj => obj.product === parseInt(idProduct))
+        if (prodIndex !== -1) {
+          // If exists delete the product from the cart
+          const prodsFiltered = objectCart.products.filter(obj => obj.product !== parseInt(idProduct))
+         // Update the cart with the array of carts
+          objectCart.products = prodsFiltered
+          carts[cartIndex] = objectCart
+        } else {
+          return "The product doesnt exists in the cart and cannot be delete"
+        } 
+        // Write the JSOn of the cart with the new product
+        await fs.writeFile(this.parth, JSON.stringify(carts), 'utf-8')
+        return "Product deleted from cart"
       } else {
-        return "The product doesnt exists in the cart and cannot be delete"
-      } 
-      // Write the JSOn of the cart with the new product
-      await fs.writeFile(this.parth, JSON.stringify(carts), 'utf-8')
-      return "Product deleted from cart"
-    } else {
-      return "There was an error by deleting the prdouct from the cart"
+        return "There was an error by deleting the prdouct from the cart"
+      }
+    } catch (error) {
+      error
     }
-  } catch (error) {
-    error
   }
 }

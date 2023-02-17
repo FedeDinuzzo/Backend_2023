@@ -1,13 +1,13 @@
 import { promises as fs, existsSync, writeFileSync } from "fs"
 
 class Product {
-  constructor(title, description, price, code, stock, status, thumbnail,) {
+  constructor(title, description, price, code, stock, category, status, thumbnail,) {
     this.title = title
     this.description = description
     this.price = price
     this.code = code
     this.stock = stock
-    this.categoty = category
+    this.category = category
     this.status = status
     this.thumbnail = thumbnail
     this.id = Product.addId() 
@@ -30,7 +30,7 @@ const product3 = new Product("Google", "Pixel 7 pro", 1300, "SKU125", 20, "true"
 const product4 = new Product("Motorola", "Edge 30 Ultra", 1200, "SKU126", 10, "true", [])
 
 
-export default class ProductManager {
+export class ProductManager {
   constructor(path) {
     this.path = path
   }
@@ -130,11 +130,12 @@ export default class ProductManager {
       error
     }
   }
+
+  async createProducts() {
+    await this.addProduct(product1, ['../public/img/iphone.jpg'])
+    await this.addProduct(product2, ['../public/img/galaxy.jpg'])
+    await this.addProduct(product3, ['../public/img/pixel.jpg'])
+    await this.addProduct(product4, ['../public/img/edge.jpg'])
+  }
 }
 
-createProducts = async () => {
-  await this.addProduct(product1, ['../public/img/iphone.jpg'])
-  await this.addProduct(product2, ['../public/img/galaxy.jpg'])
-  await this.addProduct(product3, ['../public/img/pixel.jpg'])
-  await this.addProduct(product4, ['../public/img/edge.jpg'])
-}

@@ -1,6 +1,6 @@
 import { Router } from "express"
 import { CartManager } from "../controllers/CartManager.js"
-import { ProductManager } from "../controllers/ProductManager"
+import { ProductManager } from "../controllers/ProductManager.js"
 
 const routerCart = Router() // Change app to routerCart
 const cartManager = new CartManager('src/models/carts.json')
