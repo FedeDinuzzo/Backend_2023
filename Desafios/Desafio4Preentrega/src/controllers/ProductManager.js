@@ -1,5 +1,35 @@
 import { promises as fs, existsSync, writeFileSync } from "fs"
 
+class Product {
+  constructor(title, description, price, code, stock, status, thumbnail,) {
+    this.title = title
+    this.description = description
+    this.price = price
+    this.code = code
+    this.stock = stock
+    this.categoty = category
+    this.status = status
+    this.thumbnail = thumbnail
+    this.id = Product.addId() 
+  }
+
+  static addId() {
+    if(this.idIncrement) { 
+      this.idIncrement++
+    } else {
+      this.idIncrement = 1
+    }
+    return this.idIncrement
+  }
+}
+
+// Creating products
+const product1 = new Product("Iphone", "14 Pro Max", 1500, "SKU123", 40, "true", [])
+const product2 = new Product("Samsung", "Galaxy S23 Ultra", 1400, "SKU124", 30, "true", [])
+const product3 = new Product("Google", "Pixel 7 pro", 1300, "SKU125", 20, "true", [])
+const product4 = new Product("Motorola", "Edge 30 Ultra", 1200, "SKU126", 10, "true", [])
+
+
 export default class ProductManager {
   constructor(path) {
     this.path = path
@@ -10,14 +40,26 @@ export default class ProductManager {
     !existsSync(this.path) && writeFileSync(this.path, "[]", "utf-8");
   };
 
-  addProduct = async (newProduct) => {
+  addProduct = async (product, imgPath) => {
     this.checkFile()
     try {
-      let contenido = await fs.readFile(this.path, "utf-8")
-      let aux = JSON.parse(contenido)
-      aux.push(newProduct)
-      await fs.writeFile(this.path, JSON.stringify(aux))
-      console.log("Product added succesfully")
+      const read = await fs.readFile(this.path, "utf-8")
+      const data = JSON.parse(read)
+      const prodCode = data.map((prod) => prod.code)
+      const prodExists = prodCode.includes(product.code)
+      if (prodExists) {
+        return console.log("Code already exists, change it")
+      } else if (Object.values(product).includes("") || Object.values(product).includes(null)) {
+        return console.log("All fields must be completed")
+      } else {
+        if (imgPath) {
+          product.thumbnail = imgPath
+        }
+        const newProduct = {id: Product.addId(), ...product}
+        data.push(newProduct)
+        await fs.writeFile(this.path, JSON.stringify(data))
+        return console.log("Product added succesfully")
+      }
     } catch (error) {
       error
     }
@@ -31,7 +73,8 @@ export default class ProductManager {
       if (data.lenght !== 0) {
         return data
       } else {
-        return console.log(`The path ${this.path} has no products`)
+        await this.createProducts()
+        return ("Initial products created")
       }
     } catch (error) {
       error
@@ -87,25 +130,11 @@ export default class ProductManager {
       error
     }
   }
-}  
+}
 
-class Product {
-  constructor(title, description, price, thumbnail, code, stock) {
-    this.title = title
-    this.description = description
-    this.price = price
-    this.thumbnail = thumbnail
-    this.code = code
-    this.stock = stock
-    this.id = Product.addId() 
-  }
-
-  static addId() {
-    if(this.idIncrement) { 
-      this.idIncrement++
-    } else {
-      this.idIncrement = 1
-    }
-    return this.idIncrement
-  }
+createProducts = async () => {
+  await this.addProduct(product1, ['../public/img/iphone.jpg'])
+  await this.addProduct(product2, ['../public/img/galaxy.jpg'])
+  await this.addProduct(product3, ['../public/img/pixel.jpg'])
+  await this.addProduct(product4, ['../public/img/edge.jpg'])
 }

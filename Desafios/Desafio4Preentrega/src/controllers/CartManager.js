@@ -1,5 +1,12 @@
 import { promises as fs, existsSync, writeFileSync } from "fs"
 
+class Cart {
+  constructor(id, products) {
+    this.id = id
+    this.products = products
+  }
+}
+
 export default class CartManager {
   constructor(path) {
     this.path = path
@@ -10,63 +17,63 @@ export default class CartManager {
     !existsSync(this.path) && writeFileSync(this.path, "[]", "utf-8");
   };
 
-  addCart = async (newProduct) => {
-    this.checkFile()
-    try {
-      let contenido = await fs.readFile(this.path, "utf-8")
-      let aux = JSON.parse(contenido)
-      aux.push(newProduct)
-      await fs.writeFile(this.path, JSON.stringify(aux))
-      console.log("Product added succesfully")
-    } catch (error) {
-      error
-    }
-  }
-
-  getCart = async () => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path , "utf-8")
-      const data = JSON.parse(read)
-      if (data.lenght !== 0) {
-        return data
-      } else {
-        return console.log(`The path ${this.path} has no products`)
-      }
-    } catch (error) {
-      error
-    }
-  }
-
-  getProductsById = async (id) => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path , "utf-8")
-      const data = JSON.parse(read)
-      const findProduct = data.find(prod => prod.id === id)
-      if (findProduct) {
-        return findProduct
-      } else {
-        return console.log('Product id not founded')
-      }
-    } catch (error) {
-      error
-    }
-  }
-
-  updateProduct = async (id, entry, value) => {
+  addCart = async () => {
     this.checkFile()
     try {
       const read = await fs.readFile(this.path, "utf-8")
-      const data = JSON.parse(read)
-      const index = data.findIndex((product) => product.id === id)
-      if (!data[index][entry]) {
-        return console.log("Product not found")
+      let carts = JSON.parse(read)
+      let newId
+      carts.lenght > 0 ? newId = carts[carts.lenght - 1].id + 1 : newId = 1
+      const newCart = new Cart (newId, [])
+      carts.push(newCart)
+      await fs.writeFile(this.path, JSON.stringify(carts))
+      console.log("Cart created succesfully")
+      return newId
+    } catch (error) {
+      error
+    }
+  }
+
+  getCartById = async (idCart) => {
+    this.checkFile()
+    try {
+      const carts = JSON.parse(await fs.readFile(this.path , "utf-8"))
+      const cartIndex = carts.findIndex(cart => cart.id === idCart)
+      if (carts[cartIndex]) {
+        return carts[cartIndex]
       } else {
-        data[index][entry] = value;
-        await fs.writeFile(this.path, JSON.stringify(data, null, 2));
-        console.log("Product has been updated to: ")
-        return console.log(data[index]);
+        return console.log('Cart not founded')
+      }
+    } catch (error) {
+      error
+    }
+  }
+
+  addProductToCart = async (idCart, idProduct, prodQty) => {
+    this.checkFile()
+    try {
+      const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'))
+      // Verify that the cart exist with this id
+      if (carts.some(cart => cart.id === parseInt(idCart))) {
+        // Get the index of the carts array
+        const cartIndex = carts.findIndex(cart => cart.id === parseInt(idCart))
+        // Get the index of the product inside the cart
+        const objectCart = new Cart(idCart, carts[cartIndex].products)
+        const prodIndex = objectCart.products.findIndex(obj => obj.product === parseInt(idProduct))
+        if (prodIndex === -1) {
+          // If dont exists push the product to the array of products inside the cart
+          objectCart.products.push({product: idProduct, quantity: prodQty})
+          // Update cart in the carts array
+          carts[cartIndex] = objectCart
+        } else {
+          // If exists increase cuantity by 1
+          carts[cartIndex].products[prodIndex].quantity += prodQty
+        }
+        // Write the JSON of the cart with the new product
+        await fs.writeFile(this.path, JSON.stringify(carts), "utf-8")
+        return "Product added to cart"
+      } else {
+        return "There was an error by adding the product to the cart"
       }
     } catch (error) {
       error
@@ -76,36 +83,45 @@ export default class CartManager {
   deleteCart = async (id) => {
     this.checkFile()
     try {
-      const read = await fs.readFile(this.path , "utf-8")
-      const data = JSON.parse(read)
-      const deletedProduct = JSON.stringify(data.find(prod => prod.id === id))
-      const newData = data.filter(prod => prod.id !== id)
-      await fs.writeFile(this.path, JSON.stringify(newData), "utf-8")
-      console.log("The following product has been deleted: ")
-      return console.log(deletedProduct)
+      const carts = JSON.parse(await fs.readFile(this.path , "utf-8"))
+      if (carts.some(cart => cart.id === parseInt(id))) {
+        const cartsFiltered = carts.filter(cart => cart.id !== parseInt(id))
+        await writeFile(this.path, JSON.stringify(cartsFiltered))
+        return "Cart deleted"
+      } else {
+        return "Cart not founded"
+      }
     } catch (error) {
       error
     }
   }
-}  
+}
 
-class Product {
-  constructor(title, description, price, thumbnail, code, stock) {
-    this.title = title
-    this.description = description
-    this.price = price
-    this.thumbnail = thumbnail
-    this.code = code
-    this.stock = stock
-    this.id = Product.addId() 
-  }
-
-  static addId() {
-    if(this.idIncrement) { 
-      this.idIncrement++
+deleteProductFromCart = async (idCart, idProduct) => {
+  this.checkFile()
+  try {
+    const carts = JSON.parse(await fs.readFile(this.path, 'utf-8'))
+    // Verify that the cart exists with this id
+    if (carts.some(cart => cart.id === parseInt(idCart))) {
+      // Get the index of the carts array
+      const cartIndex = carts.findIndex(cart => cart.id === parseInt(idCart))
+      const prodIndex = objectCart.products.findIndex(obj => obj.product === parseInt(idProduct))
+      if (prodIndex !== -1) {
+        // If exists delete the product from the cart
+        const prodsFiltered = objectCart.products.filter(obj => obj.product !== parseInt(idProduct))
+        // Update the cart with the array of carts
+        objectCart.products = prodsFiltered
+        carts[cartIndex] = objectCart
+      } else {
+        return "The product doesnt exists in the cart and cannot be delete"
+      } 
+      // Write the JSOn of the cart with the new product
+      await fs.writeFile(this.parth, JSON.stringify(carts), 'utf-8')
+      return "Product deleted from cart"
     } else {
-      this.idIncrement = 1
+      return "There was an error by deleting the prdouct from the cart"
     }
-    return this.idIncrement
+  } catch (error) {
+    error
   }
 }
