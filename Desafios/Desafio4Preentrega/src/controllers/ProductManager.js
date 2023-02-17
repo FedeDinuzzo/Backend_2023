@@ -24,10 +24,10 @@ class Product {
 }
 
 // Creating products
-const product1 = new Product("Iphone", "14 Pro Max", 1500, "SKU123", 40, "true", [])
-const product2 = new Product("Samsung", "Galaxy S23 Ultra", 1400, "SKU124", 30, "true", [])
-const product3 = new Product("Google", "Pixel 7 pro", 1300, "SKU125", 20, "true", [])
-const product4 = new Product("Motorola", "Edge 30 Ultra", 1200, "SKU126", 10, "true", [])
+const product1 = new Product("Iphone", "14 Pro Max", 1500, "SKU123", 40, "phone", "true", [])
+const product2 = new Product("Samsung", "Galaxy S23 Ultra", 1400, "SKU124", 30, "phone", "true", [])
+const product3 = new Product("Google", "Pixel 7 pro", 1300, "SKU125", 20, "phone", "true", [])
+const product4 = new Product("Motorola", "Edge 30 Ultra", 1200, "SKU126", 10, "phone", "true", [])
 
 
 export class ProductManager {
