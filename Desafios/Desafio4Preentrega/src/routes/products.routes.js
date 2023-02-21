@@ -37,7 +37,7 @@ routerProduct.get('/:pid', async (req, res) => {
 
 routerProduct.post('/', async (req, res) => {
   try {
-    const product = await manager.addProduct(parseInt(req.body))
+    const product = await manager.addProduct(req.body)
     res.send(product)
   } catch {
     res.send("Something wen't wrong, cannot add the product")
@@ -47,7 +47,7 @@ routerProduct.post('/', async (req, res) => {
 routerProduct.delete('/:id', async (req, res) => {
   try {
     const product = await manager.deleteProduct(req.params.id)
-    req.send(product)
+    res.send(product)
   } catch {
     res.send("Something wen't wrong, cannot delete the product")
   }
@@ -55,8 +55,8 @@ routerProduct.delete('/:id', async (req, res) => {
 
 routerProduct.put('/:id', async (req, res) => {
   try {
-    const product = await manager.updateProduct(req.params.id, req.body)
-    req.send(product)
+    const product = await manager.updateProduct(req.params.id, req.params.entry, req.params.value, req.body)
+    res.send(product)
   } catch {
     res.send("Something wen't wrong, cannot update the product")
   }

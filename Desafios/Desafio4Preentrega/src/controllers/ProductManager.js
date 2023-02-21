@@ -1,7 +1,8 @@
-import { promises as fs, existsSync, writeFileSync } from "fs"
+import { promises as fs } from "fs"
 
 class Product {
   constructor(title, description, price, code, stock, category, status, thumbnail,) {
+    this.id = Product.addId() 
     this.title = title
     this.description = description
     this.price = price
@@ -10,7 +11,6 @@ class Product {
     this.category = category
     this.status = status
     this.thumbnail = thumbnail
-    this.id = Product.addId() 
   }
 
   static addId() {
@@ -35,38 +35,27 @@ export class ProductManager {
     this.path = path
   }
 
-  checkFile = () => {
-    // If the file doesn't exists, we create it. Otherwise, do nothing
-    !existsSync(this.path) && writeFileSync(this.path, "[]", "utf-8");
-  };
-
   addProduct = async (product, imgPath) => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path, "utf-8")
-      const data = JSON.parse(read)
-      const prodCode = data.map((prod) => prod.code)
-      const prodExists = prodCode.includes(product.code)
-      if (prodExists) {
-        return console.log("Code already exists, change it")
-      } else if (Object.values(product).includes("") || Object.values(product).includes(null)) {
-        return console.log("All fields must be completed")
-      } else {
-        if (imgPath) {
-          product.thumbnail = imgPath
-        }
-        const newProduct = {id: Product.addId(), ...product}
-        data.push(newProduct)
-        await fs.writeFile(this.path, JSON.stringify(data))
-        return console.log("Product added succesfully")
+    const read = await fs.readFile(this.path, "utf-8")
+    const data = JSON.parse(read)
+    const prodCode = data.map((prod) => prod.code)
+    const prodExists = prodCode.includes(product.code)
+    if (prodExists) {
+      return console.log("Code already exists, change it")
+    } else if (Object.values(product).includes("") || Object.values(product).includes(null)) {
+      return console.log("All fields must be completed")
+    } else {
+      if (imgPath) {
+        product.thumbnail = imgPath
       }
-    } catch (error) {
-      error
+      const newProduct = {id: Product.addId(), ...product}
+      data.push(newProduct)
+      await fs.writeFile(this.path, JSON.stringify(data))
+      return console.log("Product added succesfully")
     }
   }
 
   getProducts = async () => {
-    this.checkFile()
     try {
       const read = await fs.readFile(this.path , "utf-8")
       const data = JSON.parse(read)
@@ -74,59 +63,50 @@ export class ProductManager {
         return data
       }
     } catch {
+      await this.createJson()
       await this.createProducts()
       return ("Initial products created")
     }
   }
 
   getProductsById = async (id) => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path , "utf-8")
-      const data = JSON.parse(read)
-      const findProduct = data.find(prod => prod.id === id)
-      if (findProduct) {
-        return findProduct
-      } else {
-        return console.log('Product id not founded')
-      }
-    } catch (error) {
-      error
+    const read = await fs.readFile(this.path , "utf-8")
+    const data = JSON.parse(read)
+    const findProduct = data.find(prod => prod.id === id)
+    if (findProduct) {
+      return findProduct
+    } else {
+      return console.log('Product id not founded')
     }
   }
 
   updateProduct = async (id, entry, value) => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path, "utf-8")
-      const data = JSON.parse(read)
-      const index = data.findIndex((product) => product.id === id)
-      if (!data[index][entry]) {
-        return console.log("Product not found")
-      } else {
-        data[index][entry] = value;
-        await fs.writeFile(this.path, JSON.stringify(data, null, 2));
-        console.log("Product has been updated to: ")
-        return console.log(data[index]);
-      }
-    } catch (error) {
-      error
+    const read = await fs.readFile(this.path, "utf-8")
+    const data = JSON.parse(read)
+    const index = data.findIndex((product) => product.id === id)
+    if (!data[index][entry]) {
+      return console.log("Product not found")
+    } else {
+      data[index][entry] = value
+      await fs.writeFile(this.path, JSON.stringify(data, null, 2))
+      return "Product has been updated"
     }
   }
 
   deleteProduct = async (id) => {
-    this.checkFile()
-    try {
-      const read = await fs.readFile(this.path , "utf-8")
-      const data = JSON.parse(read)
-      const deletedProduct = JSON.stringify(data.find(prod => prod.id === id))
-      const newData = data.filter(prod => prod.id !== id)
-      await fs.writeFile(this.path, JSON.stringify(newData), "utf-8")
-      console.log("The following product has been deleted: ")
-      return console.log(deletedProduct)
-    } catch (error) {
-      error
+    const read = await fs.readFile(this.path , "utf-8")
+    const data = JSON.parse(read)
+      if(data.some(prod => prod.id === parseInt(id))) {
+        const prodsFiltered = data.filter(prod => prod.id !== parseInt(id))
+        await fs.writeFile(this.path, JSON.stringify(prodsFiltered))
+        return "Product deleted"
+      } else {
+        return "Product not found"
     }
+  }
+
+  async createJson() {
+    await fs.writeFile(this.path, "[]")
   }
 
   async createProducts() {

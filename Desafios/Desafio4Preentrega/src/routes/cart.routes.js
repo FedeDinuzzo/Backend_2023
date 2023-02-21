@@ -2,9 +2,9 @@ import { Router } from "express"
 import { CartManager } from "../controllers/CartManager.js"
 import { ProductManager } from "../controllers/ProductManager.js"
 
-const routerCart = Router() // Change app to routerCart
+const routerCart = Router()
 const cartManager = new CartManager('src/models/carts.json')
-const productManager = new ProductManager('src/models/products.json')
+const prodManager = new ProductManager('src/models/products.json')
 
 routerCart.get('/:cid', async (req, res) => {
   try {
@@ -24,19 +24,16 @@ routerCart.post('/', async (req, res) => {
   }
 })
 
-routerCart.post('/:idCart/product/:idProduct', async (req, res) => {
-  try {
-    const productQantity = 1
-    const productData = await productManager.getProductById(parseInt(req.params.pid))
-    if (productData) {
-      const data = await cartManager.addProudctToCart(parseInt(req.params.cid), parseInt(req.params.pid), productQantity)
+routerCart.post('/:cid/product/:pid', async (req, res) => { 
+  const prodQty = 1;
+  const productData = await prodManager.getProductsById(parseInt(req.params.pid));
+  if (productData) {
+      const data = await cartManager.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid), prodQty)
       res.send(data)
-    } else {
-      res.send('The product cannot be found')
-    }
-  } catch {
-    res.send('There was an error at adding the product to the cart')
+  } else {
+      res.send("Something wen't wrong, cannot add product to the cart")
   }
+
 })
 
 routerCart.delete('/:cid',  async (req, res) => {
