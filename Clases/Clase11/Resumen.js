@@ -8,9 +8,8 @@
 // Evitamos peticiones innecesarias
 
 // Handshacke (http upgrade)
-// Acuerdo o contgrato de confianza
+// Acuerdo o contrato de confianza
 // El servidor puede actualizar al cliente sin que esto lo pida
-
 // Websockets permitio por 1ra vez acceder a una web de una forma dinamica en tiempo real
 
 // Ejemplo de uso:
