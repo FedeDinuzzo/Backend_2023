@@ -9,7 +9,6 @@
 
 // Crear tabla
 
-
 // Generate ERD
 // En la base de datos click derecho
 // Muestra como se relaciona la base de datos

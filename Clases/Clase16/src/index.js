@@ -4,7 +4,6 @@ import { Server } from 'socket.io'
 import { getManagerMessages } from './dao/daoManager.js'
 
 const app = express()
-const managerMessage = getManagerMessages()
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -17,12 +16,13 @@ const server = app.listen(app.get("port"), () => {
 
 const io = new Server(server)
 
-io.on("connection", (socket) => {
-  socket.on("message", (info) => {
-    managerMessage.addElements([info]).then(() => {
-      const mensajes = managerMessage.getElements()
+io.on("connection", async (socket) => {
+  const data = await getManagerMessages()
+  const managerMessage = new data.ManagerMessageMongoDB
+  managerMessage.addElements([info]).then(() => {
+    managerMessage.getElements().theen((mensajes) => {
       console.log(mensajes)
-      socket.emit('allMessages', mensajes)
+      socket.emit("allMessages", mensajes)
     })
   })
 })
