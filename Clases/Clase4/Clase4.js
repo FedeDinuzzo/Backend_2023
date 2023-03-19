@@ -9,7 +9,7 @@ Array.forEach(() => { })
 calcularImpuestros(IVA(), PAIS(), RETENCIONES())
 
 // Ejemplo de map con callback, retorno un valor y puedo volverlo a instanciar
-Array.map(() => {}).
+Array.map(() => {})
 
 // Callbacks convenciones:
 // Siempre es el ultimo parametro
@@ -46,7 +46,7 @@ const copiarArchivo = (nombreArchivo, callback) => {
 // Pero voy a saber si llega a mi domicilio o si se pierde en el camino
 // Encapsula todo en la promesa
 
-function consultarBDD = (confirmacion) => {
+const consultarBDD = (confirmacion) => {
   return new Promise((resolve, reject) => {
     if(confirmacion) {
       resolve("Base de datos de clientes") // return implicito
@@ -68,7 +68,7 @@ consultadBDD(false)
 // Si tengo una tarea bloqueante no puede continuar la ejecucion de las proximas tareas
 
 // Asincronismo
-// Las tareas trabajan en paralelo y cada una seguira el hilo de resolicion que considere a su ritmo
+// Las tareas trabajan en paralelo y cada una seguira el hilo de resolucion que considere a su ritmo
 // No podemos controlar cuando terminara, solo cuando comienza
 // Si una tarea depende de otra habra problemas ya que la ejecucion es en paralelo
 // No son bloqueantes

@@ -1,6 +1,5 @@
 // Desarrollo de chat con websockets
 
-
 // Deploy en glitch
 // Trabaja con version antigua de nodejs
 // Modificaciones, no acepta import ni fetchs si los hubiera 16.4

@@ -1,7 +1,6 @@
 // Express avanzado
 // Metodos de Peticion
 
-
 // Codigos de estado en HTTP
 // 1xx informational
 // 2xx succes

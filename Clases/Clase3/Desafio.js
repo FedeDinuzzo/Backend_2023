@@ -8,7 +8,7 @@ class ProductManager {
       return console.error("There is already a product with this code")
     } else {
       this.products.push(newProduct)
-      console.error("Product Added")
+      console.log("Product Added")
     }
   }
 

@@ -9,7 +9,7 @@ export class gestorMongoDB {
     this.model = mongoose.model(this.collection, this.schema)
   }
 
-  async #setConnection() { // metodo de la clase
+  async #setConnection() { // metodo estatico de la clase
     try {
       await mongoose.connect(this.url)
       console.log("DB is connected")

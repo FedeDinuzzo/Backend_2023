@@ -8,7 +8,7 @@ const consultarCoordenadas = async (ciudad, provincia, pais) => {
 }
 
 const consultarClima = async(ciudad, provincia, pais) => {
-  const {lat, lon} = await consultarCoordenadas(ciudad, provincia, pais, )
+  const {lat, lon} = await consultarCoordenadas(ciudad, provincia, pais)
   console.log(lat, lon)
   // Ahora hacemos la solictud a Open Weather Map
   const response = fetch(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`)
@@ -18,5 +18,3 @@ const consultarClima = async(ciudad, provincia, pais) => {
 }
 
 consultarClima('Trelew', 'chubut', 'arg')
-
-

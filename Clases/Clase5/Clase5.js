@@ -19,9 +19,9 @@ class Persona {
 }
 
 const persona1 = new Persona("Federico", "Di Nuzzo")
-const persona2 = new Persona("Federico", "Di Nuzzo")
-const persona3 = new Persona("Federico", "Di Nuzzo")
-const persona4 = new Persona("Federico", "Di Nuzzo")
+const persona2 = new Persona("Feder", "Di Nuzzo")
+const persona3 = new Persona("Fede", "Di Nuzzo")
+const persona4 = new Persona("Fede", "Di")
 
 console.log(persona1, persona2, persona3, persona4)
 

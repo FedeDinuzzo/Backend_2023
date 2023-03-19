@@ -7,7 +7,7 @@
 //   response.end("Hola, este es mi primer servidor en NODE")
 // })
 
-// // Ejecutar servidor
+// Ejecutar servidor
 // server.listen(PORT, () => {
 //   console.log(`Server on port ${PORT}`)
 // })
@@ -15,7 +15,7 @@
 // SERVIDOR CON EXPRESS
 import express from 'express'
 
-const app = express() // app es igual a la ejecucion de experess
+const app = express() // app es igual a la ejecucion de express
 const PORT = 4000
 
 app.use(express.urlencoded({extended:true})) // Permite realizar consultas en la url

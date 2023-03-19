@@ -91,7 +91,7 @@ const facturas = [20000, [40000, 22000, 5000], 9000, [70000, 3000]]
 
 console.log(facturas.flat(2).reduce((a,b) => a+b, 0)) // El parametro 2 es la profundidad de la anidacion a eliminar
 
-//Dynamic import
+// Dynamic import
 // No importar en la 1ra linea, evitas la importacion hasta que se logea
 const user = true
 

@@ -39,7 +39,7 @@ const io = new Server(server)
 io.on("connection", (socket) => { //io.on es cuando se establece la conexion
   console.log("Cliente conectado")
 
-  socket.on("mensaje", info => {//Cuando recibo informacion de mi cliente
+  socket.on("mensaje", info => { //Cuando recibo informacion de mi cliente
     console.log(info)
   })  
 
