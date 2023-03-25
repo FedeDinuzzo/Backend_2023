@@ -14,7 +14,7 @@ addForm.addEventListener('submit', (e) => {
     const category = document.getElementById("category").value
     const thumbnail = []
     const product = {title,description,price,code,stock,category,thumbnail}
-    socket.emit("addProduct", product) //Enviar informacion a mi servidor
+    socket.emit("addProduct", product) // Enviar informacion a mi servidor
 })
 
 deleteForm.addEventListener('submit', (e) => {

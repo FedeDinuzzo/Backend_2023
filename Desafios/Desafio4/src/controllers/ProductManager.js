@@ -19,7 +19,7 @@ export class ProductManager {
     producto.id = ProductManager.incrementarID()
     prods.push(producto)
     await fs.writeFile(this.path, JSON.stringify(prods))
-    return "Producto creado"
+    return "Product created"
   }
 
   async getProducts() {
@@ -36,7 +36,7 @@ export class ProductManager {
     if(prods.some(prod => prod.id === parseInt(id))) {
       return prods.find(prod => prod.id === parseInt(id))
     } else {
-      return "Producto no encontrado"
+      return "Producto not found"
     }
   }
 
@@ -51,9 +51,9 @@ export class ProductManager {
       prods[index].code = code
       prods[index].stock = stock
       await fs.writeFile(this.path, JSON.stringify(prods))
-      return "Producto actualizado"
+      return "Product updated"
     } else {
-      return "Producto no encontrado"
+      return "Producto not found"
     }
   }
 
@@ -62,9 +62,9 @@ export class ProductManager {
     if(prods.some(prod => prod.id === parseInt(id))) {
       const prodsFiltrados = prods.filter(prod => prod.id !== parseInt(id))
       await fs.writeFile(this.path, JSON.stringify(prodsFiltrados))
-      return "Producto eliminado"
+      return "Product deleted"
     } else {
-      return "Producto no encontrado"
+      return "Producto not found"
     }
   }
 }
