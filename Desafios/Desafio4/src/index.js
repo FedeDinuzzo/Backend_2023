@@ -22,34 +22,33 @@ const storage = multer.diskStorage({
 
 const upload = multer({storage:storage});
 
-//Express Server
+// Express Server
 const app = express();
 const PORT = 8080;
 const server = app.listen(PORT, () => {
     console.log(`Server on http://localhost:${PORT}`)
 })
 
-//ServerIO
+// ServerIO
 const io = new Server(server)
 
 io.on("connection", async (socket) => { // io.on establece la conexion
-    console.log("Cliente conectado")
+  console.log("Cliente conectado")
 
-    socket.on("addProduct", async info => { // Cuando recibo informacion de mi cliente
-        socket.emit("msgAddProduct", await productManager.addProduct(info, ["/img/iphone.jpg"]))
-        socket.emit("getProducts", await productManager.getProducts())
-    })
-    
-
-    socket.on("deleteProduct", async id => {
-        socket.emit("msgDeleteProduct", await productManager.deleteProduct(parseInt(id)))
-        socket.emit("getProducts", await productManager.getProducts())
-    })
-
+  socket.on("addProduct", async info => { // Cuando recibo informacion de mi cliente
+    socket.emit("msgAddProduct", await productManager.addProduct(info, ["/img/iphone.jpg"]))
     socket.emit("getProducts", await productManager.getProducts())
+  })
+
+  socket.on("deleteProduct", async id => {
+    socket.emit("msgDeleteProduct", await productManager.deleteProduct(parseInt(id)))
+    socket.emit("getProducts", await productManager.getProducts())
+  })
+
+  socket.emit("getProducts", await productManager.getProducts())
 })
 
-//Middlewares
+// Middlewares
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
 app.engine('handlebars', engine())

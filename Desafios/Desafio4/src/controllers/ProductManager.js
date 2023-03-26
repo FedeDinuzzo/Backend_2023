@@ -1,4 +1,4 @@
-import {promises as fs} from 'fs'
+import { promises as fs } from 'fs'
 
 export class ProductManager {
   constructor(path) {
@@ -14,12 +14,31 @@ export class ProductManager {
     return this.idIncrement
   }
 
-  async addProduct(producto) {
-    const prods = JSON.parse(await fs.readFile(this.path, 'utf-8'))
-    producto.id = ProductManager.incrementarID()
-    prods.push(producto)
-    await fs.writeFile(this.path, JSON.stringify(prods))
-    return "Product created"
+  async addProduct(product,imgPath) {
+    // Validates that all the fields are completed and that the "code" property is not repeated
+    const read = await fs.readFile(this.path, 'utf-8')
+    const data = JSON.parse(read)
+    const prodCode = data.map((prod) => prod.code)
+    const prodExist = prodCode.includes(product.code)
+    if (prodExist) {
+        return console.log (`The code ${product.code} already exisist. Please enter a different one.`)
+    } else if (Object.values(product).includes("") || Object.values(product).includes(null)) {
+        return console.log("All fields must be completed")
+    } else {
+        if (imgPath) {
+            product.thumbnail = imgPath;
+        } else {
+            imgPath = []
+            product.thumbnail = imgPath
+        }
+    let newID
+    !data.length ? (newID = 1) : (newID = data[data.length - 1].id + 1)
+    const nuevoProducto = {id: newID, ...product}
+    data.push(nuevoProducto);
+    await fs.writeFile(this.path, JSON.stringify(data), 'utf-8')
+    console.log(`The product with ID: ${nuevoProducto.id} has been added.`)
+    return newID
+    }
   }
 
   async getProducts() {

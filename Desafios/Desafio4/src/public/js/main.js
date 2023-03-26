@@ -23,7 +23,6 @@ deleteForm.addEventListener('submit', (e) => {
     socket.emit("deleteProduct", id)
 })
 
-
 socket.on("msgAddProduct", mensaje => {
     Swal.fire({
         icon: 'success',
@@ -33,7 +32,6 @@ socket.on("msgAddProduct", mensaje => {
     })
     console.log(mensaje)
 })
-
 
 socket.on("msgDeleteProduct", mensaje => {
     if (mensaje) {
@@ -53,7 +51,6 @@ socket.on("msgDeleteProduct", mensaje => {
     }
     console.log(mensaje)
 })
-
 
 socket.on("getProducts", products => {
     const prodsFromServer = document.getElementById("productsFromServer")

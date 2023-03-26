@@ -5,15 +5,15 @@ const routerSocket = Router();
 const productManager = new ProductManager('src/models/products.json')
 
 routerSocket.get("/", async (req,res) => {
-    const products = await productManager.getProducts()
-    res.render("index", {products})
+  const products = await productManager.getProducts()
+  res.render("index", {products})
 })
 
 routerSocket.get("/realtimeproducts", async (req,res) => {
-    const products = await productManager.getProducts()
-    res.render("realTimeProducts", {
-        products: products
-    })
+  const products = await productManager.getProducts()
+  res.render("realTimeProducts", {
+    products: products
+  })
 })
 
 export default routerSocket
