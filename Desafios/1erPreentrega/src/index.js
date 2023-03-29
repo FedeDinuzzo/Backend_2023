@@ -31,7 +31,7 @@ app.use('/api/carts', routerCart)
 // Multer Image Route
 app.post('/upload', upload.single('product'), (req, res) => {
   console.log(req.file)
-  res.send("Image charged")
+  res.send("Image uploaded successfully")
 })
 
 app.listen(PORT, () => {
