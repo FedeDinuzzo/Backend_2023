@@ -1,8 +1,11 @@
 import { Router } from "express"
-import { ProductManager } from "../controllers/ProductManager.js"
+import { ProductManager } from "../dao/FileSystem/ProductManager.js"
+import { getManagerProducts } from "../dao/daoManager.js"
 
 const routerProduct = Router()
-const productManager = new ProductManager('src/models/products.json')
+// const productManager = new ProductManager('src/models/products.json')
+const managerData = await getManagerProducts()
+const productManager = new managerData()
 
 routerProduct.get('/', async (req, res) => { 
   const { limit } = req.query; 

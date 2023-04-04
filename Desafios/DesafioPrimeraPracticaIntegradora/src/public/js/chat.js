@@ -42,7 +42,7 @@ chatForm.addEventListener("submit", (e)=>{
     msgText.value = ""
     scrollDown()
   } else {
-    alert("Por favor completar todos los campos.")
+    alert("Complete the fields Please")
   }
 })
 

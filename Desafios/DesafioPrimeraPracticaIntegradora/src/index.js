@@ -1,56 +1,24 @@
-import express from "express"
-import routerProduct from "./routes/products.routes.js"
-import routerCart from "./routes/cart.routes.js"
-import { __dirname } from "./path.js"
-import multer from 'multer'
-import { engine } from 'express-handlebars'
+import 'dotenv/config'
+import express from 'express'
 import * as path from 'path'
-import { Server } from "socket.io"
-import routerSocket from "./routes/socket.routes.js"
-import { ProductManager } from "./controllers/ProductManager.js"
-
-const productManager = new ProductManager('src/models/products.json');
-
-const storage = multer.diskStorage({
-    destination: (req,file,cb) => {
-        cb(null, 'src/public/img')
-    },
-    filename: (req,file,cb) => {
-        cb(null, `${file.originalname}`)
-    }
-})
-
-const upload = multer({storage:storage});
+import { __dirname } from './path.js'
+import { Server } from 'socket.io'
+import { engine } from 'express-handlebars'
+import { getManagerMessages } from './dao/daoManager.js'
+import routerProduct from './routes/products.routes.js'
+import routerSocket from './routes/socket.routes.js'
 
 // Express Server
-const app = express();
-const PORT = 8080;
-const server = app.listen(PORT, () => {
-    console.log(`Server on http://localhost:${PORT}`)
-})
-
-// ServerIO
-const io = new Server(server)
-
-io.on("connection", async (socket) => { // io.on establece la conexion
-  console.log("Cliente conectado")
-
-  socket.on("addProduct", async info => { // Cuando recibo informacion de mi cliente
-    socket.emit("msgAddProduct", await productManager.addProduct(info, ["/img/iphone.jpg"]))
-    socket.emit("getProducts", await productManager.getProducts())
-  })
-
-  socket.on("deleteProduct", async id => {
-    socket.emit("msgDeleteProduct", await productManager.deleteProduct(parseInt(id)))
-    socket.emit("getProducts", await productManager.getProducts())
-  })
-
-  socket.emit("getProducts", await productManager.getProducts())
-})
+const app = express()
 
 // Middlewares
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
+
+// Port
+app.set("port", process.env.PORT || 8080)
+
+// Handlebars
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views')) // __dirname + './views'
@@ -60,9 +28,34 @@ app.use('/', express.static(__dirname + '/public'))
 app.use('/', routerSocket)
 app.use('/realtimeproducts', routerSocket)
 app.use('/api/products', routerProduct)
-app.use('/api/carts', routerCart)
+// app.use('/api/carts', routerCart)
+app.use('/chat', routerSocket)
 
-// app.post('/upload',upload.single('product'), (req,res) => {
-//     console.log(req.file)
-//     res.send("Imagen subida")
-// })
+// Launch
+const server = app.listen(app.get("port"), () => {
+  console.log(`Server on http://localhost:${app.get("port")}`)
+})
+
+// ServerIO
+const io = new Server(server)
+
+const data = await getManagerMessages()
+const managerMessages = new data()
+
+io.on("connection", async (socket) => {
+  console.log("Client connected")
+  
+  socket.on("message", async (info) => {
+    console.log(info)
+    await managerMessages.addElements([info])
+    const messages = await managerMessages.getElements()
+    console.log(messages)
+    socket.emit("allMessages", messages)
+  })
+
+  socket.on("load messages", async () => {
+    const messages = await managerMessages.getElements()
+    console.log(messages)
+    socket.emit("allMessages", messages)
+  })
+})

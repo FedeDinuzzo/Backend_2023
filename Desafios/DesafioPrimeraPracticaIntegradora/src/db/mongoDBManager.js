@@ -6,7 +6,7 @@ export class ManagerMongoDB {
     this.#url = url
     this.collection = collection
     this.schema = schema
-    this.model = mongoose.model(this.collection, thi.schema)
+    this.model = mongoose.model(this.collection, this.schema)
   }
   
   async #setConnection() {

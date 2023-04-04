@@ -4,7 +4,7 @@ const addForm = document.getElementById("addProductForm")
 const deleteForm = document.getElementById("deleteProductForm")
 
 addForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+  e.preventDefault()
   const title = document.getElementById("title").value
   const description = document.getElementById("description").value
   const price = document.getElementById("price").value
@@ -13,8 +13,8 @@ addForm.addEventListener('submit', (e) => {
   const stock = document.getElementById("stock").value
   const category = document.getElementById("category").value
   const thumbnail = []
-  const product = {title,description,price,code,stock,category,thumbnail}
-  socket.emit("addProduct", product) //Enviar informacion a mi servidor
+  const product = { title, description, price, code, stock, category, thumbnail }
+  socket.emit("addProduct", product) // Send information to the server
 })
 
 deleteForm.addEventListener('submit', (e) => {
@@ -27,7 +27,7 @@ deleteForm.addEventListener('submit', (e) => {
 socket.on("msgAddProduct", mensaje => {
   Swal.fire({
     icon: 'success',
-    title: `Producto agregado con el id: ${mensaje.id}`,
+    title: `Product added with the id: ${mensaje.id}`,
     showConfirmButton: true,
     timer: 2000
   })
@@ -39,14 +39,14 @@ socket.on("msgDeleteProduct", mensaje => {
   if (mensaje) {
     Swal.fire({
       icon: 'success',
-      title: 'Producto eliminado',
+      title: 'Product deleted',
       showConfirmButton: true,
       timer: 2000
     })
   } else {
     Swal.fire({
       icon: 'error',
-      title: 'No se pudo eliminar el producto',
+      title: 'Can not delete the product',
       showConfirmButton: true,
       timer: 2000
     })
