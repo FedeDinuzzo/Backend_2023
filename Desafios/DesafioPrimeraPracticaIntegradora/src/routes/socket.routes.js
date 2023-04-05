@@ -1,7 +1,6 @@
 import { Router } from "express"
-//import { ProductManager } from "../controllers/ProductManager.js";
+//import { ProductManager } from "../controllers/ProductManager.js"
 import { getManagerMessages, getManagerProducts } from "../dao/daoManager.js"
-
 
 const routerSocket = Router()
 //const productManager = new ProductManager('src/models/productos.json')
@@ -11,7 +10,6 @@ const prodManager = new prodManagerData()
 
 const msgManagerData = await getManagerMessages()
 const msgManager = new msgManagerData()
-
 
 routerSocket.get('/', async (req, res) => {
   let { limit } = req.query

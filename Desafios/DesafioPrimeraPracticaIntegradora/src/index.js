@@ -31,7 +31,6 @@ app.use('/api/products', routerProduct)
 // app.use('/api/carts', routerCart)
 app.use('/chat', routerSocket)
 
-// Launch
 const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
 })

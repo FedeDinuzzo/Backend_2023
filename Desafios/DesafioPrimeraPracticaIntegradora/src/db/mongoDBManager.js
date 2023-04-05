@@ -5,10 +5,13 @@ export class ManagerMongoDB {
   constructor(url, collection, schema) {
     this.#url = url
     this.collection = collection
+    //this.schema = new mongoose.Schema(schema)
+    //console.log("esquema por parametro", schema)
+    //console.log("esquema instanciado", this.schema)
     this.schema = schema
     this.model = mongoose.model(this.collection, this.schema)
   }
-  
+
   async #setConnection() {
     try {
       await mongoose.connect(this.#url)
@@ -28,6 +31,15 @@ export class ManagerMongoDB {
       return error
     }
   }
+
+    // async getElements() {
+    //   this.#setConnection()
+    //   try {
+    //     return await this.model.find()
+    //   } catch(error) {
+    //     return error
+    //   }
+    // }
 
   async getElements(limit) {
     this.#setConnection() 
