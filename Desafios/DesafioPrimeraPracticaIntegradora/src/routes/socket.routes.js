@@ -20,7 +20,7 @@ routerSocket.get('/', async (req, res) => {
     !limit
       ? products = await prodManager.getElements(0)
       : products = await prodManager.getElements(limit)
-    res.render("home", { products })
+    res.render("index", { products })
   } else {
     // Postgres
   }
