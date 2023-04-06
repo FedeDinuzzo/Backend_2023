@@ -17,6 +17,7 @@ export class ManagerMongoDB {
       await mongoose.connect(this.#url)
       console.log("MongoDB Connected")
     } catch (error) {
+      console.log("MongoDB connection ERROR")
       return error
     }
   }
@@ -27,6 +28,7 @@ export class ManagerMongoDB {
       console.log("Not able to insert")
       const insertar = await this.model.insertMany(elements)
       console.log("Able to insert", insertar)
+      return insertar
     } catch (error) {
       return error
     }
@@ -68,7 +70,7 @@ export class ManagerMongoDB {
     }
   }
 
-  async deleteElement(id, info) {
+  async deleteElement(id) {
     this.#setConnection()
     try {
       return await this.model.findByIdAndDelete(id)

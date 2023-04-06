@@ -25,8 +25,8 @@ routerCart.post('/', async (req, res) => {
 })
 
 routerCart.post('/:cid/product/:pid', async (req, res) => { 
-  const prodQty = 1;
-  const productData = await prodManager.getProductsById(parseInt(req.params.pid));
+  const prodQty = 1
+  const productData = await prodManager.getProductsById(parseInt(req.params.pid))
   if (productData) {
       const data = await cartManager.addProductToCart(parseInt(req.params.cid), parseInt(req.params.pid), prodQty)
       res.send(data)

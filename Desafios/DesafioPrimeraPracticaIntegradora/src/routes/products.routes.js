@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { ProductManager } from "../dao/FileSystem/ProductManager.js"
+// import { ProductManager } from "../dao/FileSystem/ProductManager.js"
 import { getManagerProducts } from "../dao/daoManager.js"
 
 const routerProducts = Router()
@@ -48,4 +48,4 @@ routerProducts.put('/:id', async (req, res) => {
   res.send(JSON.stringify(product))
 })
 
-export default routerProducts;
+export default routerProducts

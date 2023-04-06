@@ -5,8 +5,9 @@ import { __dirname } from './path.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { getManagerMessages } from './dao/daoManager.js'
-import routerProduct from './routes/products.routes.js'
+import routerProducts from './routes/products.routes.js'
 import routerSocket from './routes/socket.routes.js'
+// import routerCart from './routes/cart.routes.js'
 
 // Express Server
 const app = express()
@@ -27,7 +28,7 @@ app.set('views', path.resolve(__dirname, './views')) // __dirname + './views'
 app.use('/', express.static(__dirname + '/public'))
 app.use('/', routerSocket)
 app.use('/realtimeproducts', routerSocket)
-app.use('/api/products', routerProduct)
+app.use('/api/products', routerProducts)
 // app.use('/api/carts', routerCart)
 app.use('/chat', routerSocket)
 
