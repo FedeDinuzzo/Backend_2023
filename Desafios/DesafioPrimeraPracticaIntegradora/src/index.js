@@ -5,6 +5,7 @@ import { __dirname } from './path.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { getManagerMessages } from './dao/daoManager.js'
+import { getManagerProducts } from "./dao/daoManager.js"
 import routerProducts from './routes/products.routes.js'
 import routerSocket from './routes/socket.routes.js'
 // import routerCart from './routes/cart.routes.js'
@@ -42,6 +43,9 @@ const io = new Server(server)
 const data = await getManagerMessages()
 const managerMessages = new data()
 
+const managerData = await getManagerProducts()
+const productManager = new managerData()
+
 io.on("connection", async (socket) => {
   console.log("Client connected")
   
@@ -57,5 +61,24 @@ io.on("connection", async (socket) => {
     const messages = await managerMessages.getElements()
     console.log(messages)
     socket.emit("allMessages", messages)
+  })
+
+  socket.on("addProduct", async (prod) => {
+    console.log(prod)
+    await productManager.addElements(prod)
+    const products = await productManager.getElements()
+    socket.emit("getProducts", products)
+  })
+
+  socket.on("deleteProduct", async (prod) => {
+    await productManager.addElements(prod)
+    const products = await productManager.deleteElement()
+    socket.emit("getProducts", products)
+  })
+
+  socket.on("carga inicial de pagina", async () => {
+    const products = await productManager.getElements()
+    console.log(products)
+    socket.emit("getProducts", products)
   })
 })

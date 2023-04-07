@@ -9,19 +9,21 @@ addForm.addEventListener('submit', (e) => {
   const description = document.getElementById("description").value
   const price = document.getElementById("price").value
   const code = document.getElementById("code").value
-  const status = document.getElementById("status").value
   const stock = document.getElementById("stock").value
   const category = document.getElementById("category").value
-  const thumbnail = []
+  const thumbnail = document.getElementById("thumbnail").value
   const product = { title, description, price, code, stock, category, thumbnail }
   socket.emit("addProduct", product) // Send information to the server
 })
 
-deleteForm.addEventListener('submit', (e) => {
-  e.preventDefault()
-  const id = document.getElementById("prodId").value
-  socket.emit("deleteProduct", id)
+window.addEventListener("load", () => {
+  socket.emit("carga inicial de pagina")
 })
+
+deleteProduct = () => {
+  const prodCode = document.getElementById("code").value
+  socket.emit("deleteProduct", prodCode)
+}
 
 socket.on("msgAddProduct", mensaje => {
   Swal.fire({
@@ -63,7 +65,6 @@ socket.on("getProducts", products => {
     <img class="card-img-top imgCardProducts" src="${product.thumbnail}">
     <div class="card-body">
     <h5 class="card-title">${product.title}</h5>
-      <p class="card-text">ID: ${product.id} </p>
       <p class="card-text">${product.description} </p>
       <p class="card-text">Precio: ${product.price} </p>       
       <p class="card-text">Stock: ${product.stock} </p>   
