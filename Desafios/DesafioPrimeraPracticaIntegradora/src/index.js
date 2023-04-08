@@ -63,22 +63,21 @@ io.on("connection", async (socket) => {
     socket.emit("allMessages", messages)
   })
 
+  socket.on("initial page load", async () => {
+    const products = await productManager.getElements()
+    console.log(products)
+    socket.emit("getProducts", products)
+  })
+
   socket.on("addProduct", async (prod) => {
-    console.log(prod)
     await productManager.addElements(prod)
     const products = await productManager.getElements()
     socket.emit("getProducts", products)
   })
 
   socket.on("deleteProduct", async (prod) => {
-    await productManager.addElements(prod)
-    const products = await productManager.deleteElement()
-    socket.emit("getProducts", products)
-  })
-
-  socket.on("carga inicial de pagina", async () => {
+    await productManager.deleteElement(prod)
     const products = await productManager.getElements()
-    console.log(products)
     socket.emit("getProducts", products)
   })
 })

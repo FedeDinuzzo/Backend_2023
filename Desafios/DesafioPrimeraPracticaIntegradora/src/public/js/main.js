@@ -17,12 +17,12 @@ addForm.addEventListener('submit', (e) => {
 })
 
 window.addEventListener("load", () => {
-  socket.emit("carga inicial de pagina")
+  socket.emit("initial page load")
 })
 
 deleteProduct = () => {
-  const prodCode = document.getElementById("code").value
-  socket.emit("deleteProduct", prodCode)
+  const prod = document.getElementById("idDelete").value
+  socket.emit("deleteProduct", prod)
 }
 
 socket.on("msgAddProduct", mensaje => {
@@ -64,11 +64,12 @@ socket.on("getProducts", products => {
     <div class="card col-sm-2 cardProduct">
     <img class="card-img-top imgCardProducts" src="${product.thumbnail}">
     <div class="card-body">
+    <p class="card-text">ID: ${product._id} </p>
     <h5 class="card-title">${product.title}</h5>
-      <p class="card-text">${product.description} </p>
-      <p class="card-text">Precio: ${product.price} </p>       
-      <p class="card-text">Stock: ${product.stock} </p>   
-      <p class="card-text">Code: ${product.code} </p>
+    <p class="card-text">${product.description} </p>
+    <p class="card-text">Precio: ${product.price} </p>       
+    <p class="card-text">Stock: ${product.stock} </p>   
+    <p class="card-text">Code: ${product.code} </p>
     </div>
     `
   })

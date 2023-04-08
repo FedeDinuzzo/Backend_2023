@@ -20,7 +20,7 @@ const productSchema = new Schema({
     type: String,
     required: true,
     unique: true,
-    match: /^[a-zA-Z0-100]$/
+    match: /^[a-zA-Z]|[1-9][0-9]?$/
   },
   status: {
     type: Boolean,

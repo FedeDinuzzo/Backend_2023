@@ -2,15 +2,14 @@
 <div class="productsCardContainer row">
     {{#each products}}
         <div class="card col-sm-2 cardProduct">
-        <img class="card-img-top imgCardProducts" src="{{this.thumbnail}}" alt="Card image cap">
+        <img class="card-img-top imgCardProducts" src="{{this._doc.thumbnail}}" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">{{this._doc.title}}</h5>
-            <p class="card-text">ID: {{this.id}} </p>
-            <p class="card-text">{{this.description}} </p>
-            <p class="card-text">Price: {{this.price}} </p>       
-            <p class="card-text">Stock: {{this.stock}} </p>   
-            <p class="card-text">Code: {{this.code}} </p>
-            <p class="card-text">Status: {{this.status}} </p>
+            <p class="card-text">{{this._doc.description}} </p>
+            <p class="card-text">Price: {{this._doc.price}} </p>       
+            <p class="card-text">Stock: {{this._doc.stock}} </p>   
+            <p class="card-text">Code: {{this._doc.code}} </p>
+            <p class="card-text">Status: {{this._doc.status}} </p>
         </div>
         </div>
     {{/each}}

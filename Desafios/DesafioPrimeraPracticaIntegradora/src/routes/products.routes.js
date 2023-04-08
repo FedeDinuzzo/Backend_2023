@@ -40,7 +40,7 @@ routerProducts.post('/', async (req, res) => {
 
 routerProducts.delete('/:id', async (req, res) => {
   let product = await productManager.deleteElement(req.params.id) 
-  res.send(`Producto ${JSON.stringify(product)} eliminado`)
+  res.send(`Product ${JSON.stringify(product)} deleted`)
 })
 
 routerProducts.put('/:id', async (req, res) => { 
