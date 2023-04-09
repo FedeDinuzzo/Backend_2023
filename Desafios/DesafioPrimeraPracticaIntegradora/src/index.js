@@ -8,7 +8,7 @@ import { getManagerMessages } from './dao/daoManager.js'
 import { getManagerProducts } from "./dao/daoManager.js"
 import routerProducts from './routes/products.routes.js'
 import routerSocket from './routes/socket.routes.js'
-// import routerCart from './routes/cart.routes.js'
+import routerCart from './routes/cart.routes.js'
 
 // Express Server
 const app = express()
@@ -30,7 +30,7 @@ app.use('/', express.static(__dirname + '/public'))
 app.use('/', routerSocket)
 app.use('/realtimeproducts', routerSocket)
 app.use('/api/products', routerProducts)
-// app.use('/api/carts', routerCart)
+app.use('/api/carts', routerCart)
 app.use('/chat', routerSocket)
 
 const server = app.listen(app.get("port"), () => {
