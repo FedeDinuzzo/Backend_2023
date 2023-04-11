@@ -34,15 +34,6 @@ export class ManagerMongoDB {
     }
   }
 
-    // async getElements() {
-    //   this.#setConnection()
-    //   try {
-    //     return await this.model.find()
-    //   } catch(error) {
-    //     return error
-    //   }
-    // }
-
   async getElements(limit) {
     this.#setConnection() 
     try {
