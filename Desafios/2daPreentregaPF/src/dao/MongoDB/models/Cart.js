@@ -1,5 +1,6 @@
-// Todavia lo estoy terminando seguro entrego todo el sabado
-
+import { ManagerMongoDB } from "../../../db/mongoDBManager.js"
+import mongoose, { Schema } from "mongoose"
+import ManagerProductsMongoDB from "./Product.js"
 
 const url = process.env.URLMONGODB
 
@@ -26,16 +27,16 @@ const cartSchema = new mongoose.Schema({
   }
 })
 
-
 class ManagerCartMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "carts", cartSchema)
     this.productModel = ManagerProductsMongoDB.model
   }
+
   async addProductToCart(idCart, idProduct) {
     await this._setConnection()
     try {
-      console.log("esto es el cart", idCart, " y esto es el prod", idProduct)
+      console.log("This is the cart", idCart, " and this is the prod", idProduct)
       const cart = await this.model.findById(idCart)
       cart.products.push({
         productId: idProduct,
@@ -47,11 +48,12 @@ class ManagerCartMongoDB extends ManagerMongoDB {
       return error
     }
   }
+
   async updateProdQty(idCart, idProduct, prodQty) {
     await this._setConnection() // con el _ se pasa a protected
     //Get cart and check if product exists
     const cart = await this.model.findById(idCart).populate('products.productId')
-    console.log("Cart actual: ", cart)
+    console.log("Actual cart: ", cart)
     const productIndex = cart.products.findIndex(
       product => {
         //console.log(product.productId.id)
