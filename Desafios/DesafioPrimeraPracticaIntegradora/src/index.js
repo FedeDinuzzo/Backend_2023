@@ -9,6 +9,7 @@ import { getManagerProducts } from "./dao/daoManager.js"
 import routerProducts from './routes/products.routes.js'
 import routerSocket from './routes/socket.routes.js'
 import routerCart from './routes/cart.routes.js'
+import { managerProduct } from "./controllers/product.controller.js"
 
 // Express Server
 const app = express()
@@ -37,14 +38,11 @@ const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
 })
 
-// ServerIO
+//ServerIO
 const io = new Server(server)
 
 const data = await getManagerMessages()
-const managerMessages = new data()
-
-const managerData = await getManagerProducts()
-const productManager = new managerData()
+const managerMessages = new data.ManagerMessageMongoDB
 
 io.on("connection", async (socket) => {
   console.log("Client connected")
@@ -64,20 +62,20 @@ io.on("connection", async (socket) => {
   })
 
   socket.on("initial page load", async () => {
-    const products = await productManager.getElements()
+    const products = await  managerProduct.getElements()
     console.log(products)
     socket.emit("getProducts", products)
   })
 
   socket.on("addProduct", async (prod) => {
-    await productManager.addElements(prod)
-    const products = await productManager.getElements()
+    await  managerProduct.addElements(prod)
+    const products = await  managerProduct.getElements()
     socket.emit("getProducts", products)
   })
 
   socket.on("deleteProduct", async (prod) => {
-    await productManager.deleteElement(prod)
-    const products = await productManager.getElements()
+    await  managerProduct.deleteElement(prod)
+    const products = await  managerProduct.getElements()
     socket.emit("getProducts", products)
   })
 })

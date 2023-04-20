@@ -1,4 +1,3 @@
-
 import { Schema } from 'mongoose'
 
 const userSchema = new Schema({
@@ -31,12 +30,8 @@ const userSchema = new Schema({
   }
 })
 
-// const userModel = model('Users', userSchema)
-// export default userModel
-class ManagerUserMongoDB extends ManagerMongoDB {
+export class ManagerUserMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "users", userSchema)
   }
 }
-
-export default ManagerUserMongoDB

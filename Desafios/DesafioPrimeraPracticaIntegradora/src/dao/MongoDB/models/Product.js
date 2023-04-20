@@ -1,5 +1,6 @@
 import { ManagerMongoDB } from '../../../db/mongoDBManager.js'
 import { Schema } from 'mongoose'
+import paginate from 'mongoose-paginate-v2'
 
 const url = process.env.URLMONGODB
 
@@ -40,8 +41,17 @@ const productSchema = new Schema({
   }
 })
 
-export default class ManagerProductsMongoDB extends ManagerMongoDB {
+productSchema.plugin(paginate)
+
+export class ManagerProductMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "products", productSchema)
+  }
+  
+  async getProducts(limit, page, filter, ord) {
+    this._setConnection()
+
+    const products = await this.model.paginate({ filter: filter }, { limit: limit, page: page, sort: { price: ord } })
+    return products
   }
 }

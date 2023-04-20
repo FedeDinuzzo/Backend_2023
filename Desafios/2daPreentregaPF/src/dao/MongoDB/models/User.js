@@ -31,11 +31,18 @@ const userSchema = new Schema({
   }
 })
 
-// const userModel = model('Users', userSchema)
-// export default userModel
 class ManagerUserMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "users", userSchema)
+  }
+
+  async getElementByEmail(email) {
+    super.setConnection()
+    try {
+        return await this.model.findOne({ email: email })
+    } catch (error) {
+        return error
+    }
   }
 }
 

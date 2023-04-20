@@ -1,26 +1,23 @@
 import { Router } from "express"
-//import { ProductManager } from "../controllers/ProductManager.js"
-import { getManagerMessages, getManagerProducts } from "../dao/daoManager.js"
+import { getManagerMessages } from "../dao/daoManager.js"
+import { managerProduct } from "../controllers/product.controller.js"
 
 const routerSocket = Router()
-//const productManager = new ProductManager('src/models/productos.json')
-const prodManagerData = await getManagerProducts()
-const prodManager = new prodManagerData()
 
-const msgManagerData = await getManagerMessages()
-const msgManager = new msgManagerData()
+const data = await getManagerMessages()
+const msgManager = new data.ManagerMessageMongoDB
 
 routerSocket.get('/', async (req, res) => {
   let { limit } = req.query
   let products
   !limit
-    ? products = await prodManager.getElements(0)
-    : products = await prodManager.getElements(limit)
+    ? products = await managerProduct.getElements(0)
+    : products = await managerProduct.getElements(limit)
   res.render("index", { products })
 })
 
 routerSocket.get("/realtimeproducts", async (req,res) => {
-  const products = await prodManager.getElements(0)
+  const products = await managerProduct.getElements(0)
   res.render("realTimeProducts", { products: products })
 })
 

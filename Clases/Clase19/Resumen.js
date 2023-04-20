@@ -8,7 +8,7 @@
 // Cliente - Cookie
 // Hace login - almacena el id de la session
 // Activa el dark mode - almacena tambien la configuracion de la pagina
-// Busca productos especifivos - almacena tambien las busquedas recientes
+// Busca productos especificos - almacena tambien las busquedas recientes
 
 // No se puede guardad info sencible en cokies
 
