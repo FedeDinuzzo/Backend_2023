@@ -9,18 +9,13 @@ export class ManagerMongoDB {
     this.model = mongoose.model(this.collection, this.schema)
   }
 
-  async #setConnection() {
-    try {
-      await mongoose.connect(this.#url)
-      console.log("MongoDB Connected")
-    } catch (error) {
-      console.log("MongoDB connection ERROR")
-      return error
-    }
+  async _setConnection() {
+    await mongoose.connect(this.#url)
+    console.log("MongoDB Connected")
   }
 
   async addElements(elements) {
-    this.#setConnection()
+    this._setConnection()
     try {
       console.log("Not able to insert")
       const insertar = await this.model.insertMany(elements)
@@ -32,7 +27,7 @@ export class ManagerMongoDB {
   }
 
   async getElements(limit) {
-    this.#setConnection() 
+    this._setConnection() 
     try {
       return await this.model.find().limit(limit)
     } catch (error) {
@@ -41,7 +36,7 @@ export class ManagerMongoDB {
   }
 
   async getElementById(id) {
-    this.#setConnection()
+    this._setConnection()
     try {
       return await this.model.findById(id)
     } catch (error) {
@@ -50,7 +45,7 @@ export class ManagerMongoDB {
   }
 
   async updateElement(id, info) {
-    this.#setConnection()
+    this._setConnection()
     try {
       return await this.model.findByIdAndUpdate(id, info)
     } catch (error) {
@@ -59,7 +54,7 @@ export class ManagerMongoDB {
   }
 
   async deleteElement(id) {
-    this.#setConnection()
+    this._setConnection()
     try {
       return await this.model.findByIdAndDelete(id)
     } catch (error) {

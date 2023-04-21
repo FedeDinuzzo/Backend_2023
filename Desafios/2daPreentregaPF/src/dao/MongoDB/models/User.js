@@ -1,4 +1,3 @@
-
 import { Schema } from 'mongoose'
 
 const userSchema = new Schema({
@@ -31,19 +30,8 @@ const userSchema = new Schema({
   }
 })
 
-class ManagerUserMongoDB extends ManagerMongoDB {
+export class ManagerUserMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "users", userSchema)
   }
-
-  async getElementByEmail(email) {
-    super.setConnection()
-    try {
-        return await this.model.findOne({ email: email })
-    } catch (error) {
-        return error
-    }
-  }
 }
-
-export default ManagerUserMongoDB

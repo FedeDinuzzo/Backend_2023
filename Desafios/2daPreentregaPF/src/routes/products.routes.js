@@ -1,51 +1,15 @@
 import { Router } from "express"
-// import { ProductManager } from "../dao/FileSystem/ProductManager.js"
-import { getManagerProducts } from "../dao/daoManager.js"
+import { getProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../controllers/product.controller.js'
 
 const routerProducts = Router()
-//const productManager = new ProductManager('src/models/products.json')
-const managerData = await getManagerProducts()
-const productManager = new managerData()
 
+routerProducts.route("/")
+  .post(createProduct)
+  .get(getProducts)
 
-routerProducts.get('/', async (req, res) => { 
-    const { limit } = req.query
-    console.log("Limit is: ", limit)
-    let products
-    !limit
-        ? products = await productManager.getElements(0)
-        : products = await productManager.getElements(limit)
-        res.send({response: products})
-})
-
-routerProducts.get('/:id', async (req, res) => { 
-  const product = await productManager.getElementById(req.params.id)
-  if (product) {
-    res.send({ response: product })
-    console.log(product)
-  } else {
-    res.send({ Error: "id not found"})
-  }    
-})
-
-routerProducts.post('/', async (req, res) => {
-  try {
-    const info = req.body
-    let product = await productManager.addElements(info)
-    res.send({response: product})
-  } catch (error) {
-    res.send(error)
-  }  
-})
-
-routerProducts.delete('/:id', async (req, res) => {
-  let product = await productManager.deleteElement(req.params.id) 
-  res.send(`Product ${JSON.stringify(product)} deleted`)
-})
-
-routerProducts.put('/:id', async (req, res) => { 
-  let product = await productManager.updateElement(req.params.id, req.body)
-  res.send(JSON.stringify(product))
-})
+  routerProducts.route("/:pid")
+  .get(getProduct)
+  .put(updateProduct)
+  .delete(deleteProduct)
 
 export default routerProducts

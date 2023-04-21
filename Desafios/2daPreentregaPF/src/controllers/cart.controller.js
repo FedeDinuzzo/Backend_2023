@@ -14,43 +14,24 @@ export const createCart = async (req, res) => {
 
 export const getProductsCart = async (req, res) => {
   try {
-    const productos = await managerCart.getProductsCart()
-    if (productos) {
-      return res.status(200).json(productos)
+    const products = await managerCart.getProductsCart()
+    if (products) {
+      return res.status(200).json(products)
     }
     res.status(200).json({
-      message: "Productos no encontrados"
+      message: "Products not found"
     })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
-/*
-export const getProduct = async (req, res) => {
-    const { id } = req.params
-    try {
-        const product = await managerCart.getElementById(id);
-        if (product) {
-            return res.status(200).json(product)
-        }
-        res.status(200).json({
-            message: "Producto no encontrado"
-        })
-    } catch (error) {
-        res.status(500).json({
-            message: error.message
-        })
-    }
-}
-*/
-
 export const addProductCart = async (req, res) => {
-  const { id } = req.params
-  const { id_prod, cant } = req.body
+  const cid = req.params.cid
+  const pid = req.params.pid
   try {
-    const product = await managerCart.addProductCart(id, id_prod, cant)
-    res.status(204).json(product)
+    const cart = await managerCart.addProductCart(cid, pid)
+    res.status(200).json(cart) 
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -62,23 +43,36 @@ export const updateProductCart = async (req, res) => {
   try {
     const product = await managerCart.updateElement(id, { title: title, description: description, code: code, price: price, status: status, stock: stock, category: category, thumbnails: thumbnails })
     if (product) {
-      return res.status(200).json({ message: "Producto actualizado" })
+      return res.status(200).json({ message: "Product updated" })
     }
-    res.status(200).json({ message: "Producto no encontrado" })
+    res.status(200).json({ message: "Product not found" })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
 export const deleteProductCart = async (req, res) => {
-  const { id } = req.params
   try {
-    const product = await managerCart.deleteElement(id)
-    if (product) {
-      return res.status(200).json({ message: "Producto eliminado" })
-    }
-    res.status(200).json({ message: "Producto no encontrado" })
+    const cid = req.params.cid
+    const pid = req.params.pid
+    let prod = await managerCart.deleteProductCart(cid,pid);
+    res.status(200).json(prod ? prod : "producto no encontrado" ); 
+  
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      message: error.message
+    })
+  }
+}
+
+export const deleteProductsCart = async (req, res) => {
+  try {
+    const cid = req.params.cid
+    let products = await managerCart.deleteProductsCart(cid)
+    if (products) {
+      res.status(200).json({ message: "Cart empty, products deleted" })
+    }
+  } catch (error) {
+    res.status(500).json({ message : error.message })   
   }
 }

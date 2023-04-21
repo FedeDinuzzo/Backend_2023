@@ -5,10 +5,8 @@ import { __dirname } from './path.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { getManagerMessages } from './dao/daoManager.js'
-import { getManagerProducts } from "./dao/daoManager.js"
-import routerProducts from './routes/products.routes.js'
-import routerSocket from './routes/socket.routes.js'
-import routerCart from './routes/cart.routes.js'
+import { managerProduct } from "./controllers/product.controller.js"
+import routes from './routes/routes.js'
 
 // Express Server
 const app = express()
@@ -25,26 +23,19 @@ app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views')) // __dirname + './views'
 
-//Routes
+// Routes
 app.use('/', express.static(__dirname + '/public'))
-app.use('/', routerSocket)
-app.use('/realtimeproducts', routerSocket)
-app.use('/api/products', routerProducts)
-app.use('/api/carts', routerCart)
-app.use('/chat', routerSocket)
+app.use('/', routes)
 
 const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
 })
 
-// ServerIO
+//ServerIO
 const io = new Server(server)
 
 const data = await getManagerMessages()
-const managerMessages = new data()
-
-const managerData = await getManagerProducts()
-const productManager = new managerData()
+const managerMessages = new data.ManagerMessageMongoDB
 
 io.on("connection", async (socket) => {
   console.log("Client connected")
@@ -64,20 +55,20 @@ io.on("connection", async (socket) => {
   })
 
   socket.on("initial page load", async () => {
-    const products = await productManager.getElements()
+    const products = await  managerProduct.getElements()
     console.log(products)
     socket.emit("getProducts", products)
   })
 
   socket.on("addProduct", async (prod) => {
-    await productManager.addElements(prod)
-    const products = await productManager.getElements()
+    await  managerProduct.addElements(prod)
+    const products = await  managerProduct.getElements()
     socket.emit("getProducts", products)
   })
 
   socket.on("deleteProduct", async (prod) => {
-    await productManager.deleteElement(prod)
-    const products = await productManager.getElements()
+    await  managerProduct.deleteElement(prod)
+    const products = await  managerProduct.getElements()
     socket.emit("getProducts", products)
   })
 })

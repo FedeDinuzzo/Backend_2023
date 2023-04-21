@@ -1,16 +1,16 @@
 import { ManagerMongoDB } from "../../../db/mongoDBManager.js"
+import { managerProduct } from "../../../controllers/product.controller.js"
 import { Schema } from "mongoose"
 
 const url = process.env.URLMONGODB
 
-const cartSchema = new mongoose.Schema({
+const cartSchema = new Schema({
   products: {
     type: [
       {
         productId: {
           type: Schema.Types.ObjectId,
-          ref: 'products',
-          required: true
+          ref: 'products'
         },
         quantity: {
           type: Number,
@@ -19,10 +19,6 @@ const cartSchema = new mongoose.Schema({
       }
     ],
     default: []
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
 })
 
@@ -31,49 +27,80 @@ export class ManagerCartMongoDB extends ManagerMongoDB {
     super(url, "carts", cartSchema)
   }
 
-  async addProductCart(id, idProd, cant) {
-    super.setConnection()
-    const cart = await this.model.findById(id)
-    cart.products.push({ id_prod: idProd, quantity: cant })
-    return cart.save()
-  }
-
   async getProductsCart() {
-    super.setConnection()
-    const prods = await this.model.find().populate("products.id_prod")
+    this._setConnection()
+    const prods = await this.model.find().populate("products.productId")
     return prods
   }
 
-  async deleteProductCart(id) {
-    super.setConnection()
-    const cart = await this.model.findById(id)
-    cart.products.filter(prod => prod._id != id)
-    cart.save()
-    return true
+  // async addProductCart(cid, idProd, cant) {
+  //   this._setConnection()
+  //   const cart = await this.model.findById(cid)
+  //   cart.products.push({ productId: idProd, quantity: cant })
+  //   return cart.save()
+  // }
+
+  addProductCart = async (cid, pid) => {
+    this._setConnection()
+    const product = await managerProduct.getElementById(pid)
+    if (product) {
+      const cart = await this.model.findById(cid).populate('products.productId')
+      const existProduct = cart.products.find(element => element.productId.id === pid)
+      if (!existProduct) {
+        cart.products.push({ productId: pid })
+        await cart.save()
+        return cart
+      } else {
+        cart.products = cart.products.map((element) => { 
+        if (element.productId.id === pid) {
+          element.quantity++
+        }             
+        return element             
+        })        
+        await cart.save()
+        return cart
+      }
+    } else {
+      throw new Error("Product dont exist")     
+    }
   }
 
-  async deleteProductsCart(id) {
-    super.setConnection()
-    const cart = await this.model.findById(id)
+  changeQuantity = async (cid, pid, quantity)=>{
+    this._setConnection()
+    const cart = await this.model.findById(cid).populate('products.productId')
+    const existProduct = cart.products.find(element => element.productId.id === pid)
+    if (existProduct) {
+      cart.products = cart.products.map((element) => { 
+        if(element.productId.id === pid) {
+          element.quantity = quantity
+        }             
+        return element             
+      })        
+    } else {          
+      throw new Error("Product sent don exist")       
+    }
+    await cart.save()
+    return cart.products
+  }
+
+  async deleteProductCart(cid, pid) {
+    this._setConnection()  
+    const cart = await this.model.findById(cid).populate('products.productId')
+    const filteredCart = cart.products.filter((element) => {return element.productId.id !== pid})        
+    if (filteredCart.length !== cart.products.length){      
+      cart.products = filteredCart
+      await cart.save()
+      return cart      
+    } else {
+      return null
+    }
+  }
+
+  async deleteProductsCart(cid) {
+    this._setConnection()
+    const cart = await this.model.findById(cid)
+    console.log("hola", cart)
     cart.products = []
-    cart.save()
-    return true
-  }
-
-  async updateProductCart(id, ...props) {
-    super.setConnection()
-    const cart = await this.model.findById(id)
-    const aux = { ...props }
-    cart.products.findIndex(prod => prod._id == id)
-    cart[index] = aux
-    cart.save()
-    return true
-  }
-
-  async updateProductsCart(id, products) {
-    super.setConnection()
-    const cart = await this.model.findById(id)
-    cart.products = products
     cart.save()
     return true
   }

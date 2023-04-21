@@ -43,17 +43,15 @@ const productSchema = new Schema({
 
 productSchema.plugin(paginate)
 
-export default class ManagerProductsMongoDB extends ManagerMongoDB {
+export class ManagerProductMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "products", productSchema)
   }
+  
+  async getProducts(limit, page, filter, ord) {
+    this._setConnection()
 
-  async paginate(filter, options) {
-    this.setConnection()
-    try {
-      return await this.model.paginate(filter, options)
-    } catch (error) {
-      return error
-    }
+    const products = await this.model.paginate({ filter: filter }, { limit: limit, page: page, sort: { price: ord } })
+    return products
   }
 }
