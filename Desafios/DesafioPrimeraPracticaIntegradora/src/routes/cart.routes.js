@@ -6,11 +6,11 @@ const routerCart = Router()
 routerCart.post("/", createCart)
 
 routerCart.route("/:cid")
-  .post(addProductCart)
   .get(getProductsCart)
   .delete(deleteProductsCart)
 
-routerCart.route("/:id/products/:id")
+routerCart.route("/:cid/products/:pid")
+  .post(addProductCart)
   .put(updateProductCart)
   .delete(deleteProductCart)
 

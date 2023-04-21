@@ -13,20 +13,20 @@ export const getProducts = async (req, res) => {
     if (productos) {
       return res.status(200).json(productos)
     }
-    res.status(200).json({ message: "Productos no encontrados" })
+    res.status(200).json({ message: "Products not found" })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
 export const getProduct = async (req, res) => {
-  const { id } = req.params
+  const { pid } = req.params
   try {
-    const product = await managerProduct.getElementById(id);
+    const product = await managerProduct.getElementById(pid);
     if (product) {
       return res.status(200).json(product)
     }
-    res.status(200).json({ message: "Producto no encontrado" })
+    res.status(200).json({ message: "Product not found" })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -43,26 +43,26 @@ export const createProduct = async (req, res) => {
 }
 
 export const updateProduct = async (req, res) => {
-  const { id } = req.params
+  const { pid } = req.params
   const { title, description, code, price, status, stock, category, thumbnail } = req.body
   try {
-    const product = await managerProduct.updateElement(id, { title: title, description: description, code: code, price: price, status: status, stock: stock, category: category, thumbnails: thumbnail })
+    const product = await managerProduct.updateElement(pid, { title: title, description: description, code: code, price: price, status: status, stock: stock, category: category, thumbnails: thumbnail })
     if (product) {
-      return res.status(200).json({ message: "Producto actualizado" })
+      return res.status(200).json({ message: "Product updated" })
     }
-    res.status(200).json({ message: "Producto no encontrado" })
+    res.status(200).json({ message: "Producto not found" })
     } catch (error) { res.status(500).json({ message: error.message })
   }
 }
 
 export const deleteProduct = async (req, res) => {
-  const { id } = req.params
+  const { pid } = req.params
   try {
-    const product = await managerProduct.deleteElement(id)
+    const product = await managerProduct.deleteElement(pid)
     if (product) {
-      return res.status(200).json({ message: "Producto eliminado" })
+      return res.status(200).json({ message: "Product deleted" })
     }
-    res.status(200).json({ message: "Producto no encontrado" })
+    res.status(200).json({ message: "Producto not found" })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

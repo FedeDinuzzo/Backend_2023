@@ -7,7 +7,7 @@ routerProduct.route("/")
   .post(createProduct)
   .get(getProducts)
 
-  routerProduct.route("/:id")
+  routerProduct.route("/:pid")
   .get(getProduct)
   .put(updateProduct)
   .delete(deleteProduct)
