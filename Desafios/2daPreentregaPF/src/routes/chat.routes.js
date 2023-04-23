@@ -6,7 +6,7 @@ const routerChat = Router()
 const data = await getManagerMessages()
 const msgManager = new data.ManagerMessageMongoDB
 
-routerChat.get("/chat", async (req, res) => {
+routerChat.get("/", async (req, res) => {
   const messages = await msgManager.getElements(0)
   res.render("chat", { messages: messages})
 })

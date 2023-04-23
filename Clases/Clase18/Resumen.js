@@ -7,9 +7,9 @@
 
 // Incluir stages, ejemplos:
 // $count = cuenta el numero de documentos disponibles en el stage actual
-// $group = agrupa los documentos en nuevos grupos segun un criterio especifico. cada grupo cuenta on un _id nuevo
+// $group = agrupa los documentos en nuevos grupos segun un criterio especifico. cada grupo cuenta con un _id nuevo
 // $limit = limita el numero de documentos que saldran del stage
-// $lookup = permite realizar un "left join" combinacion de campos, de una coleccion de la misma BDD a los ducmentos de la stage actual
+// $lookup = permite realizar un "left join" combinacion de campos, de una coleccion de la misma BDD a los documentos de la stage actual
 
 // Aggregation pipelines
 // Principales stages:
