@@ -1,7 +1,10 @@
+import { ManagerMongoDB } from '../../../db/mongoDBManager.js'
 import { Schema } from 'mongoose'
 
+const url = process.env.URLMONGODB
+
 const userSchema = new Schema({
-  name: {
+  firstname: {
     type: String,
     required: true
   },
@@ -9,11 +12,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
     index: true
-  },
-  username: {
-    type: String,
-    required: true,
-    unique: true
   },
   email: {
     type: String,
@@ -24,14 +22,27 @@ const userSchema = new Schema({
     type: String,
     required: true
   },
-  date: {
+  rol: {
+    type: String,
+    default: "user"
+  },
+  createdAt: {
     type: Date,
     default: Date.now
+  },
+  idCart: {
+    type: Schema.Types.ObjectId,
+    ref: "carts"
   }
 })
 
 export class ManagerUserMongoDB extends ManagerMongoDB {
   constructor() {
     super(url, "users", userSchema)
+  }
+
+  async getUserByEmail(email) {
+    super._setConnection()
+    return await this.model.findOne({ email: email })
   }
 }

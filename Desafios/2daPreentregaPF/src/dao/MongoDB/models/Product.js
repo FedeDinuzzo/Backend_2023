@@ -48,10 +48,8 @@ export class ManagerProductMongoDB extends ManagerMongoDB {
     super(url, "products", productSchema)
   }
   
-  async getProducts(limit, page, filter, ord) {
+  async paginate(filter, options) {
     this._setConnection()
-
-    const products = await this.model.paginate({ filter: filter }, { limit: limit, page: page, sort: { price: ord } })
-    return products
+    return await this.model.paginate(filter, options)
   }
 }

@@ -33,14 +33,7 @@ export class ManagerCartMongoDB extends ManagerMongoDB {
     return prods
   }
 
-  // async addProductCart(cid, idProd, cant) {
-  //   this._setConnection()
-  //   const cart = await this.model.findById(cid)
-  //   cart.products.push({ productId: idProd, quantity: cant })
-  //   return cart.save()
-  // }
-
-  addProductCart = async (cid, pid) => {
+  async addProductCart (cid, pid) {
     this._setConnection()
     const product = await managerProduct.getElementById(pid)
     if (product) {
@@ -65,7 +58,7 @@ export class ManagerCartMongoDB extends ManagerMongoDB {
     }
   }
 
-  changeQuantity = async (cid, pid, quantity)=>{
+  async changeQuantity(cid, pid, quantity) {
     this._setConnection()
     const cart = await this.model.findById(cid).populate('products.productId')
     const existProduct = cart.products.find(element => element.productId.id === pid)
@@ -81,6 +74,14 @@ export class ManagerCartMongoDB extends ManagerMongoDB {
     }
     await cart.save()
     return cart.products
+  }
+
+  async changeAllCart(cid, products) {
+    this._setConnection
+    const cart = await this.model.findById(cid)
+    cart.products = products
+    await cart.save()
+    return cart
   }
 
   async deleteProductCart(cid, pid) {

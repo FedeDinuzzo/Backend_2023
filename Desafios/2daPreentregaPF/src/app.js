@@ -8,7 +8,7 @@ import { getManagerMessages } from './dao/daoManager.js'
 import { managerProduct } from "./controllers/product.controller.js"
 import routes from './routes/routes.js'
 
-// Express Server
+// Port Server
 const app = express()
 
 // Middlewares
@@ -31,7 +31,7 @@ const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
 })
 
-//ServerIO
+//ServerIO  
 const io = new Server(server)
 
 const data = await getManagerMessages()

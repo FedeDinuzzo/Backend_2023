@@ -3,30 +3,14 @@ import { getManagerProducts } from "../dao/daoManager.js"
 const data = await getManagerProducts()
 export const managerProduct = new data.ManagerProductMongoDB
 
-export const getProducts = async (req, res) => {
-  const { limit, page, filter, sort } = req.query
-  const pag = page != undefined ? page : 1
-  const limi = limit != undefined ? limit : 10
-  const ord = sort == "asc" ? 1 : -1
-  try {
-    const products = await managerProduct.getProducts(limi, pag, filter, ord)
-    if (products) {
-      return res.status(200).json(products)
-    }
-    res.status(200).json({ message: "Products not found" })
-  } catch (error) {
-    res.status(500).json({ message: error.message })
-  }
-}
-
-export const getProducts = async (req, res) => {  //Recupera todos los productos. puede ser limitado si se informa por URL
-  const { limit , page, query, sort } = req.query
+export const getProducts = async (req, res) => {  // Get all products, it can be limited by query
+  let { limit , page, query, sort } = req.query
   const ValidSort = ['asc', 'desc']
-  const sortOption = sort
+  let sortOption = sort
 
-  const filter = { stock: { $gt: 0 } } // Filtro Mongodb para traer productos con stock > 0
+  const filter = { stock: { $gt: 0 } } // Mongodb filter for getting products with stock > 0
   query && (filter.category = query)
-      
+  
   limit || (limit = 10)  
   page  || (page  =  1)
 
@@ -36,17 +20,17 @@ export const getProducts = async (req, res) => {  //Recupera todos los productos
       : sortOption = "-price"
 
   } else if (sort !== undefined) {
-    throw `Parametro invalido en el SORT: "${sort}", solo admite "asc" ó "desc"`
+    throw `Invalid param at SORT: "${sort}", only "asc" or "desc"`
   }
 
-  const options = { //Setea opciones
+  const options = { // Set options
     page: parseInt(page),
     limit: parseInt(limit),
     sort: sortOption
   };
   
   try {
-    const products = await managerProduct.paginate(filter, options);
+    const products = await managerProduct.paginate(filter, options)
     const queryLink = query ? `&query=${query}` : ""
     const limitLink = limit ? `&limit=${limit}` : ""
     const sortLink = sort ? `&sort=${sort}` : ""
@@ -107,7 +91,8 @@ export const updateProduct = async (req, res) => {
       return res.status(200).json({ message: "Product updated" })
     }
     res.status(200).json({ message: "Producto not found" })
-    } catch (error) { res.status(500).json({ message: error.message })
+  } catch (error) { 
+    res.status(500).json({ message: error.message })
   }
 }
 
