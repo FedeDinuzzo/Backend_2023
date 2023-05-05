@@ -27,7 +27,7 @@ export const productView = async (req, res) => {
     titulo: "Ecommerce Backend",    
     booleanStatus,
     payload: payload.map(product => {
-      product.thumbnail = `${product.thumbnail}`
+      product.thumbnail = `img/${product.thumbnail}`
       return product
     }),
     totalPages,
@@ -61,8 +61,8 @@ export const cartView = async (req, res) => {
   } 
 
   res.render('cart', {
-    auxProducts,
-    cartID: products?.length > 0 ? req.params.cid : "Dont exist"
+      auxProducts,
+      cartID: products?.length > 0 ? req.params.cid : "Dont exist"
   })
 }
 
