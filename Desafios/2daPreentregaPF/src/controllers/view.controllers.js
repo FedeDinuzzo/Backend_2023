@@ -52,13 +52,13 @@ export const cartView = async (req, res) => {
   if (products?.length > 0){
     for (const prod of products) {
       auxProducts.push({
-        title: prod.productId.title,
+        title: prod.title,
         description: prod.productId.description,
         price: prod.productId.price,
         quantity: prod.quantity
       })
     }
-  } 
+  }
 
   res.render('cart', {
     auxProducts,
