@@ -74,3 +74,11 @@ socket.on("getProducts", products => {
     `
   })
 })
+
+// addProductCart
+const addProdCart = document.getElementById("addProductCart")
+
+addProdCart.addEventListener('submit', (e) => {
+  e.preventDefault()
+  console.log(addProdCart)
+})

@@ -23,8 +23,8 @@
         <div class="prodPrice">${{this.price}}</div>
         <div class="prodCode">Code: {{this.code}}</div>
         <div class="prodStock">Stock: {{this.stock}}</div>
-        <button class="prodAdd">Add to cart</button>
-        <div class="prodId">ID: {{this._id}}</div>
+        <button class="prodAdd" id="addProductCart" onclick={`addProdCart({{this._id}})`}>Add to cart</button>
+
       </div>
     {{/each}}
   </div>

@@ -41,11 +41,13 @@ const initializePassport = () => {
   passport.use('login', new LocalStrategy(
     { usernameField: 'email'}, async (username, password, done) => {
       try {  
-        const user =await managerUser.getUserByEmail(username)
+        const user = await managerUser.getUserByEmail(username)
+
         if (!user) { // user not found
           return done(null, false)
+          
         }
-        if (validatePassword(password, user.password)) { //
+        if (validatePassword(password, user.password)) {  // Valid user and password
           return done(null, user)
         }
 
@@ -64,7 +66,7 @@ const initializePassport = () => {
 
     try {
       console.log(profile)
-      const user = await managerUser.getElementByEmail(profile._json.email)
+      const user = await managerUser.getUserByEmail(profile._json.email)
 
       if (user) { // Usuar exist 
         done(null, user)
@@ -75,7 +77,7 @@ const initializePassport = () => {
           last_name: ' ',
           email: profile._json.email,
           age: 18,
-          password: 'coder123' // Default password since can not access the github password
+          password: passwordHash // Default password since can not access the github password
         }])
         
         done(null, userCreated)
@@ -83,13 +85,18 @@ const initializePassport = () => {
 
     } catch (error) {
       return done(error)
+
     }
   }))
 
   // Initialize user session
   passport.serializeUser((user, done) => {
-    done(null, user._id)
-  })
+    if (Array.isArray(user)) {
+      done(null, user[0]._id)
+  }
+  done(null, user._id)
+})
+
 
   // Delete user session
   passport.deserializeUser(async (id, done) => {
