@@ -15,7 +15,7 @@ export const createCart = async (req, res) => {
 export const getProductsCart = async (req, res) => {
   try {
     const cid = req.params.cid   
-    const cart = await managerCart.getElementById(cid)
+    const cart = await managerCart.getElementById(cid).populate('products.productId')
     if (cart.products.length !== 0 ){
       res.status(200).json(cart)
     } else {
@@ -30,7 +30,7 @@ export const addProductCart = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
   try {
-    const cart = await managerCart.addProductCart(cid, pid)
+    const cart = await managerCart.addProductCart(cid, pid).populate('products.productId')
     res.status(200).json(cart) 
   } catch (error) {
     res.status(500).json({ message: error.message })
@@ -42,7 +42,7 @@ export const updateQuantityProduct = async (req, res) => {
   const pid = req.params.pid
   const { quantity } = req.body
   try {
-    const product =  await managerCart.changeQuantity(cid, pid, quantity)  
+    const product =  await managerCart.changeQuantity(cid, pid, quantity).populate('products.productId')
     if (product) {
       return res.status(200).json({ message: "Product updated" })
     }
@@ -70,8 +70,8 @@ export const deleteProductCart = async (req, res) => {
   try {
     const cid = req.params.cid
     const pid = req.params.pid
-    let prod = await managerCart.deleteProductCart(cid,pid);
-    res.status(200).json(prod ? prod : "product not found" ); 
+    let prod = await managerCart.deleteProductCart(cid,pid).populate('products.productId')
+    res.status(200).json(prod ? prod : "product not found" )
   
   } catch (error) {
     res.status(500).json({

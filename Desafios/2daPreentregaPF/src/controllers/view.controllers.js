@@ -17,7 +17,7 @@ export const productView = async (req, res) => {
   
   const booleanStatus = status === "Success" ? true : false
   
-  const cart = "644203903953ca4421c1e77f"
+  // const cart = "644203903953ca4421c1e77f"
   // const sessionData = getSession(req, res)
   // const userFirst = sessionData.name
   // const userRol = sessionData.rol
@@ -31,7 +31,7 @@ export const productView = async (req, res) => {
       product.thumbnail = `${product.thumbnail}`
       return product
     }),
-    cart,
+    // cart,
     totalPages,
     prevPage,
     nextPage,
@@ -54,7 +54,7 @@ export const cartView = async (req, res) => {
   if (products?.length > 0){
     for (const prod of products) {
       auxProducts.push({
-        title: prod.title,
+        title: prod.productId.title,
         description: prod.productId.description,
         price: prod.productId.price,
         quantity: prod.quantity
