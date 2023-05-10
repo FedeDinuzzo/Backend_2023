@@ -40,7 +40,7 @@ export const testLogin = async (req, res) => {
     if (!req.user) {
       return res.status(401).send({ status: "error", error: "Invalidate User" })
     }
-    // Genero la session de mi usuario
+    //Genero la session de mi usuario
     req.session.user = {
       first_name: req.user.first_name,
       last_name: req.user.last_name,
@@ -52,10 +52,11 @@ export const testLogin = async (req, res) => {
 
   } catch (error) {
     res.status(500).send.json({
-      message: error.message
+        message: error.message
     })
   }
 }
+
 
 export const destroySession = (req, res) => {
   if (req.session.login) {

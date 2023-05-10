@@ -17,6 +17,7 @@ export const productView = async (req, res) => {
   
   const booleanStatus = status === "Success" ? true : false
   
+  const cart = "644203903953ca4421c1e77f"
   // const sessionData = getSession(req, res)
   // const userFirst = sessionData.name
   // const userRol = sessionData.rol
@@ -30,6 +31,7 @@ export const productView = async (req, res) => {
       product.thumbnail = `${product.thumbnail}`
       return product
     }),
+    cart,
     totalPages,
     prevPage,
     nextPage,

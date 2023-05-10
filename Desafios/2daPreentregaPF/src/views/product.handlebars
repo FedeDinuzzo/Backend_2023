@@ -7,8 +7,8 @@
   <h1 class="title">Admin Products List</h1>
 {{else}}
   <h1 class="title">Products List</h1>
-{{/if}}
 
+{{/if}}
 
 <div class="prod">
   <div class="prodContainer">
@@ -23,8 +23,7 @@
         <div class="prodPrice">${{this.price}}</div>
         <div class="prodCode">Code: {{this.code}}</div>
         <div class="prodStock">Stock: {{this.stock}}</div>
-        <button class="prodAdd" id="addProductCart" onclick={`addProdCart({{this._id}})`}>Add to cart</button>
-
+        <button class="prodAdd" onclick="addProductCart('{{_id}}')">Add to cart</button>
       </div>
     {{/each}}
   </div>

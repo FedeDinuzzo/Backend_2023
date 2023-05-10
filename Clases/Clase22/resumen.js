@@ -9,3 +9,4 @@
 
 // npm i passport-github2
 
+// en apps grandes es mejor usar jwt ya que almacena los datos en una cookie en el navegador y no en la db

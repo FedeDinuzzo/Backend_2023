@@ -1,0 +1,1 @@
+// me estoy poniendo al dia con las entregas, ya esta lista para la correcion la 2da preentrefa del proyecto final, y hasta con las vistas handlebars, ya casi tengo terminadas las proximas 2. te aviso
