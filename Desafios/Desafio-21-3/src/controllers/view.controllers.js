@@ -17,6 +17,7 @@ export const productView = async (req, res) => {
   
   const booleanStatus = status === "Success" ? true : false
   
+  // const cart = "644203903953ca4421c1e77f"
   // const sessionData = getSession(req, res)
   // const userFirst = sessionData.name
   // const userRol = sessionData.rol
@@ -27,9 +28,10 @@ export const productView = async (req, res) => {
     titulo: "Ecommerce Backend",    
     booleanStatus,
     payload: payload.map(product => {
-      product.thumbnail = `img/${product.thumbnail}`
+      product.thumbnail = `${product.thumbnail}`
       return product
     }),
+    // cart,
     totalPages,
     prevPage,
     nextPage,
@@ -58,11 +60,11 @@ export const cartView = async (req, res) => {
         quantity: prod.quantity
       })
     }
-  } 
+  }
 
   res.render('cart', {
-      auxProducts,
-      cartID: products?.length > 0 ? req.params.cid : "Dont exist"
+    auxProducts,
+    cartID: products?.length > 0 ? req.params.cid : "Dont exist"
   })
 }
 

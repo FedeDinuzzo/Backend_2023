@@ -1,21 +1,12 @@
-<h1>Carrito {{cartID}}</h1>
+<h1 class="cartId">Cart: {{cartID}}</h1>
 
-<div class="prueba">
+<div class="cart">
 {{#each auxProducts}}
-    <div class="cartProducts">
-      <div class="prueba">
-        <h2>{{title}}</h2>
-      </div>
-      <div>
-        <p>{{description}}</p>     
-      </div>
-      <div>
-        <p>Precio: ${{price}}</p>
-      </div>
-      <div>
-        <p>Cantidad: {{quantity}}</p>
-      </div>
-        
+    <div class="cartContainer">
+      <div class="cartTitle">{{title}}</div>
+      <div class="cartSubTitle">{{description}}</div>   
+      <div class="cartPrice">Price: ${{price}}</div>
+      <div class="CartQuantity">Quantity: {{quantity}}</div>
     </div>
 {{/each}}
 </div>

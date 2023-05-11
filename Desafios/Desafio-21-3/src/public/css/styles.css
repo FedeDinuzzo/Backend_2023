@@ -1,5 +1,6 @@
 body {
   background-color: whitesmoke;
+  color: rgb(19, 97, 97);
 }
 
 input {
@@ -34,4 +35,131 @@ button {
   margin-top: 10px;
   width: 100%;
   height: 100%;
+}
+
+/* ====== Products view ===== */
+.rolSession {
+  font-weight: 500;
+  margin: 12px 0 6px 12px;
+  color: rgb(28, 126, 126);
+}
+
+.nameSession {
+  font-weight: 500;
+  margin-left: 12px;
+  color: rgb(28, 126, 126);
+}
+
+.title {
+  text-align: center;
+  color: rgb(46, 178, 178);
+  font-size: 36px;
+  margin-bottom: 24px;
+}
+
+.prodContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.prodCard {
+  background-color: white;
+  border: solid 1px;
+  border-radius: 16px;
+  border-color: rgb(46, 178, 178);
+  width: 240px;
+  margin: 24px;
+  padding: 12px 8px;
+  text-align: center;
+}
+
+.prodTitle {
+  color: rgb(28, 126, 126);
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.prodPrice {
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.prodImgContainer {
+width: 100%;
+padding: 0 4px;
+}
+
+.prodImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.prodCode, .prodStock {
+  text-align: left;
+  margin-left: 24px;
+}
+
+.prodAdd {
+  text-decoration: none;
+  background-color:  rgb(46, 178, 178);
+  border: none;
+  border-radius: 6px;
+  padding: 4px 8px;
+  color: white;
+  font-weight: 500;
+  width: 180px;
+  height: 40px;
+  margin: 6px 0;
+}
+
+.prodId {
+  color: rgb(46, 178, 178);
+  font-size: 11px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+/* ====== CART ====== */
+
+.cartId {
+  text-align: center;
+  color: rgb(46, 178, 178);
+  font-size: 28px;
+  margin: 24px;
+}
+
+.cart {
+  margin: 8px;
+}
+
+.cartContainer {
+  background-color: rgb(46, 178, 178);
+  display: flex;
+  color: whitesmoke;
+  max-width: 500px;
+  padding: 12px 8px;
+  margin: 12px auto;
+  border-radius: 12px;
+  border: 2px solid rgb(28, 126, 126);
+}
+
+.cartTitle {
+  color: rgb(28, 126, 126);
+  font-weight: 500;
+  padding-left: 12px;
+}
+
+.cartSubTitle   {
+  padding-left: 24px;
+}
+
+.cartPrice {
+  padding-left: 24px;
+}
+
+.CartQuantity {
+  padding-left: 24px;
 }

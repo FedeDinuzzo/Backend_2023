@@ -14,26 +14,62 @@ export const createCart = async (req, res) => {
 
 export const getProductsCart = async (req, res) => {
   try {
-    const cid = req.params.cid   
-    const cart = await managerCart.getElementById(cid)
+    const cid = req.params.cid    
+
+    let cart = await managerCart.getElementById(cid)
+        cart = await cart.populate('products.productId')
+
     if (cart.products.length !== 0 ){
       res.status(200).json(cart)
     } else {
       res.status(200).json("Cart empty");      
     }
+
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      message : error.message
+    })   
   }
 }
 
-export const addProductCart = async (req, res) => {
+export const addProductCart = async (req, res) => {  //Inserta nuevos producto al carrito especificado
   const cid = req.params.cid
   const pid = req.params.pid
+
   try {
-    const cart = await managerCart.addProductCart(cid, pid)
-    res.status(200).json(cart) 
+      const product = await managerCart.getElementById(pid)
+            
+      if (product) {
+        let cart = await managerCart.getElementById(cid)
+            cart = await cart.populate('products.productId')
+
+        const existProduct = cart.products.find(element => element.productId.id === pid)
+        
+        if (!existProduct) {
+          cart.products.push({productId:pid})          
+        } else {
+          cart.products = cart.products.map((element)=>
+          { 
+            if( element.productId.id===pid){
+              element.quantity++
+            }             
+            return element             
+          })        
+        }    
+        
+        
+        await cart.save()
+        
+        res.status(200).json(cart)
+
+      } else {
+
+        throw new Error("Producto no existe")     
+      }      
   } catch (error) {
-    res.status(500).json({ message: error.message })
+      res.status(500).json({
+        message: error.message
+      })
   }
 }
 
@@ -41,14 +77,31 @@ export const updateQuantityProduct = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
   const { quantity } = req.body
+
   try {
-    const product =  await managerCart.changeQuantity(cid, pid, quantity)  
-    if (product) {
-      return res.status(200).json({ message: "Product updated" })
+    let cart = await managerCart.getElementById(cid)
+      cart = await cart.populate('products.productId')
+    const existProduct = cart.products.find(element => element.productId.id === pid)
+  
+    if (existProduct) {
+      cart.products = cart.products.map((element)=>
+      { 
+        if( element.productId.id===pid){
+          element.quantity = quantity
+        }   
+        return element         
+      })        
+    } else {          
+      throw new Error("Product sent dont exist")       
     }
-    res.status(200).json({ message: "Product not found" })
+    await cart.save()
+
+    res.status(200).send(cart.products); 
+
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      message: error.message
+    })
   }
 }
 
@@ -70,8 +123,8 @@ export const deleteProductCart = async (req, res) => {
   try {
     const cid = req.params.cid
     const pid = req.params.pid
-    let prod = await managerCart.deleteProductCart(cid,pid);
-    res.status(200).json(prod ? prod : "product not found" ); 
+    let prod = await managerCart.deleteProductCart(cid,pid).populate('products.productId')
+    res.status(200).json(prod ? prod : "product not found" )
   
   } catch (error) {
     res.status(500).json({
