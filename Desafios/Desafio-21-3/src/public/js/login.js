@@ -8,7 +8,7 @@ document.addEventListener("keydown", (event)=>{
 })
 
 const login = () => {
-  alert('procesando');    
+  alert('processing');    
 
   const credentials = {}
 
@@ -28,7 +28,7 @@ const login = () => {
       if (response.ok) {
         window.location.href = '/products';
       } else {
-        alert("Datos incorrectos")
+        alert("incorrect data")
       }
     })
 }

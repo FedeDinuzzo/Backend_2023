@@ -3,6 +3,10 @@
   <div class="nameSession">User: {{userFirst}}</div>  
 </div>
 
+<div class="logout">
+  <a href="/api/session/logout">Logout</a>
+</div>
+
 {{#if booleanAdmin}}
   <h1 class="title">Admin Products List</h1>
 {{else}}
@@ -23,7 +27,7 @@
         <div class="prodPrice">${{this.price}}</div>
         <div class="prodCode">Code: {{this.code}}</div>
         <div class="prodStock">Stock: {{this.stock}}</div>
-        <button class="prodAdd" onclick="addProductCart('{{_id}}')">Add to cart</button>
+        <button class="btn" onclick="addProductCart('{{_id}}')">Add to cart</button>
       </div>
     {{/each}}
   </div>

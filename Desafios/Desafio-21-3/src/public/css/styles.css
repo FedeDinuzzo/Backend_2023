@@ -50,6 +50,17 @@ button {
   color: rgb(28, 126, 126);
 }
 
+.logout {
+  background-color: rgb(28, 126, 126);
+  padding: 4px 12px;
+  color: white;
+  right: 0;
+  top: 0;
+  position: absolute;
+  margin: 12px 20px 0 0;
+  border-radius: 10px;
+}
+
 .title {
   text-align: center;
   color: rgb(46, 178, 178);
@@ -102,7 +113,7 @@ padding: 0 4px;
   margin-left: 24px;
 }
 
-.prodAdd {
+.btn {
   text-decoration: none;
   background-color:  rgb(46, 178, 178);
   border: none;
@@ -113,6 +124,7 @@ padding: 0 4px;
   width: 180px;
   height: 40px;
   margin: 6px 0;
+  font-size: 16px;
 }
 
 .prodId {
@@ -162,4 +174,60 @@ padding: 0 4px;
 
 .CartQuantity {
   padding-left: 24px;
+}
+
+.logContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  margin-top: 20px;
+}
+
+.cardLogin {
+  width: 380px;
+  padding: 40px 50px;
+  margin-top: -4px;
+}
+
+input {
+  border: 2px solid rgb(46, 178, 178);
+  border-radius: 8px;
+  padding: 4px 6px;
+  margin-bottom: 20px;
+}
+
+.log {
+  margin-top: 30px;
+  margin-bottom: 4px;
+}
+
+.link1, .link2 {
+  text-decoration: none;
+  background-color: rgb(46, 178, 178);
+  border: none;
+  border-radius: 8px;
+  max-width: 240px;
+  color: white;
+  margin: 8px auto;
+  padding: 5px 0;
+}
+
+.link2 {
+  margin-top: 16px;
+}
+
+.logo {
+  margin-bottom: -10px;
+}
+
+a {
+  color: white;
+  font-size: 20px;
+  text-decoration: inherit;
+}
+
+.back {
+  color: rgb(46, 178, 178);
 }

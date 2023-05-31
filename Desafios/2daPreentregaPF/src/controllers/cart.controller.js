@@ -32,44 +32,15 @@ export const getProductsCart = async (req, res) => {
   }
 }
 
-export const addProductCart = async (req, res) => {  //Inserta nuevos producto al carrito especificado
+export const addProductCart = async (req, res) => {
   const cid = req.params.cid
   const pid = req.params.pid
-
   try {
-      const product = await managerCart.getElementById(pid)
-            
-      if (product) {
-        let cart = await managerCart.getElementById(cid)
-            cart = await cart.populate('products.productId')
-
-        const existProduct = cart.products.find(element => element.productId.id === pid)
-        
-        if (!existProduct) {
-          cart.products.push({productId:pid})          
-        } else {
-          cart.products = cart.products.map((element)=>
-          { 
-            if( element.productId.id===pid){
-              element.quantity++
-            }             
-            return element             
-          })        
-        }    
-        
-        
-        await cart.save()
-        
-        res.status(200).json(cart)
-
-      } else {
-
-        throw new Error("Producto no existe")     
-      }      
+    let cart = await managerCart.addProductCart(cid, pid)
+        cart = await cart.populate('products.productId')
+    res.status(200).json(cart) 
   } catch (error) {
-      res.status(500).json({
-        message: error.message
-      })
+    res.status(500).json({ message: error.message })
   }
 }
 

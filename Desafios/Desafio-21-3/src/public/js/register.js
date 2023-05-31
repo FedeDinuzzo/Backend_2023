@@ -10,7 +10,7 @@ document.addEventListener("keydown", (event)=>{
 })
 
 const registerUser = () => {
-  alert('procesando');    
+  alert('processing');    
 
   const User = {}
 
@@ -30,7 +30,7 @@ const registerUser = () => {
       if (response.ok) {
         window.location.href = '/';
       } else {
-        alert("Datos incorrectos")
+        alert("incorrect data")
       }
     })
 }
