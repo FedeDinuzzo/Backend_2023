@@ -9,7 +9,7 @@ import session from 'express-session'
 import MongoStore from 'connect-mongo'
 import routes from './routes/routes.js'
 import passport from "passport"
-import initializePassport from "./config/passport.js";
+import initializePassport from "./config/passport.js"
 // import config from "./config/config.js"
 import { managerProduct } from "./controllers/product.controller.js"
 import { getManagerMessages } from './dao/daoManager.js'

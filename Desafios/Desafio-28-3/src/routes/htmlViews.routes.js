@@ -9,7 +9,7 @@ routerHtmlViews.get('/login', loginView)
 routerHtmlViews.get('/register', registerView)
 routerHtmlViews.get('/products', requireAuth, productView)
 routerHtmlViews.get('/carts/:cid', requireAuth, cartView)
-routerHtmlViews.get('/logout', destroySession )
+routerHtmlViews.get('/logout', destroySession)
 
 export default routerHtmlViews
 

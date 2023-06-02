@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { destroySession, getSession, testLogin } from "../controllers/session.controller.js";
-import passport from "passport";
+import { Router } from "express"
+import { destroySession, testLogin } from "../controllers/session.controller.js"
+import passport from "passport"
 
 const routerSession = Router()
 
