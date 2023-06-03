@@ -7,7 +7,7 @@ import routerRealTimeProducts from './realTimeProducts.routes.js'
 import routerChat from './chat.routes.js'
 import routerUser from './user.routes.js'
 import routerSession from './session.routes.js'
-// import routerGithub from "./github.routes.js"
+import routerGithub from "./github.routes.js"
 
 const router = Router()
 
@@ -18,6 +18,6 @@ router.use('/api/products', routerProducts)
 router.use('/api/carts', routerCart)
 router.use('/realTimeProducts', routerRealTimeProducts)
 router.use('/chat', routerChat)
-// router.use('/authSession', routerGithub)
+router.use('/authSession', routerGithub)
 
 export default router

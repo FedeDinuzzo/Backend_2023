@@ -21,15 +21,15 @@ const initializePassport = () => {
         }
 
         const passwordHash = createHash(password)
-        const userCreated = await managerUser.addElements([{ 
+        const userCreated = await managerUser.addElements({ 
           first_name: first_name, 
           last_name: last_name, 
           email: email, 
           age: age, 
           password: passwordHash
-        }])
+        })
 
-        return done(null, userCreated)
+        return done(null, userCreated[0])
 
       } catch (error) {
         return done(error)

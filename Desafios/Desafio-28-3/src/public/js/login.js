@@ -1,14 +1,14 @@
-const email     = document.getElementById("email")
-const password  = document.getElementById("password")
+const email = document.getElementById("email")
+const password = document.getElementById("password")
 
-document.addEventListener("keydown", (event)=>{    
-  if (event.key === "Enter" ) {
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
     login()
-  } 
+  }
 })
 
 const login = () => {
-  alert('processing');    
+  alert('processing')
 
   const credentials = {}
 

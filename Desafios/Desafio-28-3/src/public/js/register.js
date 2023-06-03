@@ -14,8 +14,8 @@ const registerUser = () => {
 
   const User = {}
 
-  User.firstname  = firstName.value
-  User.lastname   = lastName.value
+  User.first_name  = firstName.value
+  User.last_name   = lastName.value
   User.email      = email.value
   User.password   = password.value
 

@@ -48,5 +48,4 @@ const upload = multer({ storage: storage })
 //Routes
 app.use('/', router)
 
-export default router
 const server = app.listen(app.get("port"), () => console.log(`Server on port ${app.get("port")}`))

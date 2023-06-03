@@ -11,7 +11,7 @@ export const getSession = (req,res) => {
         sessionData.name= req.session.userFirst
         sessionData.rol= req.session.rol
       } else {
-        sessionData.name= req.session.user.firstname
+        sessionData.name= req.session.user.first_name
         sessionData.rol= req.session.user.rol      
       }
       return sessionData
@@ -40,7 +40,7 @@ export const testLogin = async (req, res) => {
 
       if (user && validatePassword(password, user.password)) {
         req.session.login = true
-        req.session.userFirst = user.firstname
+        req.session.userFirst = user.first_name
         req.session.rol = user.rol
         console.log(`${email} is ${user.rol}`)
         console.table(req.session)  

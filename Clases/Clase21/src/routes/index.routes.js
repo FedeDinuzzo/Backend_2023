@@ -7,7 +7,7 @@ import routerSession from './session.routes.js'
 const router = Router()
 
 router.use('/product', routerProducto)
-router.use('/user/', routerUser)
+router.use('/user', routerUser)
 router.use('/api/cart', routerCart)
 router.use('/api/session', routerSession)
 
