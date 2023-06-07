@@ -25,3 +25,7 @@
 
 // React con Next como ejemplo de front
 
+// npx create-next-app frontend
+
+// npm i cors 
+// Generar lista blanca, urls que pueden enviar info al server
