@@ -1,4 +1,4 @@
-import { findUsers, findUser, findUserByEmail } from "../services/UserService.js"
+import { findUsers, createUser } from "../services/UserService.js"
 
 export const getUsers = async (req, res) => {
   // Todo lo que refiere a control de parametros
