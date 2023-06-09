@@ -1,65 +1,60 @@
 import 'dotenv/config'
 import express from 'express'
-import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import cookieParser from 'cookie-parser'
+import multer from 'multer'
+import { engine } from 'express-handlebars'
+import { __dirname } from './path.js'
+import * as path from 'path'
+import router from 'express'
+import routerCart from './routes/cart.js'
+import routerProducto from './routes/products.js'
+import routerSession from './routes/session.js'
+import routerUser from './routes/user.js'
+import MongoStore from 'connect-mongo'
+//import FileStore from 'session-file-store'
 
 const app = express()
-const PORT = 4000
+//const fileStore = FileStore(session)
 
-// Firmar una cookie con .env
-app.use(cookieParser(process.env.COOKIE_SECRET)) // Firmar la cookie
+app.use(cookieParser(process.env.SIGNED_COOKIE))
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(session({
-  secret: process.env.SESSION_SECRET, 
-  resave: true, // Me permite cerrar pestaña o recarga y que la sesion siga activa
-  saveUninitialized: true // Guardar sesion aunque no contenga info
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGODBURL,
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 90
+    }),
+    //store: new fileStore({ path: './sessions', ttl: 10000, retries: 1 }),
+    secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true
 }))
 
-app.listen(PORT, () => console.log(`Server on port ${PORT}`))
+app.engine("handlebars", engine())
+app.set("view engine", "handlebars")
+app.set("views", path.resolve(__dirname, "./views"))
 
-// Cookies
+app.set("port", process.env.PORT || 5000)
 
-// Crear una cookie en una ruta del navegador
-// app.get porque vamos a consultar el navegador
-app.get('/setCookie', (req, res) => {
-  res.cookie('CookieCookie', "Esta es mi primer Cookie", {maxAge:30000, signed:true}).send("Cookie")
-  // signed:true   Si la modificas no se consulta y devuelve false, mayor seguridad
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/public/img')
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}${file.originalname}`)
+    }
 })
 
-// Traer: cookies o signedCookies
-app.get('/getCookie', (req, res) => {
-  res.send(req.signedCookies)
-})
+const upload = multer({ storage: storage })
 
-// Conexion sin estado, cerrar la session al cerrar la pestaña
-// Session
-app.get('/session', (req, res) => {
-  if(req.session.counter) {
-    req.session.counter++
-    res.send(`Ingresaste ${req.session.counter} veces`)
-  } else {
-    req.session.counter = 1 // .counter Variable creada
-    res.send("Hola, por primera vez")
-  }
-})  
+//Routes
+app.use('/product', router)
+app.use('/product', routerProducto)
+app.use('/user/', routerUser)
+app.use('/api/cart', routerCart)
+app.use('/api/session', routerSession)
 
-
-app.get('/login', (req, res) => {
-  const {email, password} = req.body
-  // Consulta a BDD
-  const users = [{email: "f@f.com", password: "1234"}]
-  const user = users[0]
-  if (email == user.email && password == user.password) {
-    // Creo la sesion del usuario
-    req.session.email = email
-    req.session.password = password
-    res.send("Usuario Loggeado")
-  }
-  res.send("Login Invalido")
-})
-
-app.get('/logout', (req, res) => {
-  req.session.destroy(() => {
-    res.send("Nos vimo")
-  })
-})
+export default router
+const server = app.listen(app.get("port"), () => console.log(`Server on port ${app.get("port")}`))

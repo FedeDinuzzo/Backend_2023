@@ -27,7 +27,7 @@ export const getSession = (req, res) => {
 
 // Admin
 // email: admin@coder.com
-// password: admincoder1234
+// password: coderhouse
 export const testLogin = async (req, res) => {
   try {
     const { email, password } = req.body

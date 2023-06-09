@@ -1,27 +1,29 @@
-// Ruteo avanzado y manejo de politicas de autorizacion
+// Segunda practica integradora
 
-// Consultar el token de JWT de la clase anterior
-// Control interno de mensajes y sistema de roles con passport
-// errorMesagges.js
+// Arquitectura de software
 
-// Registramos un user con postman y validamos el token en jwt.io
-// http://localhost:4000/api/session/current
-// console
-// aplication -> coockies -> new = jwt - el token que dio al registrar
-// F5
+// Arquitectura usada Vertical
 
-// Si modifcas un token en jwt.io y te tira error cuando lo pones como antes ya no funciona
+// Arquitectura Hexagonal (3 capas o carpetas):
+// Capa Infraestructura (conexiones a db)
+// Capa plicacion (login, user) 
+// Capa dominio (usuario, interfaces)
+// Dificil de mantener si no usamos Vertical Slicing
 
-// Moddleware de autorizacion mezclado con passport
-// mi usuario antes x ruta si no esta autorizado no puede ingresar
+// Otras dividas en servicio etc
 
+// Carpeta Backend
+// Carpeta Frontend
+// 2 terminales distintas
 
-// Estrategias avanzadas router
-// NO agregar acentos en las rutas ni ñ
+// Modulo cors - permite acceder al backend desde el localhost:3000 por ejemplo
 
-// Cualquier ruta que no tiene un metodo definido va a la ruta 404
-router.use('*', (req,res) => {
-  res.status(404).send({ error: "404 Page Not Found" })
-})
+// Agregamos un carrito en passport register
 
-// Creando custom router -> proximas clases
+// Manejo de politicas
+// La autorizacion a nivel escalable
+// Rutas que piden permiso y rutas que no
+// PUBLIC - AUTHENTICATED - USER - USER_PREMIUM - ADMIN
+// Middlewares que validan
+
+// 

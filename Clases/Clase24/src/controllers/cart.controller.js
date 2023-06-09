@@ -1,7 +1,7 @@
 import { getManagerCart } from "../dao/daoManager.js"
 
 const data = await getManagerCart()
-const managerCart = new data.ManagerCartMongoDB
+export const managerCart = new data.ManagerCartMongoDB
 
 export const createCart = async (req, res) => {
   try {

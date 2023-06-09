@@ -14,10 +14,10 @@ const router = Router()
 router.use('/', routerHtmlViews)
 router.use('/api/user', routerUser)
 router.use('/api/session', routerSession)
-router.use('/authSession', routerGithub)
 router.use('/api/products', routerProducts)
 router.use('/api/carts', routerCart)
 router.use('/realTimeProducts', routerRealTimeProducts)
 router.use('/chat', routerChat)
+router.use('/authSession', routerGithub)
 
 export default router

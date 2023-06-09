@@ -1,22 +1,24 @@
-// Cookies, Sessions y Storage 2
+// Autenticacion y Autorizacion
 
-// Session vinculo de conexion con el servidor
-// El vinculo se representa con un sessionId 
-// Memory Storage, si el servidor muere o se reinicia la sesion moriria con el y no se podria recuperar
-// Hay que guardarla fuera del navegador
+// Autenticacion
+// El cliente debe 1ro identificarse para poder intentar acceder a un recurso
+// La autenticacion es el 1r paso dentro de la vida de una sesion del cliente y el servidor
 
-// File Storage, se guarda en un archivo
-// 1 Servidor 
-// 2 servidor guarda las session en archivos  
-// 3 servidor muere por un momento 
-// 4 servidor vuelve a funcionar
-// 5 toma las sessions de los archivos y no afecta a usuarios
+// Metodos:
+// User Password
+// Passwordless - link
+// By social media
+// Datos biometricos
+// JWT(JSON Web Token) - clave privada y publica
+// OAuth 2.0 - api
 
-// Se guarda la info pero no usa ya
-// No es seguro
-// npm i session-file-store
-// Dependencia de pruebas
 
-// La solucion
-// Guardar sessiones en la base de datos
-// npm i connect-mongo
+// Autorizacion
+// Alcance de cada usuario
+// Empleado - jefe - admin
+
+// Procesos fallidos de autenticacion 401
+// Usuarios rechazados por querer acceder a un recurso no autorizado 403
+
+// PROTEGER CONSTRASEÑAS bcrypt
+// Encripta y Verifica

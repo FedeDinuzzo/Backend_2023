@@ -1,1 +1,4 @@
-// Funcionalidades de los lenguajes ECMAScript
+// Funciones en js
+// Promesas 
+// Calllbacks 
+// Asincronismo vs Sincronismo

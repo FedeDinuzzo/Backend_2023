@@ -1,63 +1,50 @@
-// Proceso princiapl del servidor + Global & Child process
+// Arquitectura de capas
 
-// Process
-// Uso de memoria - Id del preoceso en el SO - Que SO - Que entorno - Que argumentos tiene
+// Una capa es cada rol (por ejemplo rol routes)
+// Capa de presentancion (routers)
+// Capa de dominio (controllers)
+// Capa de acceso a datos (models)
+// Capa de soporte comun a las otras 3
 
-// process.cwd - directorio actual del proceso
-// process.pid - id del proceso en sistema
-// process.MemoryUsage()
-// process.env - accede al objeto del entorno actual
-// process.argv - muestra los argumentos pasados por CLI
-// process.version - version del proceso en node
-// process.on() - permite setear un listener de eventos
-// process.exit() - permite salir del proceso
-
-// Argumentos en consola 
-// Terminal npm init --yes
-// Crear server.js
-// console.log(process.argv)
-// Por defecto manda un array con 2 rutas, directorio de node y directorio actual
-// Si hago => node server.js 2 3 4
-// Los agrupa:
-// 'c\user...',
-// 'c\user...',
-// '2',
-// '3',
-// '4'
-// Si los consulto: console.log(process.argv.slice(2))
-// Devuelve: solo devuelve los argumentos sin los directorios
-// Si los consulto: console.log(process.argv.slice(2)[2])
-// Devuelve: 4
-
-// Procesamiento de argumentos con Commander
-// convierte flags en booleans, limita las flags y coloca argumentos predetermiandos
-// npm i commander
-
-// Codigo mas complejo en las consultas con commander
-// Una flat es una descripcion de un valor
+// Capa base
+// modelo - vista - controlador
+// No hay comunacion directa entre la vista y el modelo siempre esta el controlador como mediador
 
 
-// Manejo de variable de entorno
-// Develop - Staging - Production
-// se pueden necesitar mas o menos variables o que cambien sus valores
-// Cambian segun el entorno
-// npm i dotenv
+// Capa de persistencia o modelo es la mas interna
+// Se cominica con la db y solo conoce esa info, no conoce ni las rutas
+// Operacion de tipo CRUD
+// En modelos mas complejos podrian tener Agregaciones o el DAO
 
-// Archivo config
+// Capa de negocio o controlador es una logica para enviar una solicitud al modelo
+// Intermedia entre la ruta y el modelo, no permitir informacion no valida
 
-// Listeners
-// on - espera un mensaje a algo que cambie para ejecutar una accion
-// on 'exit'
-// on 'uncaughtException'
-// on 'message'
+// Capa de renderizado o de vista, son las rutas que conoce el cliente
+// Envia las solicitudes y recibe las informacion que corresponda
 
-// Codigos de salida de proceso
-// 0: proceso finalizado normalmente
-// 1: proceso finalizado por excepcion fatal
-// 5: error fatal del motor V8
-// 9: para argumentos invalidos al momento de la ejecucion
+// Como cliente no podes saber lo que sucede internamente, solo conoces la capa exterior (como en una cebolla)
 
 
-// Child process
-// Divide y venceras (react)
-// node lo hace automaticamente
+// La idea es conectar a la capa mas externa un frontend con react
+
+// Capas adicionales para node js
+// Capa de routing
+
+// Los componentes se conectan a la bd con una conexion async
+// No toda la app se conecta solo algunos componentes:
+// products - product - register - login - cart
+
+// Frontend              Backend
+// Login --------------> routerSession ---> controllerSession -----> controller ------------> model
+// Register -----------> up                 down ---> config - utils - passport - bcrypt ---> up
+// Sacarle responsabilidad al controller -----------> servicios (service)
+// De esta manera por ejemplo un fallo en controller no afecta al modelo, afecta al servicio pero el servicio puede trabajar de otras formas con el controller
+
+// FINALMENTE
+// La ruta recibe lo que solicita el usuario
+// Se lo envia al controlador y este llama a una funcion del servicio
+// Service recibe esa info y se conecta con el modelo
+// Al final el controlador no conoce al modelo
+
+// De esta manera se puede hacer un DAO mas simple
+// Se divide el bakcend en 2 (ruta, controller)(service, modelo)

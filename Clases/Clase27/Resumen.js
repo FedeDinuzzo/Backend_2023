@@ -1,50 +1,31 @@
-// Arquitectura de capas
+// Continuacion implementacion clase 27
+// Arquitectura del servidor: Diseño
 
-// Una capa es cada rol (por ejemplo rol routes)
-// Capa de presentancion (routers)
-// Capa de dominio (controllers)
-// Capa de acceso a datos (models)
-// Capa de soporte comun a las otras 3
+// Tener codigo reutilizable
+// Pensar en codigo escalable
+// Homologacion de desing patterns
 
-// Capa base
-// modelo - vista - controlador
-// No hay comunacion directa entre la vista y el modelo siempre esta el controlador como mediador
+// Adoptar un modelo por capas
+// Usar carpeta services
+// Manejo de entornos (al menos 2 o 3)
+// Testing (Robot Framework)
+// Loggear y documentor
 
+// Patron de diseno - forma de crear software que ya esta creada
 
-// Capa de persistencia o modelo es la mas interna
-// Se cominica con la db y solo conoce esa info, no conoce ni las rutas
-// Operacion de tipo CRUD
-// En modelos mas complejos podrian tener Agregaciones o el DAO
+// Patrones de express
+// Cadena de responsabilidades
+// Decorador - mantiene un objeto inicial genereico pero al ser utilizado se transforma (multer)
+// Proxy, divde la app (Routting pattern), el patron mas comun es Express
+// MVC
+// Patron Singleton, instancia global de la app (DAO)
 
-// Capa de negocio o controlador es una logica para enviar una solicitud al modelo
-// Intermedia entre la ruta y el modelo, no permitir informacion no valida
+// Comunicacion Backend Frontend
+// Server Side Rendering
 
-// Capa de renderizado o de vista, son las rutas que conoce el cliente
-// Envia las solicitudes y recibe las informacion que corresponda
+// React con Next como ejemplo de front
 
-// Como cliente no podes saber lo que sucede internamente, solo conoces la capa exterior (como en una cebolla)
+// npx create-next-app frontend
 
-
-// La idea es conectar a la capa mas externa un frontend con react
-
-// Capas adicionales para node js
-// Capa de routing
-
-// Los componentes se conectan a la bd con una conexion async
-// No toda la app se conecta solo algunos componentes:
-// products - product - register - login - cart
-
-// Frontend              Backend
-// Login --------------> routerSession ---> controllerSession -----> controller ------------> model
-// Register -----------> up                 down ---> config - utils - passport - bcrypt ---> up
-// Sacarle responsabilidad al controller -----------> servicios (service)
-// De esta manera por ejemplo un fallo en controller no afecta al modelo, afecta al servicio pero el servicio puede trabajar de otras formas con el controller
-
-// FINALMENTE
-// La ruta recibe lo que solicita el usuario
-// Se lo envia al controlador y este llama a una funcion del servicio
-// Service recibe esa info y se conecta con el modelo
-// Al final el controlador no conoce al modelo
-
-// De esta manera se puede hacer un DAO mas simple
-// Se divide el bakcend en 2 (ruta, controller)(service, modelo)
+// npm i cors 
+// Generar lista blanca, urls que pueden enviar info al server

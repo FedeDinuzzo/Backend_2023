@@ -1,9 +1,18 @@
-// Instalamos Node.js
-// Actualizar a la version 19
+// Datos y Variables
+// Clases
+// Metodos
+// Herencia
+// Cloures
 
-// Variables
-// Errores de posicion en memoria
+// Funcion normal
+function sumar(num1,num2) {
+  console.log(num1 + num2)
+}
 
-// CodeMetrics ayuda a modularizar
-// Error Lens muestra error en codigo
-// GitLens ayuda a ver el ultimo commit
+// Funcion anonima
+const sumar = function(num1, num2) {
+  console.log(num1 + num2)
+}
+
+// Funcion Flecha
+const sumar = (num1, num2) => console.log(num1 + num2)

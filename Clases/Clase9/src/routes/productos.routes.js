@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { ProductManager } from "../controllers/ProductManager.js";
-const routerProduct = Router() // Cambiar app por routerProduct
+const routerProduct = Router()
 const productManager = new ProductManager('src/models/productos.txt')
 
 routerProduct.get('/', async (req, res) => { 

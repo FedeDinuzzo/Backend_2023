@@ -1,24 +1,11 @@
-// Express avanzado
-// Metodos de Peticion
+// Router y Multer
 
-// Codigos de estado en HTTP
-// 1xx informational
-// 2xx succes
-// 3xx redirection
-// 4xx client error
-// 5xx server error
+// Router
+// Definir un archivo .js para cada ruta
 
-// http.cat
-// Suele haber mas errores en el cliente que en el server
+// Un middleware es una ayuda para la app
+// Operaciones que se ejecutan despues de la peticion y antes de la ejecucion en el servidor
+// Ejemplo app.use, validaciones, roles
 
-// API REST
-// API: (Application Programming Interfaces), interfaz de programación de aplicaciones
-// REST: (Representational State Trasnfer), Define la estructura que deben tener los datos para poder transferirse
-
-
-// Operaciones Comunes
-// POST, GET, PUT, DELETE
-// CRUD: Create - Read - Update - Delete
-
-// POSTMAN Probar un backend sin la necesidad de un frontend
-// Es un simulador de rutas, simula ser un cliente
+// Middleware de carga de archivos: MULTER
+// Multer permite subir archivos desde la app y guardarlos en public

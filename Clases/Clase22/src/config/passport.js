@@ -1,14 +1,38 @@
 import local from 'passport-local'
 import passport from 'passport'
 import GitHubStrategy from 'passport-github2'
+import jwt from 'passport-jwt'
 import { managerUser } from '../controllers/user.controller.js'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
+import { authToken, generateToken } from '../utils/jwt.js'
 
 // Passport se va a manejar como si fuera un middleware
 const LocalStrategy = local.Strategy // Estrategia local de autenticacion
 
+const JWTStrategy = jwt.Strategy // Estrategia de JWT
+const ExtractJWT = jwt.ExtractJwt // Extracto ya sea de headers o cookies, etc...
+
 // Passport define done como si fuera un res.status()
 const initializePassport = () => {
+
+  const cookieExtractor = (req) => {
+    // Si existen cookies, verfico si existe mi cookie especifica, si no asigno null
+    const token = (req && req.cookies) ? req.cookies('jwtCookies') : null
+                                        // Si no existe la cookie especifica, asigna undefined
+    return token
+  }
+
+  passport.use('jwt', new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), // De donde extraigo mi token
+    secretOrKey: process.env.COOKIE_SECRET // Mismo valor que la firma de las cookies
+  }, async(jwt_payload, done) => {
+    try {
+      return done(null, jwt_payload)
+    } catch (error) {
+      return done(error)
+    }
+  }))
+
   passport.use('register', new LocalStrategy(
     {passReqToCallback: true, usernameField: 'email'}, async (req, username, password, done) => {
       // Validar y crear usuario
@@ -22,15 +46,16 @@ const initializePassport = () => {
         }
 
         const passwordHash = createHash(password)
-        const userCreated = await managerUser.addElements([{ 
+        const userCreated = await managerUser.addElements({ 
           first_name: first_name, 
           last_name: last_name, 
           email: email, 
           age: age, 
           password: passwordHash
-        }])
-
-        return done(null, userCreated)
+        })
+        const token = generateToken(userCreated)
+        console.log(token)
+        return done(null, userCreated[0])
 
       } catch (error) {
         return done(error)
@@ -43,11 +68,13 @@ const initializePassport = () => {
       try {  
         const user = await managerUser.getUserByEmail(username)
 
-        if (!user) { // user not found
+        if (!user) { // User not found
           return done(null, false)
           
         }
         if (validatePassword(password, user.password)) {  // Valid user and password
+          const token = generateToken(user)
+          console.log(token)
           return done(null, user)
         }
 
@@ -68,7 +95,7 @@ const initializePassport = () => {
       console.log(profile)
       const user = await managerUser.getUserByEmail(profile._json.email)
 
-      if (user) { // Usuar exist 
+      if (user) { // User exist 
         done(null, user)
       } else {
         const passwordHash = createHash('coder123')
@@ -82,10 +109,9 @@ const initializePassport = () => {
         
         done(null, userCreated)
       }
-
+      
     } catch (error) {
       return done(error)
-
     }
   }))
 

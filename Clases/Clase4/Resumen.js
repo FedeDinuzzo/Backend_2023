@@ -1,4 +1,2 @@
-// Funciones en js
-// Promesas 
-// Calllbacks 
-// Asincronismo vs Sincronismo
+// Manejo de archivos en js
+// Archivos sincronicos, asincronicos y con promesas

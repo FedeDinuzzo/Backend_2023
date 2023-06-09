@@ -19,5 +19,8 @@ router.use('/api/carts', routerCart)
 router.use('/realTimeProducts', routerRealTimeProducts)
 router.use('/chat', routerChat)
 router.use('/authSession', routerGithub)
+router.use('*', (req,res) => {
+  res.status(404).send({ error: "404 Page Not Found" })
+})
 
 export default router

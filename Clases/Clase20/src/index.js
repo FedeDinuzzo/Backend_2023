@@ -6,11 +6,7 @@ import multer from 'multer'
 import { engine } from 'express-handlebars'
 import { __dirname } from './path.js'
 import * as path from 'path'
-import router from 'express'
-import routerCart from './routes/cart.js'
-import routerProducto from './routes/products.js'
-import routerSession from './routes/session.js'
-import routerUser from './routes/user.js'
+import router from './routes/index.routes.js'
 import MongoStore from 'connect-mongo'
 //import FileStore from 'session-file-store'
 
@@ -50,11 +46,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 //Routes
-app.use('/product', router)
-app.use('/product', routerProducto)
-app.use('/user/', routerUser)
-app.use('/api/cart', routerCart)
-app.use('/api/session', routerSession)
+app.use('/', router)
 
-export default router
 const server = app.listen(app.get("port"), () => console.log(`Server on port ${app.get("port")}`))

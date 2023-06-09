@@ -1,18 +1,22 @@
 {
-  "name": "clase26",
+  "name": "clase27",
   "version": "1.0.0",
-  "main": "Resumen.js",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "server.js"
+    "dev": "nodemon src/index.js"
   },
-  "keywords": [],
   "type": "module",
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "commander": "^10.0.1",
     "dotenv": "^16.1.4",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.2.2",
+    "mongoose-paginate-v2": "^1.7.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }

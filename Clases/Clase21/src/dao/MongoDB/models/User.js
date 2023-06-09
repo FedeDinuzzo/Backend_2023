@@ -1,48 +1,48 @@
-import { ManagerMongoDB } from "../db/mongoDBManager.js";
-import { Schema } from "mongoose";
+import { ManagerMongoDB } from '../../../db/mongoDBManager.js'
+import { Schema } from 'mongoose'
+
+const url = process.env.URLMONGODB
 
 const userSchema = new Schema({
-    first_name: {
-        type: String,
-        required: true
-    },
-    last_name: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        unique: true,
-        index: true
-    },
-    age: {
-        type: Number,
-        required: true
-    },
-    rol: {
-        type: String,
-        default: "User"
-    },
-    password: {
-        type: String,
-        required: true
-    }
+  first_name: {
+    type: String,
+    required: true
+  },
+  last_name: {
+    type: String,
+    required: true,
+    index: true
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  rol: {
+    type: String,
+    default: "user"
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  idCart: {
+    type: Schema.Types.ObjectId,
+    ref: "carts"
+  }
 })
 
 export class ManagerUserMongoDB extends ManagerMongoDB {
-    constructor() {
-        super(process.env.MONGODBURL, "users", userSchema)
+  constructor() {
+    super(url, "users", userSchema)
+  }
 
-    }
-
-    async getElementByEmail(email) {
-        super.setConnection()
-        try {
-            return await this.model.findOne({ email: email })
-        } catch (error) {
-            return error
-        }
-    }
-
-
+  async getUserByEmail(email) {
+    super._setConnection()
+    return await this.model.findOne({ email: email })
+  }
 }

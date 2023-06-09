@@ -35,6 +35,7 @@ export const getProductsCart = async (req, res) => {
         })
     }
 }
+
 /*
 export const getProduct = async (req, res) => {
     const { id } = req.params

@@ -1,15 +1,24 @@
-// Servidores Web
+// Express avanzado
+// Metodos de Peticion
 
-// Protocolo Http: Nos permite la comunicacion entre 2 o mas sistemas
-// Servidor con express
-// Object request: req.query - req.params - req.body
+// Codigos de estado en HTTP
+// 1xx informational
+// 2xx succes
+// 3xx redirection
+// 4xx client error
+// 5xx server error
 
-// npm init -y
-// luego instalar dependencias
+// http.cat
+// Suele haber mas errores en el cliente que en el server
 
-// main index.js
-// "scripts": { "start": "node src/index.js" },
+// API REST
+// API: (Application Programming Interfaces), interfaz de programación de aplicaciones
+// REST: (Representational State Trasnfer), Define la estructura que deben tener los datos para poder transferirse
 
-// npm i express --save
-// npm i nodemon -D
-// "scripts": { "start": "nodemon src/index.js" },
+
+// Operaciones Comunes
+// POST, GET, PUT, DELETE
+// CRUD: Create - Read - Update - Delete
+
+// POSTMAN Probar un backend sin la necesidad de un frontend
+// Es un simulador de rutas, simula ser un cliente

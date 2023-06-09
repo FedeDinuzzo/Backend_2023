@@ -1,8 +1,16 @@
-// Practica Integradora
+// Mongo Avanzado 1
 
-// DAO 
-// Data Acces Object
-// Permite acceder a varias db desde del DAO
+// Indices aplicados en el codigo
+// Proyecto aparte
 
-// DAO contiene los modelos de datos
-// DB contiene el CRUD
+// Teoria de Indexacion
+// Recurso utilizado en MongoDB para poder hacer consultas mucho mas rapidas
+// El indice se asocia a un atributo del documento y permite que las busquedas se hagan desde puntos especificos, evitando el recorrido completo de la coleccion
+
+// Indices compuestos, varios atributos en una busqueda
+// Otros tipos de indices:
+// Compound, multikey, text, geospatial
+
+// Manejo de Populations
+// Un documento guarda otros documentos
+// Hay que guardarlos como referencias

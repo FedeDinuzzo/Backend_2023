@@ -1,18 +1,15 @@
 import { Router } from "express"
-import { productView, cartView } from "../controllers/view.controllers.js"
+import { requireAuth, destroySession } from "../controllers/session.controller.js"
+import { productView, cartView, loginView, registerView } from "../controllers/view.controllers.js"
 
 const routerHtmlViews = Router()
 
-routerHtmlViews.get('/', productView)
-routerHtmlViews.get('/products', productView)
-routerHtmlViews.get('/carts/:cid', cartView)
-
-// routerProductsHtmlViews.get('/', requireAuth, productView)
-// routerProductsHtmlViews.get('/login', loginView)
-// routerProductsHtmlViews.get('/register', registerView)
-// routerProductsHtmlViews.get('/products', requireAuth, productView)
-// routerProductsHtmlViews.get('/carts/:cid',requireAuth, cartView )
-// routerProductsHtmlViews.get('/logout',destroySession )
+routerHtmlViews.get('/', requireAuth, productView)
+routerHtmlViews.get('/login', loginView)
+routerHtmlViews.get('/register', registerView)
+routerHtmlViews.get('/products', requireAuth, productView)
+routerHtmlViews.get('/carts/:cid', requireAuth, cartView)
+routerHtmlViews.get('/logout', destroySession)
 
 export default routerHtmlViews
 

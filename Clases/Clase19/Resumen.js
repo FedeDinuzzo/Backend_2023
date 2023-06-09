@@ -1,23 +1,22 @@
-// Cookies, Sessions, Storage 1
+// Cookies, Sessions y Storage 2
 
-// Cookies, saber informacion del cliente
-// Hay cookies malignas, que se venden a terceros
-// Es parecida al localStorage pero esta conectada al servidor
+// Session vinculo de conexion con el servidor
+// El vinculo se representa con un sessionId 
+// Memory Storage, si el servidor muere o se reinicia la sesion moriria con el y no se podria recuperar
+// Hay que guardarla fuera del navegador
 
-// Ejemplo
-// Cliente - Cookie
-// Hace login - almacena el id de la session
-// Activa el dark mode - almacena tambien la configuracion de la pagina
-// Busca productos especificos - almacena tambien las busquedas recientes
+// File Storage, se guarda en un archivo
+// 1 Servidor 
+// 2 servidor guarda las session en archivos  
+// 3 servidor muere por un momento 
+// 4 servidor vuelve a funcionar
+// 5 toma las sessions de los archivos y no afecta a usuarios
 
-// No se puede guardad info sencible en cokies
+// Se guarda la info pero no usa ya
+// No es seguro
+// npm i session-file-store
+// Dependencia de pruebas
 
-// Instalacion Cookie-Parser
-
-// Conexion sin estado
-// Necesitamos cerrar la sesion del usuario cuando lo amerite
-// Cuando el user salga de la app se cierra la session
-
-// Ejemplo
-// npm i express-session
-// Identificar al usuario con un login
+// La solucion
+// Guardar sessiones en la base de datos
+// npm i connect-mongo

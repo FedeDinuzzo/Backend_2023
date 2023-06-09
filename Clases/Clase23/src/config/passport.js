@@ -17,8 +17,8 @@ const initializePassport = () => {
 
   const cookieExtractor = (req) => {
     // Si existen cookies, verfico si existe mi cookie especifica, si no asigno null
-    const token = (req && req.cookies) ? req.cookies('jwtCookies') : null
-                                        // Si no existe la cookie especifica, asigna undefined
+    const token = req.cookies ? req.cookies.jwtCookies : null
+    // Si no existe la cookie especifica, asigna undefined
     return token
   }
 
@@ -119,10 +119,10 @@ const initializePassport = () => {
   passport.serializeUser((user, done) => {
     if (Array.isArray(user)) {
       done(null, user[0]._id)
-    } else {
-      done(null, user._id)
-    }
-  })
+  } else {
+    done(null, user._id)
+  }
+})
 
 
   // Delete user session

@@ -1,24 +1,27 @@
-// Passport avanzado
-// creamos el archivo jwt.js dentro de utils, lo agregamos en passport
+// Ruteo avanzado y manejo de politicas de autorizacion
 
-// El token no se guarda en la db solo se genera, pero no esta encriptado
-// Hay que encriptar los datos del token (mas adelante)
+// Consultar el token de JWT de la clase anterior
+// Control interno de mensajes y sistema de roles con passport
+// errorMesagges.js
 
-// JWT   -> Envio -> Headers de autorizacion -> Localstorage
-//       -> passport
+// Registramos un user con postman y validamos el token en jwt.io
+// http://localhost:4000/api/session/current
+// console
+// aplication -> coockies -> new = jwt - el token que dio al registrar
+// F5
 
-// Pros = no guardas la info en la db
-// Cons = tenes que encriptar la info
+// Si modifcas un token en jwt.io y te tira error cuando lo pones como antes ya no funciona
 
-// Vulnerabilidad en Localstorage:
-// Se puede consultar con un comando de JS de 2 lineas
-// NO guardarlo en Localstorage
+// Moddleware de autorizacion mezclado con passport
+// mi usuario antes x ruta si no esta autorizado no puede ingresar
 
-// Enviar Token desde Cookie
 
-// Estrategia de JWT con passport
-// npm i passport-jwt
-// Se actualiza si se actualiza jwt
+// Estrategias avanzadas router
+// NO agregar acentos en las rutas ni ñ
 
-// Creamos la estrategia en passport
-// Creamos la ruta en session
+// Cualquier ruta que no tiene un metodo definido va a la ruta 404
+router.use('*', (req,res) => {
+  res.status(404).send({ error: "404 Page Not Found" })
+})
+
+// Creando custom router -> proximas clases

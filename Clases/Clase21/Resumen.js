@@ -1,24 +1,12 @@
-// Autenticacion y Autorizacion
+// Estrategia de autenticacion por terceros + JWT
+// JSON WEB TOKEN
 
-// Autenticacion
-// El cliente debe 1ro identificarse para poder intentar acceder a un recurso
-// La autenticacion es el 1r paso dentro de la vida de una sesion del cliente y el servidor
+// Autenticacion por Terceros
+// GITHUB
+// Registrarme como desarrollador de app de sitio y creo una app interna
+// Configuro el servidor donde uso la app
+// Configuro un callback utilizable para mi server
 
-// Metodos:
-// User Password
-// Passwordless - link
-// By social media
-// Datos biometricos
-// JWT(JSON Web Token) - clave privada y publica
-// OAuth 2.0 - api
+// npm i passport-github2
 
-
-// Autorizacion
-// Alcance de cada usuario
-// Empleado - jefe - admin
-
-// Procesos fallidos de autenticacion 401
-// Usuarios rechazados por querer acceder a un recurso no autorizado 403
-
-// PROTEGER CONSTRASEÑAS bcrypt
-// Encripta y Verifica
+// en apps grandes es mejor usar jwt ya que almacena los datos en una cookie en el navegador y no en la db

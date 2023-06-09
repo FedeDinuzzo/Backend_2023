@@ -1,29 +1,63 @@
-// Segunda practica integradora
+// Proceso princiapl del servidor + Global & Child process
 
-// Arquitectura de software
+// Process
+// Uso de memoria - Id del preoceso en el SO - Que SO - Que entorno - Que argumentos tiene
 
-// Arquitectura usada Vertical
+// process.cwd - directorio actual del proceso
+// process.pid - id del proceso en sistema
+// process.MemoryUsage()
+// process.env - accede al objeto del entorno actual
+// process.argv - muestra los argumentos pasados por CLI
+// process.version - version del proceso en node
+// process.on() - permite setear un listener de eventos
+// process.exit() - permite salir del proceso
 
-// Arquitectura Hexagonal (3 capas o carpetas):
-// Capa Infraestructura (conexiones a db)
-// Capa plicacion (login, user) 
-// Capa dominio (usuario, interfaces)
-// Dificil de mantener si no usamos Vertical Slicing
+// Argumentos en consola 
+// Terminal npm init --yes
+// Crear server.js
+// console.log(process.argv)
+// Por defecto manda un array con 2 rutas, directorio de node y directorio actual
+// Si hago => node server.js 2 3 4
+// Los agrupa:
+// 'c\user...',
+// 'c\user...',
+// '2',
+// '3',
+// '4'
+// Si los consulto: console.log(process.argv.slice(2))
+// Devuelve: solo devuelve los argumentos sin los directorios
+// Si los consulto: console.log(process.argv.slice(2)[2])
+// Devuelve: 4
 
-// Otras dividas en servicio etc
+// Procesamiento de argumentos con Commander
+// convierte flags en booleans, limita las flags y coloca argumentos predetermiandos
+// npm i commander
 
-// Carpeta Backend
-// Carpeta Frontend
-// 2 terminales distintas
+// Codigo mas complejo en las consultas con commander
+// Una flat es una descripcion de un valor
 
-// Modulo cors - permite acceder al backend desde el localhost:3000 por ejemplo
 
-// Agregamos un carrito en passport register
+// Manejo de variable de entorno
+// Develop - Staging - Production
+// se pueden necesitar mas o menos variables o que cambien sus valores
+// Cambian segun el entorno
+// npm i dotenv
 
-// Manejo de politicas
-// La autorizacion a nivel escalable
-// Rutas que piden permiso y rutas que no
-// PUBLIC - AUTHENTICATED - USER - USER_PREMIUM - ADMIN
-// Middlewares que validan
+// Archivo config
 
-// 
+// Listeners
+// on - espera un mensaje a algo que cambie para ejecutar una accion
+// on 'exit'
+// on 'uncaughtException'
+// on 'message'
+
+// Codigos de salida de proceso
+// 0: proceso finalizado normalmente
+// 1: proceso finalizado por excepcion fatal
+// 5: error fatal del motor V8
+// 9: para argumentos invalidos al momento de la ejecucion
+
+
+// Child process
+// Divide y venceras (react)
+// node lo hace automaticamente

@@ -1,3 +1,6 @@
+import { getSession } from "./session.controller.js"
+// import config from "../config/config.js"
+
 const PRODUCTS_URL = `http://localhost:${process.env.PORT || 5000}/api/products`
 const CARTS_URL = `http://localhost:${process.env.PORT || 5000}/api/carts`
 
@@ -17,17 +20,17 @@ export const productView = async (req, res) => {
   
   const booleanStatus = status === "Success" ? true : false
   
-  // const sessionData = getSession(req, res)
-  // const userFirst = sessionData.name
-  // const userRol = sessionData.rol
+  const sessionData = getSession(req, res)
+  const userFirst = sessionData.name
+  const userRol = sessionData.rol
 
-  // const booleanAdmin = userRol === "admin" ? true : false
+  const booleanAdmin = userRol === "admin" ? true : false
 
   res.render("product", { // Render the following content
     titulo: "Ecommerce Backend",    
     booleanStatus,
     payload: payload.map(product => {
-      product.thumbnail = `img/${product.thumbnail}`
+      product.thumbnail = `${product.thumbnail}`
       return product
     }),
     totalPages,
@@ -37,7 +40,10 @@ export const productView = async (req, res) => {
     hasPrevPage,
     hasNextPage,
     prevLink,
-    nextLink
+    nextLink,
+    userFirst,
+    userRol,
+    booleanAdmin
   })
 }
 
@@ -58,19 +64,18 @@ export const cartView = async (req, res) => {
         quantity: prod.quantity
       })
     }
-  } 
+  }
 
   res.render('cart', {
-      auxProducts,
-      cartID: products?.length > 0 ? req.params.cid : "Dont exist"
+    auxProducts,
+    cartID: products?.length > 0 ? req.params.cid : "Dont exist"
   })
 }
 
-// export const registerView = (req, res) => {
-//   res.render('register')
-// }
+export const registerView = (req, res) => {
+  res.render('register')
+}
 
-
-// export const loginView = (req, res) => {
-//   res.render('login')
-// }
+export const loginView = (req, res) => {
+  res.render('login')
+}

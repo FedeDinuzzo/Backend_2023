@@ -1,33 +1,94 @@
-// MongoDB
+// CRUD en MongoDB
 
-// Base de datos
-// Relacionales:
-// Oracle - MySQL - MariaDB - SQLite3 
-// Estructura, dependencia y de cambio controlado, las tablas se relacionan
+// Utiliza:
+// Formato BSON - permite tener datos binarios
+// Nosotros enviaremos datos JSON y se almacenan en BSON
 
-// No Relacionales:
-// Firestore - Redis - MongoDB - DynamoDB
-// Estructura, con relaciones y dependencias mas flexibles y de cambios sumamente rapidos
+// CREATE - READ - UPDATE - DELETE
 
-// El gran problam de la persistencia: archivos
-// Se migro se archivos a bases de datos
-// Son mas seguras - Segmentacion de datos
-// Filtrar - Ordenar - Buscar datos especificos - Actualizar un conjunto de datos sin afectar o tocar otros datos
-
-// MongoDB 
-// Orientada a documentos
-// Utiliza colecciones
-// Cada coleccion puede tener diferente estructura
-// Puede utilizarse local o en la nube
-
-
-// Instalacion de MongoDB
-// Instalacion de Mongosh
-// Ver Postgresql
-
-// cmd mongosh
 // show dbs
-// use firstBDD     si no existe la crea y accede
-// db.createCollection("users")      { ok: 1 } seria verdadero
-// db.users.insertOne({nombre: "Federico", apellido: "Di Nuzzo", email: "fede@dinu.com"})      Genera un id unico
-// db.users.find()
+// use <db name>
+// db
+// show collections
+// db.createCollection(name)
+// db.dropDatabase()
+// db.collection.drop()
+
+// db.collection.insertOne()
+// db.collection.insertMany([{}, {}])
+// db.collection.find()
+// db.collection.find().pretty    Lo hace mas bonito
+// db.collection.findOne({nombre: "Feder"})
+// db.collection.estimatedDocumentCount()
+// db.collection.countDocuments(opt)
+
+
+// cls = Limpiar consola
+
+
+// FILTROS
+
+// db.coll.find({key:{$operator: val}})
+// Ejemplo: 
+// db.users.find({$or: [{nombre: "Feder"}, {nombre: "Federico"}]})
+
+// $and
+// $or
+// $lt   menores
+// $lte  menos o iguales
+// $gt   mayores
+// $gte  mayores o iguales
+// $ne   distinto
+// $eq   igual
+
+// mongodb.com/docs/manual/reference/operator/query/
+
+
+// BUSQUEDA AVANZADA
+
+// db.coll.distinct( val )
+// Devuelve un array con los distintos valores que toma un determinado campo en los documentos de la colección.
+
+// db.coll.find({doc.subdoc:value})
+// Se utiliza para filtrar subdocumentos.
+
+// db.coll.find({name: /^Max$/i})
+// Filtra utilizando expresiones regulares
+
+
+// PROYECCIONES, SORTS, SKIPS, 
+
+// db.users.find(query, projections) 
+// Ejemplo
+// db.users.find({},{nombre:1}) 
+// 0 todos menos el nombre
+// true 
+
+// db.collection.find().sort({val_A:1,val_B:-1})
+// Ejemplo
+// db.users.find().sort()   Ordena por el ID
+// db.users.find().sort({sueldo:1, sueldo:-1})   Ordena de mayor a menor
+
+// db.users.find().limit(2) 
+// skip(offset)   Omite el numero de documentos indicados, paginaciones, ignorar valores que no son necesarios
+
+
+// CRUD - UD
+// UPDATE Y DELETE
+
+// db.collection.updateOne(query,update,option)
+// Ejemplo
+// db.users.updateOne({"_id": ObjectId("63fe8072f4067aad12679e7e")}, {$set: {sueld: 60001}})
+
+// db.collection.updateMany(query,update,option)
+// db.users.updateMany({sueldo: 9000}, {$set: {sueldo: 10000}})
+
+// db.collection.deleteOne({key:val})
+// Ejemplo
+// db.users.deleteOne({_id:ObjectId("63fe8072f4067aad12679e7f")})
+
+// db.collection.deleteMany({key:val})   si lo pasas vacio borra toda la coleccion
+
+
+// MODIFICAR EL NOMBRE DE LA KEY EN VEZ DEL VALOR
+// HAY QUE VER MONGOOSE ESQUEMAS Y ESTRUCTURAS
