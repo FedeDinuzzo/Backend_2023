@@ -55,7 +55,7 @@ class CartsManager{
           return "Cart dont exist"
         }
       } else {
-        return "Se debe informar un ID"
+        return "You must inform an ID"
       }
     }catch (error){
       console.log(error);

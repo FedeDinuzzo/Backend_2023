@@ -26,7 +26,7 @@ const initializePassport = () => {
 
   passport.use('jwt', new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), // De donde extraigo mi token
-    secretOrKey: process.env.COOKIE_SECRET // Mismo valor que la firma de las cookies
+    secretOrKey: config.cookieSecret // Mismo valor que la firma de las cookies
   }, async(jwt_payload, done) => {
     try {
       return done(null, jwt_payload)
@@ -48,7 +48,7 @@ const initializePassport = () => {
         }
 
         const passwordHash = createHash(password)
-        const cart = await managerCart.addElements()
+        const cart = await managerCarts.addElements()
 
         const userCreated = await managerUser.addElements({ 
           first_name: first_name, 
@@ -92,8 +92,8 @@ const initializePassport = () => {
   ))
 
   passport.use('github', new GitHubStrategy({
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
+    clientID: config.clientId,
+    clientSecret: config.clientSecret,
     callbackURL: 'http://localhost:4000/authSession/githubSession'
   }, async (accessToken, refreshToken, profile, done) => {
 
@@ -110,8 +110,8 @@ const initializePassport = () => {
         const passwordHash = createHash('coder123')
         const idCart = await managerCarts.addElements()
         const userCreated = await managerUser.addElements([{
-          firstname: profile._json.login,
-          lastname: profile._json.html_url,
+          first_name: profile._json.login,
+          last_name: profile._json.html_url,
           email: profile._json.email,
           password: passwordHash, //Contraseña por default ya que no puedo accder a la contraseña de github
           idCart: idCart[0].id

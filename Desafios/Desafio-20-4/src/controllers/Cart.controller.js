@@ -22,7 +22,7 @@ export const getCart = async (req, res) => { // Retrieves the specified cart
 
     const cart = await managerCarts.getElementById(cid)
     if (cart.products.length !== 0 ){
-      res.status(200).json(cart);
+      res.status(200).json(cart)
     } else {
       res.status(200).json("Cart is empty")   
     }

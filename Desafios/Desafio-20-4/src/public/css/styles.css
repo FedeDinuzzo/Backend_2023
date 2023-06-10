@@ -61,6 +61,17 @@ button {
   border-radius: 10px;
 }
 
+.second {
+  background-color: rgb(28, 126, 126);
+  padding: 4px 12px;
+  color: white;
+  right: 100px;
+  top: 0;
+  position: absolute;
+  margin: 12px 20px 0 0;
+  border-radius: 10px;
+}
+
 .title {
   text-align: center;
   color: rgb(46, 178, 178);
@@ -141,6 +152,7 @@ padding: 0 4px;
   color: rgb(46, 178, 178);
   font-size: 28px;
   margin: 24px;
+  margin-top: 60px;
 }
 
 .cart {

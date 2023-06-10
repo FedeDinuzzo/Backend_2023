@@ -10,9 +10,11 @@ export const getSession = (req, res) => {
       if (req.session.userFirst) {
         sessionData.name = req.session.userFirst
         sessionData.rol = req.session.rol
+        sessionData.idCart = req.session.idCart
       } else {
         sessionData.name = req.session.user.first_name
         sessionData.rol = req.session.user.rol
+        sessionData.idCart = req.session.idCart
       }
       return sessionData
     } else {
@@ -37,6 +39,7 @@ export const testLogin = async (req, res) => {
       req.session.login = true
       req.session.userFirst = user.first_name
       req.session.rol = user.rol
+      req.session.idCart = user.idCart
       console.log(`${email} is ${user.rol}`)
       console.table(req.session)
       const token = generateToken(user)

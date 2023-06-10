@@ -23,6 +23,7 @@ export const productView = async (req, res) => {
   const sessionData = getSession(req, res)
   const userFirst = sessionData.name
   const userRol = sessionData.rol
+  const idCart = sessionData.idCart
 
   const booleanAdmin = userRol === "admin" ? true : false
 
@@ -43,7 +44,8 @@ export const productView = async (req, res) => {
     nextLink,
     userFirst,
     userRol,
-    booleanAdmin
+    booleanAdmin,
+    idCart
   })
 }
 
@@ -52,6 +54,8 @@ export const cartView = async (req, res) => {
   const data = await response.json()
 
   const { products } = data
+  const sessionData = getSession(req, res)
+  const idCart = sessionData.idCart
 
   let auxProducts = []
 
@@ -68,7 +72,7 @@ export const cartView = async (req, res) => {
 
   res.render('cart', {
     auxProducts,
-    cartID: products?.length > 0 ? req.params.cid : "Dont exist"
+    cartID: products?.length > 0 ? req.params.cid : (req.params.cid === idCart ? "is empty" : "dont exist")
   })
 }
 

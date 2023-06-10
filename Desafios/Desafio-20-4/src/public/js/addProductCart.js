@@ -1,6 +1,6 @@
 async function addProductCart(pid) {
   // Hardcode cartId
-  const cart = "644203903953ca4421c1e77f"
+  const cart = "647cedd1f9a796562080ab13"
 
   try {
     const res = await fetch(`/api/carts/${cart}/products/${pid}`, {
