@@ -1,15 +1,16 @@
-import { Router } from "express"
-import { getProducts, getProduct, createProduct, updateProduct, deleteProduct } from '../controllers/product.controller.js'
+import { Router } from 'express'
+import { getProducts, getProduct, postProduct, putProduct, deleteProductCont } from '../controllers/product.controller.js'
 
+//"/api/products"
 const routerProducts = Router()
 
 routerProducts.route("/")
-  .post(createProduct)
   .get(getProducts)
+  .post(postProduct)
 
-  routerProducts.route("/:pid")
+routerProducts.route("/:pid")
   .get(getProduct)
-  .put(updateProduct)
-  .delete(deleteProduct)
+  .put(putProduct)
+  .delete(deleteProductCont)
 
 export default routerProducts

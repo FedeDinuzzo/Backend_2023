@@ -1,13 +1,10 @@
-import { getManagerCart } from '../dao/daoManager.js'
+import { findCartById, createCart, deleteProducts, updateProductsCart } from '../services/cartService.js'
+import { findProductById } from '../services/productService.js'
 
-const data = await getManagerCart()
-export const managerCarts = new data.ManagerCartMongoDB
-
-export const createCart = async (req, res) => {  // Insert a new cart
+export const postCart = async (req, res) => {  //Insert a new cart
   try {
-    const response = await managerCarts.addElements()
-
-    res.status(200).json(response)
+    const response = await createCart();   
+    res.status(200).json(response); 
     
   } catch (error) {
     res.status(500).json({
@@ -19,8 +16,8 @@ export const createCart = async (req, res) => {  // Insert a new cart
 export const getCart = async (req, res) => { // Retrieves the specified cart
   try {
     const cid = req.params.cid    
-
     const cart = await managerCarts.getElementById(cid)
+
     if (cart.products.length !== 0 ){
       res.status(200).json(cart)
     } else {
@@ -37,7 +34,7 @@ export const getCart = async (req, res) => { // Retrieves the specified cart
 export const deleteProductsCart = async (req, res) => {  // Empty the cart
   try {
     const cid = req.params.cid
-    let answer = await managerCarts.deleteProducts(cid);
+    let answer = await deleteProducts(cid)
     res.status(200).json(answer) 
   
   } catch (error) {
@@ -51,26 +48,45 @@ export const updateCart = async (req, res) => {  // Step on the entire cart with
   try {
     const cid = req.params.cid
     const products = req.body
-    let answer = await managerCarts.changeAllCart(cid, products);
-    res.status(200).json(answer);
+    let answer =  await updateProductsCart(cid, products)
+    res.status(200).json(answer)
   
   } catch (error) {
-    
     res.status(500).json({
       message : error.message      
     })
   }
 }
 
-export const insertProductCart = async (req, res) => {  // Add new products to the specified cart
-  try {
-    const cid = req.params.cid
-    const pid = req.params.pid
-      
-    const cart = await managerCarts.addProductInCart(cid,pid);
+export const addProductInCart = async (req, res) => {  //Inserta nuevos producto al carrito especificado
+  const cid = req.params.cid
+  const pid = req.params.pid
 
-    res.status(200).json(cart)
-      
+  try {
+      const product = await findProductById(pid)
+            
+      if (product) {
+        let cart = await findCartById(cid)
+            cart = await cart.populate('products.productId')
+
+        const existProduct = cart.products.find(element => element.productId.id === pid)
+        
+        if (!existProduct) {
+          cart.products.push({productId:pid})          
+        } else {
+          cart.products = cart.products.map((element) =>
+          { 
+            if (element.productId.id === pid) {
+              element.quantity++
+            }             
+            return element             
+          })        
+        }    
+        await cart.save()
+        res.status(200).json(cart)
+      } else {
+        throw new Error("Producto no existe")     
+      }      
   } catch (error) {
     res.status(500).json({
       message: error.message
@@ -78,14 +94,30 @@ export const insertProductCart = async (req, res) => {  // Add new products to t
   }
 }
 
-export const updateQuantityProduct = async (req, res) => {  // Modify quantities of a product
+export const putQuantityProduct = async (req, res) => {  //Modifica cantidades de un producto
+  const cid = req.params.cid
+  const pid = req.params.pid
+  const { quantity } = req.body
+
   try {
-      const cid = req.params.cid
-      const pid = req.params.pid
-      const { quantity } = req.body
-      
-      let answer = await managerCarts.changeQuantity(cid,pid,quantity);      
-      res.status(200).send(answer)
+      let cart = await findCartById(cid)
+          cart = await cart.populate('products.productId')
+      const existProduct = cart.products.find(element => element.productId.id === pid)
+    
+      if (existProduct) {
+        cart.products = cart.products.map((element)=>
+        { 
+          if ( element.productId.id === pid) {
+            element.quantity = quantity
+          }   
+          return element         
+        })        
+      } else {          
+        throw new Error("Product sent dont exist")       
+      }
+      await cart.save()
+
+      res.status(200).send(cart.products); 
   
     } catch (error) {
       res.status(500).json({
@@ -94,13 +126,23 @@ export const updateQuantityProduct = async (req, res) => {  // Modify quantities
     }
 }
 
-export const deleteProductCart = async (req, res) => {  // Remove products from the specified cart
+export const deleteProductCart = async (req, res) => {  //Elimina productos del carrito especificado
+  const cid = req.params.cid
+  const pid = req.params.pid
+
   try {
-    const cid = req.params.cid
-    const pid = req.params.pid
-    let answer = await managerCarts.deleteProduct(cid,pid)
-    res.status(200).json(answer? answer : "product not found" )
-  
+      
+      let cart = await findCartById(cid)
+      cart = await cart.populate('products.productId')
+
+      const filteredCart = cart.products.filter((element)=> {return element.productId.id!==pid})        
+      if (filteredCart.length !== cart.products.length) {      
+        cart.products = filteredCart
+        await cart.save()
+        res.status(200).json(cart)
+      } else {
+        res.status(200).send("Product dont exist in cart")
+      }    
   } catch (error) {
     res.status(500).json({
       message: error.message

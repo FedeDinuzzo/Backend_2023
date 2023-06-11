@@ -1,7 +1,5 @@
-import { getManagerProducts } from "../dao/daoManager.js"
+import { paginateProducts, findProductById, createProduct, updateProduct, deleteProductServ  } from "../services/productService.js"
 
-const data = await getManagerProducts()
-export const managerProduct = new data.ManagerProductMongoDB
 
 export const getProducts = async (req, res) => {  // Get all products, it can be limited by query
   let { limit , page, query, sort } = req.query
@@ -62,34 +60,31 @@ export const getProducts = async (req, res) => {  // Get all products, it can be
 export const getProduct = async (req, res) => {
   const { pid } = req.params
   try {
-    const product = await managerProduct.getElementById(pid);
-    if (product) {
-      return res.status(200).json(product)
-    }
-    res.status(200).json({ message: "Product not found" })
+    const response  = await findProductById(pid)   
+    res.status(200).json(response)
+
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
-export const createProduct = async (req, res) => {
-  const { title, description, price, code, stock, category, status, thumbnail } = req.body
+export const postProduct = async (req, res) => {
+  const product = req.body
   try {
-    const product = await managerProduct.addElements([{ title, description, price, code, stock, category, status, thumbnail }])
-    res.status(204).json(product)
+    res.status(200).json(product)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 }
 
-export const updateProduct = async (req, res) => { // Modifica 1 producto
+export const putProduct = async (req, res) => { // Modifica 1 producto
   const pid = req.params.pid
   const product = req.body
   try {      
-      const response  = await managerProduct.updateElementById(pid, product)
+      const response  = await updateProduct(pid, product)
 
       if (response) {
-        const response  = await managerProduct.getElementById(pid)
+        const response  = await findProductById(pid)
         res.status(200).json(response)         
       } else {
         res.status(200).json("There isnt any product with that ID to update") 
@@ -101,20 +96,20 @@ export const updateProduct = async (req, res) => { // Modifica 1 producto
   }
 }
 
-export const deleteProduct = async (req, res) => { // Delete Product
+export const deleteProductCont = async (req, res) => { // Delete Product
   const pid = req.params.pid
   try {      
-      const response = await managerProduct.deleteElementById(pid)
+    const response = await managerProduct.deleteProductServ(pid)
 
-      if (response) {
-        res.status(200).json({
-          delete: true,
-          message: "Product deleted"}) 
-      } else {
-        res.status(200).json({
-          delete: false,
-          message: "There isnt any product with that ID to delete"}) 
-      }
+    if (response) {
+      res.status(200).json({
+        delete: true,
+        message: "Product deleted"}) 
+    } else {
+      res.status(200).json({
+        delete: false,
+        message: "There isnt any product with that ID to delete"}) 
+    }
   } catch (error) {
     res.status(500).json({
       message: error.message

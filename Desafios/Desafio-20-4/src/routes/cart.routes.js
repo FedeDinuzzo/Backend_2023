@@ -1,16 +1,19 @@
 import { Router } from "express"
-import { getCart, updateCart, insertProductCart, updateQuantityProduct, deleteProductCart, deleteProductsCart } from '../controllers/cart.controller.js'
+import {deleteProductsCart, putProductsCart, getCart, addProductInCart, putQuantityProduct, deleteProductCart, postCart } from "../controllers/cart.controller.js"
 
-const routerCart = Router()
+// "/api/carts"
+const routerCarts = Router()
 
-routerCart.route("/:cid")
+routerCarts.post("/",postCart)
+
+routerCarts.route("/:cid") 
   .get(getCart)
   .delete(deleteProductsCart)
-  .put(updateCart)
-  
-routerCart.route("/:cid/products/:pid")
-  .post(insertProductCart)
-  .put(updateQuantityProduct)
+  .put(putProductsCart)
+
+routerCarts.route("/:cid/products/:pid")
+  .post(addProductInCart)
+  .put(putQuantityProduct)
   .delete(deleteProductCart)
 
-export default routerCart
+export default routerCarts
