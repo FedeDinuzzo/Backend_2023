@@ -1,4 +1,4 @@
-import userModel from "../models/MongoDB/userModel.js"
+import userModel from "../dao/MongoDB/db/mongoDBManager.js"
 
 export const findUsers = async () => {
   try {

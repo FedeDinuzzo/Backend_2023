@@ -24,4 +24,3 @@ export const strategyJWT = new JWTStrategy(jwtOptions, async(jwt_payload, done) 
     return done(error)
   }      
 })
-

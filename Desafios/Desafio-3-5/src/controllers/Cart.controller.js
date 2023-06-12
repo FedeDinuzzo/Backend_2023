@@ -3,8 +3,8 @@ import { findProductById } from '../services/productService.js'
 
 export const postCart = async (req, res) => {  //Insert a new cart
   try {
-    const response = await createCart()
-    res.status(200).json(response)
+    const response = await createCart();   
+    res.status(200).json(response); 
     
   } catch (error) {
     res.status(500).json({
@@ -18,7 +18,7 @@ export const getCart = async (req, res) => { // Retrieves the specified cart
     const cid = req.params.cid    
     const cart = await managerCarts.getElementById(cid)
 
-    if (cart.products.length !== 0) {
+    if (cart.products.length !== 0 ){
       res.status(200).json(cart)
     } else {
       res.status(200).json("Cart is empty")   
@@ -52,21 +52,6 @@ export const updateCart = async (req, res) => {  // Step on the entire cart with
     res.status(200).json(answer)
   
   } catch (error) {
-    res.status(500).json({
-      message : error.message      
-    })
-  }
-}
-
-export const putProductsCart = async (req, res) => {  // step on the entire cart with the products sent 
-  try {
-    const cid = req.params.cid
-    const products = req.body
-    let answer = await updateProductsCart(cid, products)
-    res.status(200).json(answer)
-  
-  } catch (error) {
-    
     res.status(500).json({
       message : error.message      
     })

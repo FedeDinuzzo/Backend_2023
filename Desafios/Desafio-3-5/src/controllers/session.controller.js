@@ -1,4 +1,4 @@
-import { findUserByEmail } from '../services/userService.js' // export instance of the user.controller class
+import { managerUser } from "./user.controller.js"
 import { validatePassword } from "../utils/bcrypt.js"
 import { generateToken } from '../utils/jwt.js'
 
@@ -33,7 +33,7 @@ export const getSession = (req, res) => {
 export const testLogin = async (req, res) => {
   try {
     const { email, password } = req.body
-    const user = await findUserByEmail(email)
+    const user = await managerUser.getUserByEmail(email)
 
     if (user && validatePassword(password, user.password)) {
       req.session.login = true
