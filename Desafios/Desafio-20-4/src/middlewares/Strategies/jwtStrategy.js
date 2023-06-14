@@ -1,7 +1,6 @@
 import jwt from 'passport-jwt'
 import config from "../../config/config.js"
 
-
 const JWTStrategy = jwt.Strategy // JWT Strategy
 const ExtractJWT = jwt.ExtractJwt // Extractor either headers or cookies...
 
@@ -14,7 +13,7 @@ const cookieExtractor = (req) => {
 
 const jwtOptions = {
   jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]), // From where do i extract my token
-  secretOrKey: config.signedCookie  // Same value as cookie signature
+  secretOrKey: config.signedCookie // Same value as cookie signature
 }
 
 export const strategyJWT = new JWTStrategy(jwtOptions, async(jwt_payload, done) =>{
