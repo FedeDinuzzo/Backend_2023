@@ -48,7 +48,7 @@ export const strategyLogin =  new LocalStrategy({
     usernameField: 'email' 
   }, async (username, password, done) => {
     try {
-      const user = await findUserByEmail(username)
+      const user = await managerUser.getUserByEmail(username)
 
       if (!user) { // User not found
         return done(null, false)

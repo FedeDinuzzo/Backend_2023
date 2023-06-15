@@ -4,19 +4,16 @@ import { Command } from 'commander'
 const program = new Command()
 
 program
-  .option('--mode <mode>', "Ingrese el modo de trabajo", 'DEVELOPMENT')
+  .option('--mode <mode>', "Enter work mode", 'dev')
 program.parse()
 
-// Create a new instance of the Command class and define the '--mode' option
+console.log("You are in: ", program.opts().mode);
 
-const environment = program.opts().mode
+const enviroment = program.opts().mode
 
-// Get the value of the 'mode' option provided through the command line
-
-const envFilePath = environment === "DEVELOPMENT" ? './.env.development' : './.env.production'
-dotenv.config({ path: envFilePath })
-
-// Determine the appropriate environment file path based on the 'mode' option and load the environment variables from the file
+dotenv.config({
+  path: enviroment === 'DEV' ? "./.env.dev" : "./.env.prod"
+})
 
 export default {
   port: process.env.PORT,
@@ -27,10 +24,5 @@ export default {
   signedCookie: process.env.SIGNED_COOKIE,
   salt: process.env.SALT,
   clientIdGithub: process.env.CLIENT_ID_GITHUB,
-  clientSecretGithub: process.env.CLIENT_SECRET_GITHUB,
-  clientIdGoogle: process.env.CLIENT_ID_GOOGLE,
-  clientSecretGoogle: process.env.CLIENT_SECRET_GOOGLE,
-  mailPass: process.env.MAIL_PASS
+  clientSecretGithub: process.env.CLIENT_SECRET_GITHUB
 }
-
-// Export an object that contains the required configuration values retrieved from the environment variables

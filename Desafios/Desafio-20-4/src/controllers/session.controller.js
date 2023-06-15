@@ -1,4 +1,4 @@
-import { findUserByEmail } from '../services/userService.js' // export instance of the user.controller class
+import { findUserByEmail } from '../services/userService.js'  // export instance of the user.controller class
 import { validatePassword } from "../utils/bcrypt.js"
 import { generateToken } from '../utils/jwt.js'
 

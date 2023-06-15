@@ -9,29 +9,28 @@ import config from "../../config/config.js"
 const githubOptions = {
   clientID: config.clientIdGithub,
   clientSecret: config.clientSecretGithub,
-  callbackURL: 'http://localhost:5000/authGithub/githubSession',
-  scope: ['profile','email'] // scope: se solicita acceso al correo electrónico del usuario autenticado en GitHub. 
+  callbackURL: 'http://localhost:4000/authSession/githubSession'
 }
+
 
 export const strategyGithub = new GitHubStrategy(githubOptions, async (accessToken, refreshToken, profile, done) => {
   try {
-    //console.log("profile github",profile)
     const user = await findUserByEmail(profile._json.email)
     
-    if (user) { //Usuario ya existe en BDD
+    if (user) { // User already exist at db
       const token = generateToken(user)
       console.log("TOKEN=", token)
       return done(null, user, {token: token})
     } else {
       const passwordHash = createHash('coder123')
       const idCart = await createCart()
-      const userCreated = await createUser({
+      const userCreated = await createUser([{
         firstname: profile._json.login,
         lastname: profile._json.html_url,
         email: profile._json.email,
-        password: passwordHash, //Contraseña por default ya que no puedo accder a la contraseña de github
-        idCart: idCart.id
-      })
+        password: passwordHash, // Default password since can't access github password
+        idCart: idCart[0].id
+      }])
       const token = generateToken(userCreated)
       console.log("TOKEN=", token)
 

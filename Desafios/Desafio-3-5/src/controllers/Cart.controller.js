@@ -44,7 +44,7 @@ export const deleteProductsCart = async (req, res) => {  // Empty the cart
   }
 }
 
-export const updateCart = async (req, res) => {  // Step on the entire cart with the products sent
+export const putProductsCart= async (req, res) => {  // Step on the entire cart with the products sent
   try {
     const cid = req.params.cid
     const products = req.body
@@ -131,18 +131,17 @@ export const deleteProductCart = async (req, res) => {  //Elimina productos del 
   const pid = req.params.pid
 
   try {
-      
-      let cart = await findCartById(cid)
-      cart = await cart.populate('products.productId')
+    let cart = await findCartById(cid)
+    cart = await cart.populate('products.productId')
 
-      const filteredCart = cart.products.filter((element)=> {return element.productId.id!==pid})        
-      if (filteredCart.length !== cart.products.length) {      
-        cart.products = filteredCart
-        await cart.save()
-        res.status(200).json(cart)
-      } else {
-        res.status(200).send("Product dont exist in cart")
-      }    
+    const filteredCart = cart.products.filter((element)=> {return element.productId.id!==pid})        
+    if (filteredCart.length !== cart.products.length) {      
+      cart.products = filteredCart
+      await cart.save()
+      res.status(200).json(cart)
+    } else {
+      res.status(200).send("Product dont exist in cart")
+    }    
   } catch (error) {
     res.status(500).json({
       message: error.message

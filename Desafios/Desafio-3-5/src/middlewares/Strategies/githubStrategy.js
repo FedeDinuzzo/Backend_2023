@@ -7,8 +7,8 @@ import config from "../../config/config.js"
 
 
 const githubOptions = {
-  clientID: config.clientId,
-  clientSecret: config.clientSecret,
+  clientID: config.clientIdGithub,
+  clientSecret: config.clientSecretGithub,
   callbackURL: 'http://localhost:4000/authSession/githubSession'
 }
 
