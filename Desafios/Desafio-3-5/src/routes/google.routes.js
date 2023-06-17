@@ -1,14 +1,15 @@
 import { Router } from "express"
 import passport from 'passport'
 
-const routerGithub = Router()
+// "/authGoogle"
+const routerGoogle = Router()
 
 // Register
-routerGithub.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {
+routerGoogle.get('/google', passport.authenticate('google'), async (req, res) => { 
 })
 
 // Login
-routerGithub.get('/githubSession', passport.authenticate('github'), async (req, res) => {
+routerGoogle.get('/googleSession', passport.authenticate('google'), async (req, res) => {
     req.session.user = req.user
     console.log("req.session: ", req.session)
     if (req.session.user) {
@@ -16,10 +17,10 @@ routerGithub.get('/githubSession', passport.authenticate('github'), async (req, 
         const token = req.authInfo.token
         res
         .cookie('jwtCookies',token,{maxAge: 30000})
-        .redirect('/products')
+        .redirect('/api/products')
     } else {
         res.redirect('/login')
     }
 })
 
-export default routerGithub
+export default routerGoogle

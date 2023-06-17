@@ -13,3 +13,6 @@ export const getUsers = async (req, res) => {
   }
 }
 
+export const postUser = async (req, res) => {
+  res.send({status: "success", message: "User Created"})
+}

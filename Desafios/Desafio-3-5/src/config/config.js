@@ -24,5 +24,8 @@ export default {
   signedCookie: process.env.SIGNED_COOKIE,
   salt: process.env.SALT,
   clientIdGithub: process.env.CLIENT_ID_GITHUB,
-  clientSecretGithub: process.env.CLIENT_SECRET_GITHUB
+  clientSecretGithub: process.env.CLIENT_SECRET_GITHUB,
+  clientIdGoogle: process.env.CLIENT_ID_GOOGLE,
+  clientSecretGoogle: process.env.CLIENT_SECRET_GOOGLE,
+  mailPass: process.env.MAIL_PASS
 }

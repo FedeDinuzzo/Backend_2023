@@ -1,6 +1,5 @@
 import { paginateProducts, findProductById, createProduct, updateProduct, deleteProductServ  } from "../services/productService.js"
 
-
 export const getProducts = async (req, res) => {  // Get all products, it can be limited by query
   let { limit , page, query, sort } = req.query
   const ValidSort = ['asc', 'desc']
@@ -28,7 +27,7 @@ export const getProducts = async (req, res) => {  // Get all products, it can be
   };
   
   try {
-    const products = await managerProduct.paginate(filter, options)
+    const products = await paginateProducts(filter, options)
     const queryLink = query ? `&query=${query}` : ""
     const limitLink = limit ? `&limit=${limit}` : ""
     const sortLink = sort ? `&sort=${sort}` : ""
@@ -68,12 +67,16 @@ export const getProduct = async (req, res) => {
   }
 }
 
-export const postProduct = async (req, res) => {
-  const product = req.body
-  try {
-    res.status(200).json(product)
+export const postProduct = async (req, res) => { //Inserta nuevo producto
+  const product = req.body  
+  try {      
+    const response = await createProduct(product)
+    res.status(200).json(response)
+
   } catch (error) {
-    res.status(500).json({ message: error.message })
+    res.status(500).json({
+      message: error.message
+    }) 
   }
 }
 

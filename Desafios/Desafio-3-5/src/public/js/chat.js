@@ -1,51 +1,34 @@
 const socket = io()
-
-const chatForm = document.getElementById("chatForm")
-const chatBox = document.getElementById("chatBox")
-const msgAuthor = document.getElementById("author")
-const msgEmail = document.getElementById("email")
-const msgText = document.getElementById("message")
+const name = document.getElementById("name")
+const email = document.getElementById("email")
+const message = document.getElementById("msg")
+const text = document.getElementById("view")
 
 window.addEventListener("load", () => {
-  socket.emit("load messages")
+    socket.emit("loadMsg")    
 })
 
-socket.on("allMessages", async message => {
-  chatBox.textContent = ''
-  message.forEach(message => {
-    let date = new Date(message.date)
-    const dateOpts = {
-      year: 'numeric', month: 'numeric', day: 'numeric',
-      hour: 'numeric', minute: 'numeric', second: 'numeric',
-      hour12: false
-    }
-    chatBox.textContent += `[${new Intl.DateTimeFormat('es-AR', dateOpts).format(date)}] ${message.name} (${message.email}): ${message.message}\n`
+socket.on("pushMsg", async msg => {
+  name.value = ""
+  email.value = ""
+  message.value = ""
+  text.content = ""
+  msg.forEach(msg => {
+    text.content += `${msg.name} [(${msg.email})]: ${msg.message}\n`
   })
 })
 
-chatForm.addEventListener("submit", (e)=>{
-  e.preventDefault();
-
-  console.log(msgAuthor.value)
-  console.log(msgEmail.value)
-  console.log(msgText.value)
-    
-  if (msgAuthor.value && msgEmail.value && msgText.value) {
-    const newMessage = {
-      name: msgAuthor.value,
-      email: msgEmail.value,
-      message: msgText.value,
-      date: this.date
+sendMessage = ()=>{
+  if (name.value && email.value && message.value) {
+    let newMsg = {
+      "name":    name.value,
+      "email":   email.value,
+      "message": message.value
     }
-
-    socket.emit("message", newMessage)
-    msgText.value = ""
-    scrollDown()
+    
+    socket.emit("addMessage", newMsg)
+        
   } else {
-    alert("Complete the fields Please")
+    alert("Some fields are empty, please complete them")
   }
-})
-
-function scrollDown() {
-  chatBox.scrollTop = chatBox.scrollHeight
 }
