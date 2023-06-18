@@ -13,7 +13,7 @@ export const strategyRegister = new LocalStrategy({
     usernameField: 'email'
   }, async (req, username, password, done) => {
     //Validar y crear Usuario
-    const { firstname, lastname, email } = req.body
+    const { first_name, last_name, email } = req.body
     try {
       const user = await findUserByEmail(username) //Username = email
 
@@ -24,8 +24,8 @@ export const strategyRegister = new LocalStrategy({
       const idCart = await createCart()
       
       const userCreated = await createUser({
-        firstname: firstname,
-        lastname: lastname,        
+        first_name: first_name,
+        last_name: last_name,        
         email: email,
         password: passwordHash, 
         idCart: idCart.id

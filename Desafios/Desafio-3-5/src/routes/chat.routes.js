@@ -5,7 +5,7 @@ import { roleVerification } from "../utils/rolVerification.js"
 const routerChat = Router()
 
 routerChat.get('/',  passportError('jwt'), roleVerification(['user']), async (req, res) => {  
-  res.render("chat", { messages: messages})
+  res.render("chat")
 })
 
 export default routerChat

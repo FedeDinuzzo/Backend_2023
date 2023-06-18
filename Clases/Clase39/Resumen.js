@@ -12,3 +12,6 @@
 // Archivo de configuracion 
 // Proyecto de prueba 
 // https://github.com/CoderContenidos/RecursosBackend-Adoptme
+
+// npm i swagger-jsdoc swagger-ui-express
+// Hacemos una consulta a nuestra db desde el navegador
