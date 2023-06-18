@@ -2,8 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express'
-import __dirname from './path.js';
+import swaggerUiExpress from 'swagger-ui-express';
+import {__dirname} from "./path.js";
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
 import adoptionsRouter from './routes/adoption.router.js';
@@ -14,14 +14,14 @@ const PORT = process.env.PORT || 8080;
 await mongoose.connect(`mongodb+srv://fededinuzzo:1IXJX7UpUvvHKGR2@cluster0.0tgjndk.mongodb.net/`)
 
 const swaggerOptions = {
-    definition: {
-        openapi: '3.0.1',
-        info: {
-            title: "Doc de mi aplicacion",
-            decription: "Aqui iria la descripcion de mi proyecto"
-        }
-    },
-    apis: [`${__dirname}/docs/**/*.yaml`]
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: "Doc de mi aplicacion",
+      decription: "Aqui iria la descripcion de mi proyecto"
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
 }
 
 const specs = swaggerJSDoc(swaggerOptions)
