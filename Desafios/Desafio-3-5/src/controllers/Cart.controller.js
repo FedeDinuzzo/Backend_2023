@@ -16,7 +16,8 @@ export const postCart = async (req, res) => {  //Insert a new cart
 export const getCart = async (req, res) => { // Retrieves the specified cart
   try {
     const cid = req.params.cid    
-    const cart = await managerCarts.getElementById(cid)
+    let cart = await findCartById(cid);
+        cart = await cart.populate('products.productId')
 
     if (cart.products.length !== 0 ){
       res.status(200).json(cart)

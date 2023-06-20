@@ -11,7 +11,6 @@ const initializePassport = () => {
   passport.use('jwt', strategyJWT)
   passport.use('github', strategyGithub)
   passport.use('google', strategyGoogle)
-
   
   // Initialize user session
   passport.serializeUser((user, done) => {

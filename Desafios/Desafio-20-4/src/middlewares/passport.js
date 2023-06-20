@@ -5,10 +5,10 @@ import { strategyGithub } from './Strategies/githubStrategy.js'
 import { findUserById } from '../services/userService.js'
 
 const initializePassport = () => {
-  passport.use(strategyRegister)
-  passport.use(strategyLogin)
-  passport.use(strategyJWT)
-  passport.use(strategyGithub)
+  passport.use('register', strategyRegister)
+  passport.use('login', strategyLogin)
+  passport.use('jwt', strategyJWT)
+  passport.use('github', strategyGithub)
   
   // Initialize user session
   passport.serializeUser((user, done) => {

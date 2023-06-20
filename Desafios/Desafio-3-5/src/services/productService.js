@@ -2,7 +2,7 @@ import productModel from "../models/MongoDB/productModel.js"
 
 export const paginateProducts = async (filter, options) => {
   try {
-    return await productModel.paginate(filter, options);
+    return await productModel.paginate(filter, options)
   } catch (error) {
     throw error
   }

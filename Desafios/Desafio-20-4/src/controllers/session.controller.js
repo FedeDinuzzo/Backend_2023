@@ -43,9 +43,12 @@ export const testLogin = async (req, res) => {
       console.log(`${email} is ${user.rol}`)
       console.table(req.session)
       const token = generateToken(user)
-      res
+
+      return res
+        .cookie('jwtCookies',token,{maxAge: 30000 , httpOnly: true} ) // Set cookie
         .status(200)
-        .cookie('jwtCookies',token,{maxAge: 30000}).send('Cookie')
+        .json({token}) // Show token
+
     } else {
       res.status(401).json({
         message: "User or password incorrect"

@@ -4,10 +4,10 @@ import { createCart } from '../../services/cartService.js';
 import { createHash, validatePassword } from '../../utils/bcrypt.js'
 import { generateToken } from '../../utils/jwt.js'
 
-//Passport se va a manejar como si fuera un middleware 
+// Passport it will be handled as if it were a middleware 
 const LocalStrategy = local.Strategy //Estretagia local de autenticacion
 
-  //Ruta a implementar
+// Route to implement
 export const strategyRegister = new LocalStrategy({
     passReqToCallback: true, 
     usernameField: 'email'
@@ -17,8 +17,8 @@ export const strategyRegister = new LocalStrategy({
     try {
       const user = await findUserByEmail(username) //Username = email
 
-      if (user) { //Usuario existe
-        return done(null, false, "user already exists") //null que no hubo errores || false que no se creo el usuario
+      if (user) { // User already exist
+        return done(null, false, "user already exists") // null that there were no errors || false that the user was not created
       }
       const passwordHash = createHash(password)
       const idCart = await createCart()
@@ -31,11 +31,9 @@ export const strategyRegister = new LocalStrategy({
         idCart: idCart.id
       })      
       
-      //console.log("nunca se esta devolviendo TOKEN, ver si queda")
-      //const token = generateToken(userCreated)
       //console.log("TOKEN=", token)
 
-      return done(null, userCreated) //Usuario creado correctamente
+      return done(null, userCreated) //Usuar created successfully
 
     } catch (error) {
       return done(error)
@@ -49,16 +47,15 @@ export const strategyLogin =  new LocalStrategy({
     try {
       const user = await findUserByEmail(username)
 
-      if (!user) { //Usuario no encontrado
+      if (!user) { // User not found
         return done(null, false)
       }
-      if (validatePassword(password, user.password)) { //Usuario y contraseña validos
-        //console.log("nunca se esta devolviendo TOKEN, ver si queda")
-        //const token = generateToken(user)
+      if (validatePassword(password, user.password)) { // Valid user and password
+        const token = generateToken(user)
         //console.log("TOKEN=", token)
         return done(null, user)
       }
-      return done(null, false) //Contraseña no valida
+      return done(null, false) // Invalid password
 
     } catch (error) {
       return done(error)

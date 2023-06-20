@@ -13,28 +13,26 @@ export const strategyRegister = new LocalStrategy({
     usernameField: 'email'
   }, async (req, username, password, done) => {
     //Validar y crear Usuario
-    const { firstname, lastname, email } = req.body
+    const { first_name, last_name, email } = req.body
     try {
       const user = await findUserByEmail(username) // Username = email
 
-      if (user) { // User exist
+      if (user) { // User already exist
         return done(null, false) // null that there were no errors || false that the user was not created
       }
       const passwordHash = createHash(password)
       const idCart = await createCart()
       
       const userCreated = await createUser([{
-        firstname: firstname,
-        lastname: lastname,        
+        first_name: first_name,
+        last_name: last_name,        
         email: email,
         password: passwordHash, 
         idCart: idCart[0].id
       }])      
       
-      console.log("nunca se esta devolviendo TOKEN, ver si queda")
       const token = generateToken(userCreated)
-      
-      console.log("TOKEN=", token)
+      // console.log("TOKEN=", token)
 
       return done(null, userCreated) //Usuar created successfully
 
@@ -48,15 +46,14 @@ export const strategyLogin =  new LocalStrategy({
     usernameField: 'email' 
   }, async (username, password, done) => {
     try {
-      const user = await managerUser.getUserByEmail(username)
+      const user = await findUserByEmail(username)
 
       if (!user) { // User not found
         return done(null, false)
       }
       if (validatePassword(password, user.password)) { // Valid user and password
-        console.log("nunca se esta devolviendo TOKEN, ver si queda")
         const token = generateToken(user)
-        console.log("TOKEN=", token)
+        // console.log("TOKEN=", token)
         return done(null, user)
       }
       return done(null, false) // Invalid password

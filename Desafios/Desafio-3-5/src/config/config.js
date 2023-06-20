@@ -12,7 +12,7 @@ console.log("You are in: ", program.opts().mode);
 const enviroment = program.opts().mode
 
 dotenv.config({
-  path: enviroment === 'DEV' ? "./.env.dev" : "./.env.prod"
+  path: enviroment === 'dev' ? "./.env.dev" : "./.env.prod"
 })
 
 export default {

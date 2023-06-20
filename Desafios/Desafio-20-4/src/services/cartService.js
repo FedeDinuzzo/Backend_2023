@@ -5,7 +5,7 @@ export const findCartById = async (cid) => {
 		const cart = await cartModel.findById(cid)
 		return cart		
 	} catch (error) {
-		throw new Error(error);
+		throw new Error(error)
 	}
 }
 
@@ -15,7 +15,7 @@ export const createCart = async () => {
 		await newCart.save()
 		return newCart
 	} catch (error) {
-		throw new Error(error);
+		throw new Error(error)
 	}
 }
 

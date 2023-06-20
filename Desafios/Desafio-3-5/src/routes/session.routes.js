@@ -1,4 +1,4 @@
-import {Router} from "express"
+import { Router } from "express"
 import { testLogin, destroySession } from "../controllers/session.controller.js"
 import { postUser } from '../controllers/user.controller.js'
 import { passportMessage } from "../utils/passportMessage.js"

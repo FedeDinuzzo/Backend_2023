@@ -102,7 +102,7 @@ export const putProduct = async (req, res) => { // Modifica 1 producto
 export const deleteProductCont = async (req, res) => { // Delete Product
   const pid = req.params.pid
   try {      
-    const response = await managerProduct.deleteProductServ(pid)
+    const response = await deleteProductServ(pid)
 
     if (response) {
       res.status(200).json({

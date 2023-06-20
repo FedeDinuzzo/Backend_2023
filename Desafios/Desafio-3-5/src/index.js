@@ -16,7 +16,7 @@ import { findMsg, updateMsg } from './services/chatService.js'
 // Port Server
 const app = express() 
 
-let transporter = nodemailer.createTransport({// Generating the way to send info
+let transporter = nodemailer.createTransport({ // Generating the way to send info
   host: 'smtp.gmail.com', // Defines the email service (gmail)
   port: 465,
   auth:{
@@ -67,10 +67,10 @@ const connectionMongoose = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log('Connected to the database');
+    console.log('Connected to the database')
     // Start interacting with the database
   } catch (error) {
-    console.error('Error connecting to the database:', error);
+    console.error('Error connecting to the database:', error)
   }
 }
 
