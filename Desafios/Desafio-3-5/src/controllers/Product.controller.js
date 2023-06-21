@@ -68,7 +68,7 @@ export const getProduct = async (req, res) => {
   }
 }
 
-export const postProduct = async (req, res) => { //Inserta nuevo producto
+export const postProduct = async (req, res) => { // Insert a new product
   const product = req.body  
   try {      
     const response = await createProduct(product)
@@ -81,7 +81,7 @@ export const postProduct = async (req, res) => { //Inserta nuevo producto
   }
 }
 
-export const putProduct = async (req, res) => { // Modifica 1 producto
+export const putProduct = async (req, res) => { // Update 1 product
   const pid = req.params.pid
   const product = req.body
   try {      

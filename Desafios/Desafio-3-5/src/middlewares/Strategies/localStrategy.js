@@ -1,6 +1,6 @@
 import local from 'passport-local'
-import { findUserByEmail, createUser } from '../../services/userService.js';
-import { createCart } from '../../services/cartService.js';
+import { findUserByEmail, createUser } from '../../services/userService.js'
+import { createCart } from '../../services/cartService.js'
 import { createHash, validatePassword } from '../../utils/bcrypt.js'
 import { generateToken } from '../../utils/jwt.js'
 
@@ -12,10 +12,10 @@ export const strategyRegister = new LocalStrategy({
     passReqToCallback: true, 
     usernameField: 'email'
   }, async (req, username, password, done) => {
-    //Validar y crear Usuario
+    // Validate and create user
     const { first_name, last_name, email } = req.body
     try {
-      const user = await findUserByEmail(username) //Username = email
+      const user = await findUserByEmail(username) // Username = email
 
       if (user) { // User already exist
         return done(null, false, "user already exists") // null that there were no errors || false that the user was not created
@@ -31,9 +31,10 @@ export const strategyRegister = new LocalStrategy({
         idCart: idCart.id
       })      
       
-      //console.log("TOKEN=", token)
+      const token = generateToken(userCreated)
+      console.log("Token: ", token)
 
-      return done(null, userCreated) //Usuar created successfully
+      return done(null, userCreated) // User created successfully
 
     } catch (error) {
       return done(error)
@@ -52,7 +53,7 @@ export const strategyLogin =  new LocalStrategy({
       }
       if (validatePassword(password, user.password)) { // Valid user and password
         const token = generateToken(user)
-        //console.log("TOKEN=", token)
+        console.log("TOKEN=", token)
         return done(null, user)
       }
       return done(null, false) // Invalid password

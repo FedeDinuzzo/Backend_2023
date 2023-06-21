@@ -7,7 +7,7 @@ import { roleVerification } from "../utils/rolVerification.js"
 // "/api/carts"
 const routerCarts = Router()
 
-routerCarts.post("/",postCart)
+routerCarts.post("/", postCart)
 
 routerCarts.route("/:cid") 
   .get(getCart)
