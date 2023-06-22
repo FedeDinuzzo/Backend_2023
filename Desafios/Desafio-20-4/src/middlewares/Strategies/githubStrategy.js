@@ -9,7 +9,7 @@ import config from "../../config/config.js"
 const githubOptions = {
   clientID: config.clientIdGithub,
   clientSecret: config.clientSecretGithub,
-  callbackURL: 'http://localhost:4000/authSession/githubSession'
+  callbackURL: 'http://localhost:4000/authGithub/githubSession'
 }
 
 
@@ -24,13 +24,13 @@ export const strategyGithub = new GitHubStrategy(githubOptions, async (accessTok
     } else {
       const passwordHash = createHash('coder123')
       const idCart = await createCart()
-      const userCreated = await createUser([{
+      const userCreated = await createUser({
         first_name: profile._json.login,
         last_name: profile._json.html_url,
         email: profile._json.email,
         password: passwordHash, // Default password since can't access github password
-        idCart: idCart[0].id
-      }])
+        idCart: idCart.id
+      })
       const token = generateToken(userCreated)
       console.log("TOKEN=", token)
 
