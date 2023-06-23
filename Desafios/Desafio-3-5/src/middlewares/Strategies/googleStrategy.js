@@ -9,7 +9,7 @@ import config from "../../config/config.js"
 const githubOptions = {
   clientID: config.clientIdGoogle,
   clientSecret: config.clientSecretGoogle,
-  callbackURL: 'http://localhost:5000/authGoogle/googleSession',
+  callbackURL: 'http://localhost:4000/authGoogle/googleSession',
   scope: ['profile','email'] // scope: access to the email of the authenticated user on GitHub is requested
 }
 
@@ -25,7 +25,7 @@ export const strategyGoogle = new GoogleStrategy(githubOptions, async (accessTok
       const passwordHash = createHash('coder123')
       const idCart = await createCart()
       const userCreated = await createUser({
-        firs_tname: profile._json.given_name,
+        first_name: profile._json.given_name,
         last_name: profile._json.family_name,
         email: profile.emails[0].value,
         password: passwordHash, // Default password since can't access github password

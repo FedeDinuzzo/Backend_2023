@@ -16,7 +16,7 @@ routerGithub.get('/githubSession', passport.authenticate('github'), async (req, 
         const token = req.authInfo.token
         res
         .cookie('jwtCookies',token,{maxAge: 30000})
-        .redirect('/products')
+        .redirect('/api/products')
     } else {
         res.redirect('/login')
     }
