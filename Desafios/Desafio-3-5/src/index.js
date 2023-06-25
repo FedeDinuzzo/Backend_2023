@@ -42,7 +42,6 @@ app.get('/email', async (req,res)=>{
   res.send("email sent")
 })
 
-
 // Middlewares
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
@@ -97,15 +96,15 @@ const io = new Server(server)
 io.on("connection", async (socket)=> {  
   console.log("Socket client connected")
   
-  socket.on("loadMsg", async () => {
-    const textMsg = await findMsg()
-    socket.emit("pushMsg", textMsg)
+  socket.on("loadMessage", async () => {
+    const textMessage = await findMessage()
+    socket.emit("pushMessage", textMessage)
   })
   
-  socket.on("addMsg", async (newMsg) => {
-    await updateMsg([newMsg])  
+  socket.on("addMessage", async (newMessage) => {
+    await updateMessage([newMessage])  
 
-    const textMsg = await findMsg()    
-    socket.emit("pushMsg", textMsg)
+    const textMessage = await findMessage()    
+    socket.emit("pushMessage", textMessage)
   })
 })

@@ -1,33 +1,27 @@
-<div class="backgroud_chat">
-  <h1 class="text-white" >Real Time Chat</h1>
-  <div class="chat-container">
-    <div class="operational-side-chat">
-
-      <div class="name-part-chat">
-        <label for="name" class="name-part-chat-title text-white">Name</label>
+<div class="chat">
+  <h1 class="chatTitle">Real Time Chat</h1>
+  <div class="chatContainer">
+    <div class="chatBox">
+      <div class="fieldName">
+        <label for="name" class="nameLabel">Name</label>
         <input type="text" name="name" placeholder="name" required  id="name" class="name">
+      </div>      
+      <div class="fieldEmail">
+        <label for="email" class="emailLabel">Email</label>
+        <input type="text" name="email" placeholder="email" required id="email" class="email">
+      </div>      
+      <div class="fieldMessage">
+        <label for="message" class="messageLabel">Message</label>
+        <input type="text" name="message" placeholder="message" required id="message" class="message">
       </div>
-      
-      <div class="mail-part-chat">
-        <label for="mail" class="mail-part-chat-title text-white">Email</label>
-        <input type="text" name="mail" placeholder="email" required id="email" class="email">
-      </div>
-      
-      <div class="message-part-chat">
-        <label for="message" class="msgTitle">Message</label>
-        <input type="text" name="message" placeholder="message" required id="msg" class="msg">
-      </div>
-
-      <div class="cahtBtn">
+      <div class="chatButton">
         <button onclick="sendMessage()" class="button">Send</button>
       </div>
-
     </div>
 
-    <div class="view-side-chat">
-        <div class="view-side-chat-title text-white">Chat</div>
-        <textarea name="message" id="view" class="view">
-        </textarea>
+    <div class="chatView">
+        <div class="viewTitle text-white">Chat</div>
+        <textarea name="message" id="view" class="view"></textarea>
     </div>    
   </div>
 </div>

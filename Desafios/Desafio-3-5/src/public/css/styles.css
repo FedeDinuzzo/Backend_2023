@@ -243,3 +243,78 @@ a {
 .back {
   color: rgb(46, 178, 178);
 }
+
+/* ====== CHAT ====== */
+
+.chat {
+
+}
+
+.chatTitle {
+
+}
+
+.chatContainer {
+
+}
+
+.chatBox {
+
+}
+
+.fieldName {
+
+}
+
+.nameLabel {
+
+}
+
+.name {
+
+}
+
+.fieldEmail {
+
+}
+
+.emailLabel {
+
+}
+
+.email {
+
+}
+
+.fieldMessage {
+
+}
+
+.messageLabel {
+
+}
+
+.message {
+
+}
+
+.chatButton {
+
+}
+
+.button {
+
+}
+
+.chatView {
+
+}
+
+.viewTitle {
+
+}
+
+.view  {
+  resize: none;
+  columns: 60;
+}

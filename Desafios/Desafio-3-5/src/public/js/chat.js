@@ -1,20 +1,20 @@
 const socket = io()
 const name = document.getElementById("name")
 const email = document.getElementById("email")
-const message = document.getElementById("msg")
+const message = document.getElementById("message")
 const text = document.getElementById("view")
 
 window.addEventListener("load", () => {
-    socket.emit("loadMsg")    
+    socket.emit("loadMessage")    
 })
 
-socket.on("pushMsg", async msg => {
+socket.on("pushMessage", async textMessage => {
   name.value = ""
   email.value = ""
   message.value = ""
   text.content = ""
-  msg.forEach(msg => {
-    text.content += `${msg.name} [(${msg.email})]: ${msg.message}\n`
+  textMessage.forEach(textMessage => {
+    text.content += `${textMessage.name} [(${textMessage.email})]: ${textMessage.message}\n`
   })
 })
 
@@ -26,7 +26,7 @@ sendMessage = ()=>{
       "message": message.value
     }
     
-    socket.emit("addMessage", newMsg)
+    socket.emit("addMessage", newMessage)
         
   } else {
     alert("Some fields are empty, please complete them")
