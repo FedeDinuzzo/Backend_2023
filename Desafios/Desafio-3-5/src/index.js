@@ -11,7 +11,7 @@ import session from 'express-session'
 import nodemailer from 'nodemailer' 
 import { Server } from "socket.io"
 import { engine } from 'express-handlebars'
-import { findMsg, updateMsg } from './services/chatService.js'
+import { findMessages, updateMessage } from './services/chatService.js'
 
 // Port Server
 const app = express() 
@@ -81,6 +81,7 @@ app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views')); //__dirname + './views'
 
 // Routes
+app.use('/', express.static(__dirname + '/public'))
 app.use('/', routes)
 
 // Server launch
@@ -93,18 +94,19 @@ const server = app.listen(app.get("port"), () => {
 //ServerIO
 const io = new Server(server)
 
-io.on("connection", async (socket)=> {  
+io.on("connection", async (socket) => {  
   console.log("Socket client connected")
   
   socket.on("loadMessage", async () => {
-    const textMessage = await findMessage()
+    const textMessage = await findMessages()
     socket.emit("pushMessage", textMessage)
   })
   
   socket.on("addMessage", async (newMessage) => {
     await updateMessage([newMessage])  
 
-    const textMessage = await findMessage()    
+    const textMessage = await findMessages()    
     socket.emit("pushMessage", textMessage)
   })
 })
+

@@ -1,18 +1,18 @@
 import chatModel from '../models/MongoDB/chatModel.js'
 
-export const findMsg = async () => {
+export const findMessages = async () => {
   try {
-    const msgs = await chatModel.find()
-    return msgs
-  } catch (err) {
-    throw new Error(err)
+    const messages = await chatModel.find()
+    return messages
+  } catch (error) {
+    throw new Error(error)
   }
 }
 
-export const updateMsg = async (msg) => {
+export const updateMessage = async (message) => {
   try {        
-    return await chatModel.insertMany(msg)
-  } catch (err) {
-    throw new Error(err)
+    return await chatModel.insertMany(message)
+  } catch (error) {
+    throw new Error(error)
   }
 }

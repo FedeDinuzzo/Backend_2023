@@ -1,26 +1,26 @@
 const socket = io()
-const name = document.getElementById("name")
-const email = document.getElementById("email")
-const message = document.getElementById("message")
-const text = document.getElementById("view")
+const name = document.getElementById("nameId")
+const email = document.getElementById("emailId")
+const message = document.getElementById("messageId")
+const text = document.getElementById("viewId")
 
 window.addEventListener("load", () => {
-    socket.emit("loadMessage")    
+  socket.emit("loadMessage")    
 })
 
 socket.on("pushMessage", async textMessage => {
   name.value = ""
   email.value = ""
   message.value = ""
-  text.content = ""
+  text.textContent = ""
   textMessage.forEach(textMessage => {
-    text.content += `${textMessage.name} [(${textMessage.email})]: ${textMessage.message}\n`
+    text.textContent += `${textMessage.name} [(${textMessage.email})]: ${textMessage.message}\n`
   })
 })
 
-sendMessage = ()=>{
+sendMessage = () => {
   if (name.value && email.value && message.value) {
-    let newMsg = {
+    let newMessage = {
       "name":    name.value,
       "email":   email.value,
       "message": message.value
