@@ -45,16 +45,16 @@ export const createTicket = async (ticket) => {
 
 export const updateTicket = async (tid, data) => {
   try {
-    return await ticketModel.findByIdAndUpdate(tid, data);
+    return await ticketModel.findByIdAndUpdate(tid, data)
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error)
   }
 }
 
-export const deleteTicketServ = async (tid) => {
+export const deleteTicket = async (tid) => {
   try {
-    return await ticketModel.findByIdAndDelete(tid);
+    return await ticketModel.findByIdAndDelete(tid)
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error)
   }
 }

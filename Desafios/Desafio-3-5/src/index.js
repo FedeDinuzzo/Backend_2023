@@ -29,8 +29,7 @@ let transporter = nodemailer.createTransport({ // Generating the way to send inf
 app.get('/email', async (req,res)=>{
   await transporter.sendMail({
     from:'federico.dinuzzo.soluciones@gmail.com',
-    //to: "franciscopugh01@gmail.com",
-    to: "federico.dinuzzo.soluciones@gmail.com",
+    to: "federicodinuzzo98@gmail.com",
     subject: "Ecommerce",
     html:`
     <div>

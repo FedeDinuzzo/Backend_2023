@@ -2,7 +2,7 @@ import { findTicketById, findTicketByCode, findTicketMaxCode, createTicket } fro
 import { findCartById, deleteProducts } from '../services/cartService.js'
 import { updateProduct } from '../services/productService.js'
 
-export const getTicketById = async (req, res) => {  //Recupera todos los productos. puede ser limitado si se informa por URL
+export const getTicketById = async (req, res) => {  // Retrieve all the products by id
   try {
     const tid = req.params.tid
     const ticket = await findTicketById(tid)
@@ -30,7 +30,7 @@ export const getTicketByCode = async (req, res) => {  // Retrieve all the produc
 
 export const purchaseCart = async (req, res) => { // Insert new product
   const cid = req.params.cid
-  const mail = req.user.user.email
+  const email = req.user.user.email
   try {
     let cart = await findCartById(cid)
     cart = await cart.populate('products.productId')
@@ -63,7 +63,7 @@ export const purchaseCart = async (req, res) => { // Insert new product
 
     let code = await findTicketMaxCode()
     ticket.code = ++code
-    ticket.purchase_email = mail
+    ticket.purchase_email = email
 
     await createTicket(ticket)
     await deleteProducts(cid)
