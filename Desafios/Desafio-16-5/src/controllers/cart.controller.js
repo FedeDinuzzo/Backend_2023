@@ -5,7 +5,7 @@ import { updateProduct } from '../services/productService.js'
 import CustomError from '../utils/erroresHandler/CustomError.js'
 import { EErrors } from '../utils/erroresHandler/enums.js'
 import { stockCartErrorInfo } from '../utils/erroresHandler/info.js'
-import { mongoose } from "mongoose"
+import {mongoose} from "mongoose"
 
 export const postCart = async (req, res) => {  //Insert a new cart
   try {
