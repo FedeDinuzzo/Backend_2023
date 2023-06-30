@@ -52,9 +52,9 @@ const connectionMongoose = async () => {
     useUnifiedTopology: true,
   })
   .catch((err) => console.log(err))
-
-  app.use(addLogger)
 }
+
+app.use(addLogger)
 
 connectionMongoose()
 

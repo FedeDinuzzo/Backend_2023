@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon src/index.js --mode dev"
+    "dev": "nodemon src/index.js --mode dev",
+    "prod": "nodemon src/index.js --mode prod"
   },
   "keywords": [],
   "author": "",

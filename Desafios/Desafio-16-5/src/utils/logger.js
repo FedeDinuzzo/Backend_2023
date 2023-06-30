@@ -34,7 +34,7 @@ const debugHttpInfoFilter = winston.format((info, opts) => {
 })
 
 const devFilter = winston.format((info, opts) => {
-  if (env.environment === 'development') {
+  if (config.environment === 'development') {
     return info  
   } else {
     return false
@@ -42,7 +42,7 @@ const devFilter = winston.format((info, opts) => {
 })
 
 const prodFilter = winston.format((info, opts) => {
-  if (env.environment === 'production') {
+  if (config.environment === 'production') {
     return info  
   } else {
     return false 

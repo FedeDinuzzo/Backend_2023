@@ -1,0 +1,3 @@
+info: GET en /loggerTest - function toLocaleTimeString() { [native code] }
+info: GET en /loggerTest - function toLocaleTimeString() { [native code] }
+info: 15:30:52 - info, all works ok
