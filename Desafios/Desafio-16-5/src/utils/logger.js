@@ -1,5 +1,5 @@
 import winston from 'winston'
-import { env } from "../config/config.js"
+import config from "../config/config.js"
 
 const customLevelOpt = {
   levels: {

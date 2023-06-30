@@ -2,10 +2,10 @@ import { findCartById, createCart, deleteProducts, updateProductsCart } from '..
 import { findProductById } from '../services/productService.js'
 import { findTicketById, findTicketByCode, findTicketMaxCode, createTicket } from "../services/ticketService.js"
 import { updateProduct } from '../services/productService.js'
-import CustomError from '../utils/erroresHandler/CustomError.js'
-import { EErrors } from '../utils/erroresHandler/enums.js'
-import { stockCartErrorInfo } from '../utils/erroresHandler/info.js'
-import {mongoose} from "mongoose"
+import CustomError from '../utils/errorsHandler/CustomError.js'
+import { EErrors } from '../utils/errorsHandler/enums.js'
+import { stockCartErrorInfo } from '../utils/errorsHandler/info.js'
+import { mongoose } from "mongoose"
 
 export const postCart = async (req, res) => {  //Insert a new cart
   try {

@@ -4,7 +4,7 @@ export const roles = {
   guest: 'guest'
 }
 
-export const enviroment  = {
+export const environment  = {
   development: 'dev',
   production: 'prod'  
 }

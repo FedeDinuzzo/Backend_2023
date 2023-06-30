@@ -27,21 +27,6 @@ let transporter = nodemailer.createTransport({ // Generating the way to send inf
   }
 })
 
-app.get('/email', async (req,res)=>{
-  await transporter.sendMail({
-    from:'federico.dinuzzo.soluciones@gmail.com',
-    to: "federicodinuzzo98@gmail.com",
-    subject: "Ecommerce",
-    html:`
-    <div>
-      This is an test example ecommerce email
-    </div>
-    `,
-    attachments: []
-  })
-  res.send("email sent")
-})
-
 // Middlewares
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
@@ -59,31 +44,40 @@ app.use(session({
 app.use(passport.initialize())
 initializePassport(passport)
 
-
 // Mongoose
 const connectionMongoose = async () => {
-  try {
-    await mongoose.connect(config.urlMongoDb, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Connected to the database')
-    // Start interacting with the database
-  } catch (error) {
-    console.error('Error connecting to the database: ', error)
-  }
+  await mongoose.connect(config.urlMongoDb, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .catch((err) => console.log(err))
 }
 
 connectionMongoose()
 
-// Handlebars
-app.engine('handlebars', engine())
-app.set('view engine', 'handlebars')
-app.set('views', path.resolve(__dirname, './views')); // __dirname + './views'
-
 // Routes
 app.use('/', express.static(__dirname + '/public')) // Public Folder
 app.use('/', routes)
+
+app.get('/email', async (req,res)=>{
+  await transporter.sendMail({
+    from:'federico.dinuzzo.soluciones@gmail.com',
+    to: "federicodinuzzo98@gmail.com",
+    subject: "Ecommerce",
+    html:`
+    <div>
+      This is an test example ecommerce email
+    </div>
+    `,
+    attachments: []
+  })
+  res.send("email sent")
+})
+
+//if a URL is invalid display a message
+app.use((req, res, next)=> {
+  res.status(404).send({error:'Error 404 Page Not Found'})
+})
 
 // Server launch
 app.set("port", config.port || 5000)
@@ -91,6 +85,11 @@ app.set("port", config.port || 5000)
 const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
 })
+
+// Handlebars
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
+app.set('views', path.resolve(__dirname, './views')); // __dirname + './views'
 
 //ServerIO
 const io = new Server(server)
