@@ -1,0 +1,9 @@
+info: GET en /chat - function toLocaleTimeString() { [native code] }
+info: GET en /favicon.ico - function toLocaleTimeString() { [native code] }
+info: GET en /authGithub/github - function toLocaleTimeString() { [native code] }
+info: GET en /authGithub/githubSession?code=fdd0fa26b2b6c8f85e22 - function toLocaleTimeString() { [native code] }
+info: GET en /api/products - function toLocaleTimeString() { [native code] }
+info: GET en /chat - function toLocaleTimeString() { [native code] }
+info: GET en /css/styles.css - function toLocaleTimeString() { [native code] }
+info: GET en /js/chat.js - function toLocaleTimeString() { [native code] }
+info: GET en /js/addProductCart.js - function toLocaleTimeString() { [native code] }
