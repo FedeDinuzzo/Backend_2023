@@ -3,11 +3,11 @@ import { findUserByEmail, createUser } from '../../services/userService.js'
 import { createCart } from '../../services/cartService.js'
 import { createHash } from '../../utils/bcrypt.js'
 import { generateToken } from '../../utils/jwt.js'
-import config from "../../config/config.js"
+import { env } from "../../config/config.js"
 
 const githubOptions = {
-  clientID: config.clientIdGithub,
-  clientSecret: config.clientSecretGithub,
+  clientID: env.clientIdGithub,
+  clientSecret: env.clientSecretGithub,
   callbackURL: 'http://localhost:4000/authGithub/githubSession',
   scope: ['profile','email'] // Scope: user email access autenthicated on GitHub. 
 }

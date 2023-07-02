@@ -14,7 +14,7 @@ export const postCart = async (req, res) => {  //Insert a new cart
     
   } catch (error) {
     res.status(500).json({
-      message : error.message
+      message: error.message
     })   
   }
 }
@@ -33,7 +33,7 @@ export const getCart = async (req, res) => { // Retrieves the specified cart
 
   } catch (error) {
     res.status(500).json({
-      message : error.message
+      message: error.message
     })   
   }
 }
@@ -46,7 +46,7 @@ export const deleteProductsCart = async (req, res) => {  // Empty the cart
   
   } catch (error) {
     res.status(500).json({
-      message : error.message
+      message: error.message
     })   
   }
 }
@@ -60,7 +60,7 @@ export const putProductsCart= async (req, res) => {  // Step on the entire cart 
   
   } catch (error) {
     res.status(500).json({
-      message : error.message      
+      message: error.message      
     })
   }
 }
@@ -101,7 +101,7 @@ export const addProductInCart = async (req, res) => {  //Inserta nuevos producto
         await cart.save()
         res.status(200).json(cart)
       } else {
-        throw new Error("Producto dont exist")     
+        throw new Error("Product dont exist")     
       }      
   } catch (error) {
     res.status(500).json({
@@ -142,8 +142,7 @@ export const putQuantityProduct = async (req, res) => {  //Modifica cantidades d
         throw new Error("Product sent dont exist")       
       }
       await cart.save()
-
-      res.status(200).send(cart.products);
+      res.status(200).send(cart.products)
   
     } catch (error) {
       res.status(500).json({
@@ -248,9 +247,8 @@ export const purchaseCart = async (req, res) => { //Inserta nuevo producto
       await session.endSession()
       //res.status(200).json(cart.products)
       return res.status(200).json(result)
-      
-  } catch (error) {
 
+  } catch (error) {
     await session.abortTransaction()
     await session.endSession()
 

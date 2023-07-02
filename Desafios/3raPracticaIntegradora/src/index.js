@@ -1,4 +1,4 @@
-import config from './config/config.js'
+import { env, swaggerOptions } from './config/config.js'
 import express from 'express'
 import { __dirname } from './path.js'
 import * as path from 'path'
@@ -8,35 +8,26 @@ import routes from './routes/routes.js'
 import passport from 'passport'
 import initializePassport from './middlewares/passport.js'
 import session from 'express-session'
-import nodemailer from 'nodemailer' 
 import errorHandler from './middlewares/errors/errorHandler.js'
 import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
 import { findMessages, updateMessage } from './services/chatService.js'
 import { addLogger } from './utils/logger.js'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 
 // Port Server
 const app = express() 
 
-let transporter = nodemailer.createTransport({ // Generating the way to send info
-  host: 'smtp.gmail.com', // Defines the email service (gmail)
-  port: 465,
-  auth:{
-    user:'federico.dinuzzo.soluciones@gmail.com',
-    pass: config.mailPass,
-    authMethod: 'LOGIN'
-  }
-})
-
 // Middlewares
 app.use(express.json()) 
 app.use(express.urlencoded({extended: true}))
-app.use(cookieParser(config.signedCookie))
+app.use(cookieParser(env.signedCookie))
 app.use(errorHandler)
 
 // Session
 app.use(session({  
-  secret: config.sessionSecret,
+  secret: env.sessionSecret,
   resave: true,
   saveUninitialized: true
 }))
@@ -47,7 +38,7 @@ initializePassport(passport)
 
 // Mongoose
 const connectionMongoose = async () => {
-  await mongoose.connect(config.urlMongoDb, {
+  await mongoose.connect(env.urlMongoDb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -61,6 +52,11 @@ connectionMongoose()
 // Routes
 app.use('/', express.static(__dirname + '/public')) // Public Folder
 app.use('/', routes)
+
+const specs = swaggerJSDoc(swaggerOptions)
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
+app.use(errorHandler)
 
 app.get('/email', async (req,res)=>{
   await transporter.sendMail({
@@ -83,7 +79,7 @@ app.use((req, res, next)=> {
 })
 
 // Server launch
-app.set("port", config.port || 5000)
+app.set("port", env.port || 5000)
 
 const server = app.listen(app.get("port"), () => {
   console.log(`Server on http://localhost:${app.get("port")}`)
@@ -110,5 +106,10 @@ io.on("connection", async (socket) => {
 
     const textMessage = await findMessages()    
     socket.emit("pushMessage", textMessage)
+  })
+
+  socket.on("mailValidation",async(email) => {
+    const answer = await findUserByEmail(email) 
+    socket.emit("answerMailValidation", answer)
   })
 })

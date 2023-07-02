@@ -3,17 +3,17 @@ import { findUserByEmail, createUser } from '../../services/userService.js'
 import { createCart } from '../../services/cartService.js'
 import { createHash } from '../../utils/bcrypt.js'
 import { generateToken } from '../../utils/jwt.js'
-import config from "../../config/config.js"
+import { env } from "../../config/config.js"
 
 
-const githubOptions = {
-  clientID: config.clientIdGoogle,
-  clientSecret: config.clientSecretGoogle,
+const googleOptions = {
+  clientID: env.clientIdGoogle,
+  clientSecret: env.clientSecretGoogle,
   callbackURL: 'http://localhost:4000/authGoogle/googleSession',
   scope: ['profile','email'] // scope: access to the email of the authenticated user on GitHub is requested
 }
 
-export const strategyGoogle = new GoogleStrategy(githubOptions, async (accessToken, refreshToken, profile, cb) => {
+export const strategyGoogle = new GoogleStrategy(googleOptions, async (accessToken, refreshToken, profile, cb) => {
   try {
     const user = await findUserByEmail(profile._json.email)
     

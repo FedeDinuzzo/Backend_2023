@@ -7,3 +7,5 @@ info: GET en /chat - function toLocaleTimeString() { [native code] }
 info: GET en /css/styles.css - function toLocaleTimeString() { [native code] }
 info: GET en /js/chat.js - function toLocaleTimeString() { [native code] }
 info: GET en /js/addProductCart.js - function toLocaleTimeString() { [native code] }
+info: GET en /chat - function toLocaleTimeString() { [native code] }
+info: GET en /favicon.ico - function toLocaleTimeString() { [native code] }

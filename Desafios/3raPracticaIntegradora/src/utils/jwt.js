@@ -1,11 +1,16 @@
 import jwt from "jsonwebtoken"
-import config from "../config/config.js"
+import { env } from "../config/config.js"
 
 export const generateToken = (user) => {
   // 1st: Token association object
   // 2nd: Encryption private key
   // 3rd: Expiration time
-  const token = jwt.sign({ user }, config.signedCookie, {expiresIn: '24h'})
+  const token = jwt.sign({ user }, env.signedCookie, {expiresIn: '24h'})
+  return token
+}
+
+export const generateTokenRestorePass = (data) => {
+  const token = jwt.sign({data}, env.signedCookie, {expiresIn:'1h'})
   return token
 }
 
@@ -20,7 +25,7 @@ export const authToken = (req,res,next) => {
   // Remove the word Bearer from the token
   const token = authHeader.split(' ')[1]
   // Validate if the token is valid or not
-  jwt.sign(token, config.signedCookie, (error,credentials) => {
+  jwt.sign(token, env.signedCookie, (error,credentials) => {
     if (error) {
       return(res.status(403).send({error: "User not autorized"}))
     }
@@ -28,4 +33,17 @@ export const authToken = (req,res,next) => {
     req.user = credentials.user
     next()
   })
+}
+
+export const jwtReader = (tokenIn) => {
+  let token = null
+  try {
+    if (tokenIn){
+      return token = jwt.verify(tokenIn, env.signedCookie)
+    }
+  } catch (error) {
+    token = "timeOut"
+  }
+
+  return token
 }

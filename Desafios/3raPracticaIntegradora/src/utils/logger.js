@@ -1,5 +1,5 @@
 import winston from 'winston'
-import config from "../config/config.js"
+import { env} from "../config/config.js"
 
 const customLevelOpt = {
   levels: {
@@ -34,7 +34,7 @@ const debugHttpInfoFilter = winston.format((info, opts) => {
 })
 
 const devFilter = winston.format((info, opts) => {
-  if (config.environment === 'development') {
+  if (env.environment === 'development') {
     return info  
   } else {
     return false
@@ -42,7 +42,7 @@ const devFilter = winston.format((info, opts) => {
 })
 
 const prodFilter = winston.format((info, opts) => {
-  if (config.environment === 'production') {
+  if (env.environment === 'production') {
     return info  
   } else {
     return false 
@@ -113,6 +113,6 @@ const logger = winston.createLogger({
 
 export const addLogger = (req, res, next) => {
   req.logger = logger // Being able to use the previously defined logger
-  req.logger.info(`${req.method} en ${req.url} - ${new Date().toLocaleTimeString}`)
+  req.logger.info(`${req.method} in ${req.url} - ${new Date().toLocaleTimeString}`)
   next()
 }
