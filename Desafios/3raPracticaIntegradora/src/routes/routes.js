@@ -24,5 +24,6 @@ router.use('/authGoogle', routerGoogle)
 router.use('/chat', routerChat)
 router.use('/mockingproducts', routerMockingProducts)
 router.use('/loggerTest', routerLogger)
+// router.use('/apidocs', routerApidocs)
 
 export default router
