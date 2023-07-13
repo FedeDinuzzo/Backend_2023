@@ -10,6 +10,7 @@ import routerChat from './chat.routes.js'
 import routerMockingProducts from './mockingProducts.routes.js'
 import routerLogger from './logger.routes.js'
 import routerViews from './views.routes.js'
+import routerApidocs from './swagger.routes.js'
 
 const router = Router()
 
@@ -24,6 +25,6 @@ router.use('/authGoogle', routerGoogle)
 router.use('/chat', routerChat)
 router.use('/mockingproducts', routerMockingProducts)
 router.use('/loggerTest', routerLogger)
-// router.use('/apidocs', routerApidocs)
+router.use('/apidocs', routerApidocs)
 
 export default router
