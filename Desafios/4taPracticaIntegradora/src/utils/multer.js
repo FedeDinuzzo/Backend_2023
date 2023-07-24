@@ -1,8 +1,7 @@
-import multer from "multer";
+import multer from "multer"
 import { __dirname } from "../path.js"
 
-
-//Este middleware se usaa para poder manejar los distintos tipos de documentos segun se informe desde la ruta 
+// Este middleware se usaa para poder manejar los distintos tipos de documentos segun se informe desde la ruta 
 export const tipoDoc = (tipo) => {
   return (req, res, next) => {
   req.tipoDoc = tipo

@@ -1,11 +1,11 @@
-import cartModel from '../models/MongoDB/cartModel.js';
+import cartModel from '../models/MongoDB/cartModel.js'
 
 export const findCartById = async (cid) => {
 	try {
 			const cart = await cartModel.findById(cid)
 			return cart		
 	} catch (error) {
-			throw new Error(error);
+			throw new Error(error)
 	}
 }
 
@@ -15,27 +15,27 @@ export const createCart = async () => {
 			await newCart.save()
 			return newCart
 	} catch (error) {
-			throw new Error(error);
+			throw new Error(error)
 	}
 }
 
 export const deleteCart = async (cid) => {
 	try {
-			return await cartModel.findByIdAndDelete(cid);
+			return await cartModel.findByIdAndDelete(cid)
 	} catch (error) {
-			throw new Error(error);
+			throw new Error(error)
 	}
 }
 
 export const updateCart = async (cid, data) => {
 	try {
-			return await cartModel.findByIdAndUpdate(cid, data);
+			return await cartModel.findByIdAndUpdate(cid, data)
 	} catch (error) {
-			throw new Error(error);
+			throw new Error(error)
 	}
 }
 
-export const  deleteProducts = async (cid)=>{
+export const  deleteProducts = async (cid) => {
 	
   try {
     const cart = await cartModel.findById(cid)
@@ -48,7 +48,7 @@ export const  deleteProducts = async (cid)=>{
   }
 }
 
-export const updateProductsCart = async (cid, products)=>{
+export const updateProductsCart = async (cid, products) => {
   try{
       const cart = await cartModel.findById(cid)
       cart.products = products

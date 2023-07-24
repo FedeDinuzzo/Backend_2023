@@ -1,7 +1,7 @@
 import express from 'express'
 import cluster from 'cluster'
 import { cpus } from 'os' 
-  
+
 const numSubProcesos = cpus().length
 console.log(numSubProcesos)
 

@@ -20,13 +20,13 @@ const customLevelOpt = {
   }
 }
 
-//Filtros varios
-//Filtro solo para warning
+// Filtros varios
+// Filtro solo para warning
 const warningFilter = winston.format((info, opts) => {
   return info.level === 'warning' ? info : false;
 });
 
-//Filtros para capturar debug, http e info
+// Filtros para capturar debug, http e info
 const debugHttpInfoFilter = winston.format((info, opts) => {
   if (info.level === 'debug' || info.level === 'http' || info.level === 'info') {
     return info  
@@ -35,7 +35,7 @@ const debugHttpInfoFilter = winston.format((info, opts) => {
   }  
 });
 
-//Filtros para capturar desarrollo
+// Filtros para capturar desarrollo
 const devFilter = winston.format((info, opts) => {
   if (env.environment === 'desarrollo') {
     return info  
@@ -44,7 +44,7 @@ const devFilter = winston.format((info, opts) => {
   }  
 });
 
-//Filtros para capturar produccion
+// Filtros para capturar produccion
 const prdFilter = winston.format((info, opts) => {
   if (env.environment === 'produccion') {
     return info  
@@ -53,7 +53,7 @@ const prdFilter = winston.format((info, opts) => {
   }  
 });
 
-//A partir de winstone.createLogger creamos nuestro logger con los transportes que necesitamos, en este caso, definimos
+// A partir de winstone.createLogger creamos nuestro logger con los transportes que necesitamos, en este caso, definimos
 const logger = winston.createLogger({   
   levels: customLevelOpt.levels, //Defino que los levels del logger sean los definidos 
   transports: [    
@@ -105,8 +105,8 @@ const logger = winston.createLogger({
   ]
 })
 
-//Ahora , a partir de un middleware, vamos a colocar en el objeto req el logger, aprovecharemos ademas para hacer nuestro primer log.
-//un  transporte de consola para funcionar solo a partir del nivel http
+// Ahora , a partir de un middleware, vamos a colocar en el objeto req el logger, aprovecharemos ademas para hacer nuestro primer log.
+// Un  transporte de consola para funcionar solo a partir del nivel http
 export const addLogger = (req,res, next) =>{
   req.logger = logger //Poder uitilizar el logger definido previamemtre
   req.logger.http(`${req.method} en  ${req.url} - ${new Date().toLocaleTimeString()}`)

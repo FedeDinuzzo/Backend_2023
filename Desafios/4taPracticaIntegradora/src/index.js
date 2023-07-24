@@ -69,19 +69,19 @@ app.use(errorHandler);
     from:'Test coder federico.dinuzzo.soluciones@gmail.com',
     //to: "franciscopugh01@gmail.com",
     to: "federicodinuzzo98@gmail.com",
-    subject: "probando",
+    subject: "Probando",
     html:`
     <div>
-      este es un mail de prueba
+      Este es un mail de prueba
     </div>
     `,
     attachments: []
   })
-  res.send("email enviado")
+  res.send("Email enviado")
 })
  */
 
-//if a URL is invalid display a message
+// if a URL is invalid display a message
 app.use((req, res, next)=> {
   res.status(404).send({error:'Lo siento, no se pudo encontrar la página que estás buscando.'});
 });
@@ -93,15 +93,15 @@ const server = app.listen(app.get("port"), () => {
   console.log(`Server on port ${app.get("port")}`)
 })
 
-//HandleBars Configuration
+// HandleBars Configuration
 app.engine('handlebars', engine());   //configuración del motor de express
 app.set('view engine', 'handlebars'); //indica que usaremos el motor de vista handlebars
 app.set('views', path.resolve(__dirname, './views')); //__dirname + './views'
 
-//ServerIO
+// ServerIO
 const io = new Server(server)
 
-//SocketIo Server Connection
+// SocketIo Server Connection
 io.on("connection", async (socket)=> {  
   console.log("cliente socket conectado!");  
   

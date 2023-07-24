@@ -9,7 +9,7 @@ export const roleVerification = (roles) => {
     }
 
       if (!req.user) {
-          return res.status(401).send({ error: "User no autorizado" })
+        return res.status(401).send({ error: "User no autorizado" })
       }
       
       if (!roles.includes(userAccess.rol)){
@@ -17,7 +17,7 @@ export const roleVerification = (roles) => {
       }
 
       if (bandera == 1) {
-          return res.status(401).send({ error: "User no posee los permisos necesarios" })
+        return res.status(401).send({ error: "User no posee los permisos necesarios" })
       }
       next()
   }

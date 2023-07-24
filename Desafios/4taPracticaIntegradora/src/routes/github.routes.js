@@ -1,11 +1,9 @@
 import { Router } from "express";
 import passport from 'passport'
-import { generateToken } from '../utils/jwt.js'
 import {cookiesTime} from "../utils/dictionary.js"
 
-/// "/authGithub"
+// "/authGithub"
 const routerGithub = Router()
-
 
 // Register
 routerGithub.get('/github', passport.authenticate('github'), async (req, res) => { 

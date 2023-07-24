@@ -4,7 +4,7 @@ import { passportMessage } from "../utils/passportMessage.js";
 import { roleVerification } from "../utils/rolVerification.js";
 import { roles } from "../utils/dictionary.js";
 
-//"/api/products"
+// "/api/products"
 const routerProducts = Router()
 
 routerProducts.route("/")

@@ -14,7 +14,7 @@ import routerHtmlViews from './htmlView.routes.js'
 
 const router = Router()
 
-//Routes
+// Routes
 router.use('/', routerHtmlViews)
 router.use('/api/products', routerProducts)
 router.use('/api/carts', routerCarts)
@@ -25,6 +25,6 @@ router.use('/authGoogle', routerGoogle)
 router.use('/Chat', routerChat)
 router.use('/mockingproducts', routerMockingProducts)
 router.use('/loggerTest', routerLogger)
-//router.use('/apidocs', routerApidocs)
+// router.use('/apidocs', routerApidocs)
 
 export default router
