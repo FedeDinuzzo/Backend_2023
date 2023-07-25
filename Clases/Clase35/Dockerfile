@@ -1,5 +1,5 @@
 # Establecer la imagen base
-FROM node:19.4.0
+FROM node:18.7.0
 
 # Variables de entorno (no recomendado)
 ENV DB_URI = mongodbatlas

@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js --mode dev",
-    "prd": "nodemon src/index.js --mode prd",
+    "prod": "nodemon src/index.js --mode prod",
     "testsessions": "mocha test/sessions.test.js",
     "testproducts": "mocha test/products.test.js",
     "testcarts": "mocha test/carts.test.js"
