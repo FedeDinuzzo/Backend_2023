@@ -8,7 +8,6 @@ import passport from "passport";
 import initializePassport from "./middleware/passport.js";
 import session from 'express-session';
 import errorHandler from "./middleware/errors/errorHandler.js";
-
 import {Server} from "socket.io";
 import * as path from 'path'
 import { engine } from 'express-handlebars';
@@ -18,14 +17,12 @@ import { addLogger } from './utils/logger.js'
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express'
 
-
 const app = express(); 
 
 // Define los middleware para la aplicación
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //Permite realizar consultas en la URL (req.query)
 app.use(cookieParser(env.cookieSecret))
-
 
 //session
 app.use(session({  
@@ -55,7 +52,6 @@ connectionMongoose()
 //Routers
 app.use('/', routers)
 
-
 //Public folder
 app.use('/', express.static(__dirname + '/public'))
 
@@ -63,23 +59,6 @@ const specs = swaggerJSDoc(swaggerOptions)
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 app.use(errorHandler); 
-
-/* app.get('/email', async (req,res)=>{
-  await transporter.sendMail({
-    from:'Test coder federico.dinuzzo.soluciones@gmail.com',
-    //to: "franciscopugh01@gmail.com",
-    to: "federicodinuzzo98@gmail.com",
-    subject: "Probando",
-    html:`
-    <div>
-      Este es un mail de prueba
-    </div>
-    `,
-    attachments: []
-  })
-  res.send("Email enviado")
-})
- */
 
 // if a URL is invalid display a message
 app.use((req, res, next)=> {

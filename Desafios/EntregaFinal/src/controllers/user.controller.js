@@ -1,170 +1,107 @@
-import { findUserByEmail, updatePassword, updateUser } from '../services/userService.js'  //export instance of the user.controller class
-import { createHash,validatePassword } from '../utils/bcrypt.js'
-import { generateTokenRestorePass,generateToken } from '../utils/jwt.js'
-import { env } from "../config/config.js"
-import { cookiesTime } from "../utils/dictionary.js"
+import { findUsers, findUserById, updateUser, deleteManyUsers } from '../services/userService.js';
 import { transporter } from "../utils/mail.js"
-import { jwtReader } from '../utils/jwt.js'
 
-
-export const getSession = (req,res) => {
+export const getUsers = async (req, res) => {
   try {
-    if (req.session.login) {
-      const sessionData = {}
-            
-      if (req.session.userFirst) {
-        sessionData.name= req.session.userFirst
-        sessionData.rol= req.session.rol
-      } else {
-        sessionData.name= req.session.user.first_name
-        sessionData.rol= req.session.user.rol      
-      }
-      return sessionData
-    } else {
-      res.redirect('/login', 500, { message: "Logueate para continuar" })
-    }
+      const users = await findUsers()      
+      res.status(200).json({users})
+
   } catch (error) {
-    res.status(500).json({
-      message: error.message
-    })
-  }
-}
-
-export const testLogin = async (req,res) => {
-  try {    
-    const { email, password } = req.body
-
-    const user = await findUserByEmail(email)
-
-    if (user && validatePassword(password, user.password)) {
-      req.session.login = true
-      req.session.userFirst = user.first_name
-      req.session.rol = user.rol
-
-      const fechaHora = new Date();
-      fechaHora.setHours(fechaHora.getHours() - 3);      
-      const fechaHoraGMT = fechaHora.getTime();
-
-      await updateUser(user._doc._id,{ lastConnection: fechaHoraGMT } )
-      const token = generateToken(user)
-
-      return res
-        .cookie('jwtCookies',token,{maxAge: cookiesTime.jwt , httpOnly: true} ) // setea la cookie
-        .status(200)
-        .json({token})//muestra el token
-
-    } else {
-      res.status(401).json({
-        message: "User or password incorrect"
+      res.status(500).send({
+        message: "Hubo un error en el servidor", 
+        error: error.message
       })
-    }    
+  }
+}
+
+export const postUser = async (req, res) => {
+  res.status(200).send({message: "User Created"})
+}
+
+export const deleteInactiveUsers = async (req, res) => { // Delete Product
+  
+  try {      
+    const users = await findUsers();
+
+    const twoDaysAgo = new Date();
+    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+
+    // Filter users who have been inactive for more than 2 days
+    const oldUsers = users.filter(user => user.lastConnection <  twoDaysAgo);
+
+    const filter = {lastConnection:{$lt: twoDaysAgo }}
     
+    const response  = await deleteManyUsers(filter);        
+
+    if (response) {
+      
+      oldUsers.forEach(user=>{
+        const mailToSend = {
+          from: 'no-reply',
+          to: user.email,
+          subject: 'Hasta la vista baby!',
+          html: `
+          <p>Muy buenas ${user.first_name},</p>
+          <p>Le comunicamos que su usuario ha sido dado de baja por pasar mas de 2 dias sin actividad</p>
+        
+          <p>Desde ya muchas gracias!</p>
+          `
+        }
+        transporter.sendMail(mailToSend)
+      })
+
+      res.status(200).json({
+        delete: true}) 
+    } else {
+      res.status(200).json({
+        delete: false,
+        message: "No se ha eliminado ningun usuario"}) 
+    }
   } catch (error) {
     res.status(500).json({
       message: error.message
-    })
+    }) 
   }
 }
 
-export const recoverPasswordEmail = async (req, res) => {
-  const { email } = req.params
+export const uploadDocs = async (req, res, next) => {
   try {
-    const user = await findUserByEmail(email)
+      const files = req.file
+      const userID = req.params.uid
 
-    if (!user) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Email not found in database'
-      })  
-    }
+      if (!files) {
+      req.logger.info('No file uploaded')
+      return res.status(400).send('No file attached')
+      }
 
-  // * User email found
-    //const resetLink = await generatePasswordResetLink(user, req, res)
-    const resetLink = `http://localhost:${env.port || 5000}/recoverChangePassword`
+      const isFound = await findUserById(userID)
+      if (!isFound) {
+      req.logger.info('User not found')
+      return res.status(400).send('User not found')
+      }
 
-    const mailToSend = {
-      from: 'no-reply',
-      to: email,
-      subject: 'Password reset link',
-      html: `
-      <p>Muy buenas ${user.first_name},</p>
-      <p>Si deseas reestablecer la contraseña haz click <a href="${resetLink}">en el siguiente link</a> para reestablecer tu contraseña:</p>
-    
-      <p>Si no solicitaste un cambio de contraseña, ignora este email.</p>`
-    }
-    transporter.sendMail(mailToSend)
+      const newDocsItem = {
+      name: files.filename,
+      reference: files.path
+      }
 
-    req.logger.info(`Password reset link sent to ${email}`)
-    const token = generateTokenRestorePass(email)
+      const isInfoUpdated = await updateUser(userID,{ $push: { documents: newDocsItem } } )
 
-    ; // 1 hora en milisegundos
+      req.logger.debug(isInfoUpdated)
 
-    return res
-      .status(200)
-      .cookie('jwtCookiesRestorePass',token,{maxAge: cookiesTime.RestorePass  , httpOnly: true} )
-      .clearCookie('booleanTimeOut')
-      .json({
-          status: 'success',
-          message: `Password reset link sent to ${email}`,
-          Link: resetLink,
-          token: token
+      req.logger.info(`
+      <UPLOAD>
+      user email: ${req.user.email} 
+      user id:    ${userID}
+      file name:  ${files.originalname}
+      file type:  ${files.mimetype}
+      file size:  ${files.size}
+      file path:  ${files.path}
+      -------------------------EOF------------------------`)
 
-        })
+      res.status(201).send(`File '${files.originalname}' uploaded succesfully by '${req.user.email}'`)
 
   } catch (error) {
-    req.logger.error(`Error in password reset procedure - ${error.message}`)
-    res.status(500).send({
-      status: 'error',
-      message: error.message
-    })
-    next(error)
-}}
-
-
-export const changePass = async (req, res, next) => {
-  const { email, password } = req.body
-  const user = await findUserByEmail(email)
-
-  if (!validatePassword(password, user.password)) {  
-    const passwordHash = createHash(password) 
-    await updatePassword(user.id,passwordHash) 
-  } else {
-    return res.status(500).send("uso la misma password")
+      res.status(500).send(error)
   }
-
-  return res.status(200)
-  .clearCookie('jwtCookiesRestorePass')
-  .send("Password modificada")
-}
-
-export const destroySession = (req, res) => {
-  
-  try{
-    const jwtCookies = req.cookies.jwtCookies;
-
-    if (!jwtCookies) {
-        return res.status(401).send({
-            status: "error",
-            message: 'No se proporcionó ninguna token de autenticación'
-        });
-    }
-
-    const token = jwtReader(jwtCookies)
-
-    if(token) {
-      res.clearCookie('jwtCookies');
-      res.status(200).send({status: "success", message: 'Sesión cerrada exitosamente' });
-    } else {
-      return res.status(401).send({status: "error", message: 'Token no válida' });
-    };    
-
-  } catch (error) {
-    req.logger.error(error.message)
-    next(error)
-  }
-}
-
-export const requireAuth = (req, res, next) => {
-  //console.table(req.session)
-  req.session.login ? next() : res.redirect('/login')
 }
